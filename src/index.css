@@ -73,3 +73,24 @@ input[type='number']::-webkit-outer-spin-button {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Mobile viewport + safe-area helpers */
+html, body, #root {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+@supports (height: 100dvh) {
+  html, body, #root {
+    min-height: 100dvh;
+  }
+}
+
+@media (max-height: 760px) {
+  .cash-count-row-tight {
+    transform: scale(0.96);
+    transform-origin: center;
+  }
+}
