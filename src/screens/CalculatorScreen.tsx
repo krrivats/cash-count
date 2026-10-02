@@ -75,7 +75,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         {/* Notes */}
         <section className="mb-1">
           <h2 className="mb-0 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
+          <div className="grid overflow-visible rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1" style={{ gridAutoRows: "28px" }}>
             {NOTES.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -92,7 +92,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         {/* Coins */}
         <section className="mb-1">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+          <div className="grid overflow-visible rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1" style={{ gridAutoRows: "28px" }}>
             {COINS.map((d, i) => (
               <DenominationRow
                 key={d.key}
