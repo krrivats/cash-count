@@ -26,7 +26,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
     };
 
     return (
-      <div className="flex min-w-0 items-center gap-1.5 py-0.5">
+      <div className="flex min-h-[44px] flex-1 min-w-0 items-center gap-1.5 py-0.5">
         <span className="w-10 shrink-0 text-[15px] font-bold leading-none text-slate-200">{label}</span>
 
         <div className="flex min-w-0 flex-1 items-center gap-1">
@@ -35,7 +35,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
             onClick={() => onQuantityChange(Math.max(0, quantity - 1))}
             disabled={quantity === 0}
             aria-label={`Decrease ${label} ${type}s`}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ink-700 text-slate-300 transition active:scale-90 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ink-700 text-slate-300 transition active:scale-90 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             <Minus size={14} strokeWidth={2.5} />
           </button>
@@ -51,7 +51,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
             onKeyDown={onKeyDown}
             onFocus={(e) => e.target.select()}
             aria-label={`${label} ${type} quantity`}
-            className="h-9 w-11 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="h-10 w-11 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           />
 
           <button
@@ -65,7 +65,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
         </div>
 
         <span
-          className={`w-[4.5rem] shrink-0 text-right text-[13px] font-semibold num-transition ${
+          className={`w-[4.5rem] shrink-0 text-right text-[14px] font-semibold num-transition ${
             amount > 0 ? 'text-accent-300' : 'text-slate-500'
           }`}
         >
