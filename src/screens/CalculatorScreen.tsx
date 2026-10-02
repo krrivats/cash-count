@@ -71,11 +71,11 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
   return (
     <div className="flex h-full min-h-0 flex-col">
       {/* Scrollable calc area */}
-      <div className="min-h-0 flex-1 overflow-hidden px-3 pt-1 pb-1">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pt-0.5 pb-1">
         {/* Notes */}
-        <section className="mb-1">
+        <section className="mb-0.5">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
+          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-0.5">
             {NOTES.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -90,9 +90,9 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         </section>
 
         {/* Coins */}
-        <section className="mb-1.5">
+        <section className="mb-0.5">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-0.5">
             {COINS.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -122,13 +122,13 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
               onKeyDown={handleLooseEnter}
               onFocus={(e) => e.target.select()}
               aria-label="Loose change amount"
-              className="h-9 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              className="h-8 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
             />
           </div>
         </section>
 
         {/* Compact summary line */}
-        <div className="flex items-center gap-3 px-1 text-[11px] text-slate-500">
+        <div className="flex items-center gap-3 px-1 text-[10px] text-slate-500">
           <span>Notes <strong className="text-slate-300">{notesQty}</strong></span>
           <span>Coins <strong className="text-slate-300">{coinsQty}</strong></span>
           <span>Loose <strong className="text-slate-300">{formatIndianRupees(looseAmount)}</strong></span>
@@ -136,16 +136,16 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
       </div>
 
       {/* Total + Actions */}
-      <div className="shrink-0 border-t border-ink-700 bg-ink-900/80 px-3 pt-1.5 pb-2">
-        <div className={`mb-1.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 px-4 py-1.5 text-center transition-shadow ${totalFlash ? 'glow-accent' : ''}`}>
+      <div className="shrink-0 border-t border-ink-700 bg-ink-900/80 px-3 pt-1 pb-1.5">
+        <div className={`mb-1 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 px-4 py-1 text-center transition-shadow ${totalFlash ? 'glow-accent' : ''}`}>
           <p className="text-[10px] font-medium uppercase tracking-wider text-accent-100">Total Cash</p>
-          <p className="text-[25px] font-extrabold leading-tight text-white num-transition">{formatIndianRupees(amount)}</p>
+          <p className="text-[23px] font-extrabold leading-tight text-white num-transition">{formatIndianRupees(amount)}</p>
         </div>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => setShowSave(true)}
-            className="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent-500 text-sm font-semibold text-white transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-xl bg-accent-500 text-sm font-semibold text-white transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             <Save size={15} />
             Save Entry
@@ -153,7 +153,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
           <button
             type="button"
             onClick={() => setShowClearCalc(true)}
-            className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-ink-700 bg-ink-800 px-3 text-sm font-semibold text-slate-400 transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+            className="flex h-9 items-center justify-center gap-1.5 rounded-xl border border-ink-700 bg-ink-800 px-3 text-sm font-semibold text-slate-400 transition active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
           >
             <Eraser size={15} />
             Clear
