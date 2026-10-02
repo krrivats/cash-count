@@ -100,9 +100,9 @@ export default function App() {
   const showBottomNav = !personDetail && !showSettings && !transactionDetail && !editingEntry;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink-950 sm:py-0">
+    <div className="flex min-h-dvh items-center justify-center overflow-hidden bg-ink-950 sm:py-0">
       {/* Mobile container */}
-      <div className="flex h-screen w-full max-w-md flex-col overflow-hidden bg-ink-950 shadow-2xl sm:h-[100dvh] sm:rounded-none sm:border-x sm:border-ink-800">
+      <div className="flex h-dvh w-full max-w-md min-w-0 flex-col overflow-hidden bg-ink-950 shadow-2xl sm:rounded-none sm:border-x sm:border-ink-800">
         {/* Compact Header with Logo */}
         <header className="flex items-center justify-between border-b border-ink-800 bg-ink-900/90 px-3 py-2 backdrop-blur-sm">
           <div className="flex items-center gap-2">
@@ -123,11 +123,11 @@ export default function App() {
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-hidden">{renderContent()}</div>
+        <div className="min-h-0 flex-1 overflow-hidden">{renderContent()}</div>
 
         {/* Bottom Navigation */}
         {showBottomNav && (
-          <nav className="flex border-t border-ink-800 bg-ink-900/90 backdrop-blur-sm">
+          <nav className="flex shrink-0 border-t border-ink-800 bg-ink-900/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-sm">
             <NavButton
               active={tab === 'calculator'}
               onClick={() => setTab('calculator')}

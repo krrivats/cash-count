@@ -69,13 +69,13 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Scrollable calc area */}
-      <div className="flex-1 overflow-y-auto px-3 pt-1.5 pb-1">
+      <div className="min-h-0 flex-1 overflow-hidden px-3 pt-1 pb-1">
         {/* Notes */}
-        <section className="mb-1.5">
-          <h2 className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+        <section className="mb-1">
+          <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
+          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
             {NOTES.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -91,7 +91,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
 
         {/* Coins */}
         <section className="mb-1.5">
-          <h2 className="mb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
+          <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
           <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
             {COINS.map((d, i) => (
               <DenominationRow
@@ -108,8 +108,8 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
 
         {/* Loose Change */}
         <section className="mb-1">
-          <div className="flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1.5">
-            <span className="flex-1 text-sm font-bold text-slate-200">Loose Change</span>
+          <div className="flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+            <span className="min-w-0 flex-1 text-[15px] font-bold text-slate-200">Loose Change</span>
             <span className="text-sm font-bold text-accent-400">₹</span>
             <input
               ref={looseRef}
@@ -122,7 +122,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
               onKeyDown={handleLooseEnter}
               onFocus={(e) => e.target.select()}
               aria-label="Loose change amount"
-              className="h-8 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              className="h-9 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
             />
           </div>
         </section>
@@ -136,10 +136,10 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
       </div>
 
       {/* Total + Actions */}
-      <div className="border-t border-ink-700 bg-ink-900/80 px-3 pt-2 pb-2.5">
-        <div className={`mb-2 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 px-4 py-2 text-center transition-shadow ${totalFlash ? 'glow-accent' : ''}`}>
+      <div className="shrink-0 border-t border-ink-700 bg-ink-900/80 px-3 pt-1.5 pb-2">
+        <div className={`mb-1.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 px-4 py-1.5 text-center transition-shadow ${totalFlash ? 'glow-accent' : ''}`}>
           <p className="text-[10px] font-medium uppercase tracking-wider text-accent-100">Total Cash</p>
-          <p className="text-2xl font-extrabold text-white num-transition">{formatIndianRupees(amount)}</p>
+          <p className="text-[25px] font-extrabold leading-tight text-white num-transition">{formatIndianRupees(amount)}</p>
         </div>
         <div className="flex gap-2">
           <button
