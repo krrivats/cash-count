@@ -26,8 +26,8 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
     };
 
     return (
-      <div className="flex min-w-0 items-center gap-1.5 py-0.5">
-        <span className="w-10 shrink-0 text-[15px] font-bold leading-none text-slate-200">{label}</span>
+      <div className="flex h-7 min-w-0 items-center gap-1 py-0">
+        <span className="w-10 shrink-0 text-[14px] font-bold leading-none text-slate-200">{label}</span>
 
         <div className="flex min-w-0 flex-1 items-center gap-1">
           <button
@@ -65,7 +65,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
         </div>
 
         <span
-          className={`w-[4.5rem] shrink-0 text-right text-[13px] font-semibold num-transition ${
+          className={`w-[4.5rem] shrink-0 text-right text-[12px] font-semibold num-transition ${
             amount > 0 ? 'text-accent-300' : 'text-slate-500'
           }`}
         >
