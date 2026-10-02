@@ -71,11 +71,11 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
   return (
     <div className="flex h-full min-h-0 flex-col">
       {/* Scrollable calc area */}
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pt-1 pb-1">
+      <div className="min-h-0 flex-1 overflow-hidden px-3 pt-1 pb-1 flex flex-col">
         {/* Notes */}
-        <section className="mb-1">
+        <section className="mb-1 flex min-h-0 flex-[1.6] flex-col">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
+          <div className="flex min-h-0 flex-1 flex-col rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
             {NOTES.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -90,9 +90,9 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         </section>
 
         {/* Coins */}
-        <section className="mb-1.5">
+        <section className="mb-1.5 flex min-h-0 flex-[0.8] flex-col">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+          <div className="flex min-h-0 flex-1 flex-col rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
             {COINS.map((d, i) => (
               <DenominationRow
                 key={d.key}
