@@ -109,7 +109,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         {/* Loose Change */}
         <section className="mb-1">
           <div className="flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
-            <span className="min-w-0 flex-1 text-[15px] font-bold text-slate-200">Loose Change</span>
+            <span className="min-w-0 flex-1 text-[17px] font-bold text-slate-200">Loose Change</span>
             <span className="text-sm font-bold text-accent-400">₹</span>
             <input
               ref={looseRef}
@@ -122,13 +122,13 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
               onKeyDown={handleLooseEnter}
               onFocus={(e) => e.target.select()}
               aria-label="Loose change amount"
-              className="h-9 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+              className="h-11 w-20 rounded-lg border border-ink-700 bg-ink-800 text-right text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
             />
           </div>
         </section>
 
         {/* Compact summary line */}
-        <div className="flex items-center gap-3 px-1 text-[11px] text-slate-500">
+        <div className="flex items-center gap-3 px-1 py-0.5 text-[12px] text-slate-500">
           <span>Notes <strong className="text-slate-300">{notesQty}</strong></span>
           <span>Coins <strong className="text-slate-300">{coinsQty}</strong></span>
           <span>Loose <strong className="text-slate-300">{formatIndianRupees(looseAmount)}</strong></span>
