@@ -26,7 +26,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
     };
 
     return (
-      <div className="flex h-7 min-w-0 items-center gap-1 py-0">
+      <div className="flex h-7 min-h-7 w-full min-w-0 items-center gap-1 py-0 overflow-hidden">
         <span className="w-10 shrink-0 text-[14px] font-bold leading-none text-slate-200">{label}</span>
 
         <div className="flex min-w-0 flex-1 items-center gap-1">
