@@ -71,7 +71,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
   return (
     <div className="flex h-full min-h-0 flex-col">
       {/* Scrollable calc area */}
-      <div className="min-h-0 flex-1 overflow-hidden px-3 pt-1 pb-1">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pt-1 pb-1">
         {/* Notes */}
         <section className="mb-1">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
@@ -136,7 +136,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
       </div>
 
       {/* Total + Actions */}
-      <div className="shrink-0 border-t border-ink-700 bg-ink-900/80 px-3 pt-1.5 pb-2">
+      <div className="shrink-0 border-t border-ink-700 bg-ink-900/95 px-3 pt-1.5 pb-2">
         <div className={`mb-1.5 rounded-xl bg-gradient-to-r from-accent-600 to-accent-500 px-4 py-1.5 text-center transition-shadow ${totalFlash ? 'glow-accent' : ''}`}>
           <p className="text-[10px] font-medium uppercase tracking-wider text-accent-100">Total Cash</p>
           <p className="text-[25px] font-extrabold leading-tight text-white num-transition">{formatIndianRupees(amount)}</p>
