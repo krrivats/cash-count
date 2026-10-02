@@ -1,0 +1,19 @@
+{
+  "name": "Cash Count",
+  "short_name": "Cash Count",
+  "description": "Mobile-first cash denomination calculator and daily cash collection tracker.",
+  "start_url": "/cash-count/",
+  "scope": "/cash-count/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080a12",
+  "theme_color": "#080a12",
+  "icons": [
+    {
+      "src": "/cash-count/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
