@@ -35,7 +35,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
             onClick={() => onQuantityChange(Math.max(0, quantity - 1))}
             disabled={quantity === 0}
             aria-label={`Decrease ${label} ${type}s`}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ink-700 text-slate-300 transition active:scale-90 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-ink-700 text-slate-300 transition active:scale-90 disabled:opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             <Minus size={14} strokeWidth={2.5} />
           </button>
@@ -51,14 +51,14 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
             onKeyDown={onKeyDown}
             onFocus={(e) => e.target.select()}
             aria-label={`${label} ${type} quantity`}
-            className="h-9 w-11 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="h-7 w-10 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           />
 
           <button
             type="button"
             onClick={() => onQuantityChange(quantity + 1)}
             aria-label={`Increase ${label} ${type}s`}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent-500 text-white transition active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-accent-500 text-white transition active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
             <Plus size={14} strokeWidth={2.5} />
           </button>
