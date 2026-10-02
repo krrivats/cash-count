@@ -73,9 +73,9 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
       {/* Scrollable calc area */}
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-3 pt-0.5 pb-1">
         {/* Notes */}
-        <section className="mb-0.5">
-          <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-0.5">
+        <section className="mb-1">
+          <h2 className="mb-0 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Notes</h2>
+          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-2.5 py-1">
             {NOTES.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -90,9 +90,9 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         </section>
 
         {/* Coins */}
-        <section className="mb-0.5">
+        <section className="mb-1">
           <h2 className="mb-0.5 px-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Coins</h2>
-          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-0.5">
+          <div className="rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
             {COINS.map((d, i) => (
               <DenominationRow
                 key={d.key}
@@ -108,7 +108,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
 
         {/* Loose Change */}
         <section className="mb-1">
-          <div className="flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
+          <div className="flex min-h-10 items-center gap-2 rounded-xl border border-ink-700 bg-ink-850/60 px-3 py-1">
             <span className="min-w-0 flex-1 text-[15px] font-bold text-slate-200">Loose Change</span>
             <span className="text-sm font-bold text-accent-400">₹</span>
             <input
@@ -128,7 +128,7 @@ export default function CalculatorScreen({ entries, onAddEntry }: CalculatorScre
         </section>
 
         {/* Compact summary line */}
-        <div className="flex items-center gap-3 px-1 text-[10px] text-slate-500">
+        <div className="flex min-h-5 items-center gap-3 px-1 text-[10px] text-slate-500">
           <span>Notes <strong className="text-slate-300">{notesQty}</strong></span>
           <span>Coins <strong className="text-slate-300">{coinsQty}</strong></span>
           <span>Loose <strong className="text-slate-300">{formatIndianRupees(looseAmount)}</strong></span>
