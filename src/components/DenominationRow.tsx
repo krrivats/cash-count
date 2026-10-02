@@ -51,7 +51,7 @@ const DenominationRow = forwardRef<HTMLInputElement, DenominationRowProps>(
             onKeyDown={onKeyDown}
             onFocus={(e) => e.target.select()}
             aria-label={`${label} ${type} quantity`}
-            className="h-12 w-12 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
+            className="h-12 w-16 shrink-0 rounded-lg border border-ink-700 bg-ink-800 text-center text-base font-semibold text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           />
 
           <button
