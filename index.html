@@ -114,6 +114,16 @@ nav button.on::before{opacity:1}
 .totbar{position:relative;overflow:hidden}.totbar::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 40%,#ffffff2a 50%,transparent 60%);transform:translateX(-100%);animation:sh 6s 1s infinite}
 .sheet{background:#121627f2;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -10px 40px #000c,inset 0 1px 0 #10b98140}
 .toast{background:#059669e6;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid #6ee7b766}
+.nc{display:grid;grid-template-columns:1fr 70px 1fr;align-items:center;min-height:38px;padding:2px}.nc+.nc{border-top:1px solid #232a4566}
+.nc .qy{text-align:center;font-weight:800;font-size:17px}.nc.z{opacity:.35}
+.nc.hd{min-height:30px;font-size:11px;font-weight:700;color:var(--g3);letter-spacing:.08em;text-transform:uppercase}.nc.hd span:nth-child(2){text-align:center}.nc.hd span:last-child{text-align:right}
+.chk{text-align:center;margin-top:10px}
+.row .q.warn,.ls.warn{border-color:#fbbf24;color:#fde68a;box-shadow:0 0 0 2px #fbbf2433}
+.sep.wn{color:#fde68a;font-weight:700}
+.toast.undo{display:flex;align-items:center;gap:14px;padding:8px 8px 8px 18px;overflow:hidden;white-space:nowrap}
+.ub{background:#ffffff26;border:1px solid #ffffff55;border-radius:16px;padding:6px 14px;font-weight:800;letter-spacing:.05em}
+.tm{position:absolute;left:0;bottom:0;height:3px;width:100%;background:#a7f3d0;transform-origin:left;animation:tmr 5s linear forwards}
+@keyframes tmr{to{transform:scaleX(0)}}
 </style><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon-192.png"></head><body><div id="app">
 <header><svg class="logo" viewBox="0 0 48 48" role="img" aria-label="Cash Count logo"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#059669"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="#0d1020" stroke="url(#lg)" stroke-width="2.5"/><circle cx="24" cy="24" r="17" fill="#121627" stroke="#10b98155" stroke-dasharray="2 3"/><path d="M16 14h16M16 20h16M16 14h6.5a6 6 0 0 1 0 12H16l11 10" fill="none" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="2.5" r="2" fill="#6ee7b7"/></svg>
 <div class="tt"><b>Cash Count</b><small class="clk"><i class="live" aria-hidden="true"></i><span id="dt"></span></small></div><button class="gear" id="gear" aria-label="Settings"></button></header>
@@ -156,7 +166,7 @@ function personField(init){
 /* Counter: notes, coins, loose change */
 function counter(st,onch){
  const inp={},amt={},sub={},order=[];
- const one=k=>{const x=ALL.find(a=>a[0]===k)[1];inp[k].value=st.d[k]||'';const nt=fmt(st.d[k]*x),a=amt[k];if(a.textContent&&a.textContent!==nt){a.classList.remove('bump');void a.offsetWidth;a.classList.add('bump')}a.textContent=nt;a.classList.toggle('on',st.d[k]>0);inp[k].parentNode&&inp[k].parentNode.classList.toggle('has',st.d[k]>0);const sm=l=>l.reduce((a,[q,y])=>a+st.d[q]*y,0);if(sub.Notes){sub.Notes.textContent=fmt(sm(NOTES));sub.Coins.textContent=fmt(sm(COINS))}};
+ const one=k=>{const x=ALL.find(a=>a[0]===k)[1];inp[k].value=st.d[k]||'';const nt=fmt(st.d[k]*x),a=amt[k];if(a.textContent&&a.textContent!==nt){a.classList.remove('bump');void a.offsetWidth;a.classList.add('bump')}a.textContent=nt;a.classList.toggle('on',st.d[k]>0);inp[k].classList.toggle('warn',st.d[k]>LIM[k]);inp[k].parentNode&&inp[k].parentNode.classList.toggle('has',st.d[k]>0);const sm=l=>l.reduce((a,[q,y])=>a+st.d[q]*y,0);if(sub.Notes){sub.Notes.textContent=fmt(sm(NOTES));sub.Coins.textContent=fmt(sm(COINS))}};
  const nxt=(i,idx)=>i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const n=order[idx+1];n?n.focus():i.blur()}});
  const row=([k,x],idx)=>{const w=k[0]==='n'?'note':'coin';
   const i=h('input',{class:'q',type:'text',inputmode:'numeric',pattern:'[0-9]*',enterkeyhint:'next','aria-label':`₹${x} ${w} quantity`});
@@ -168,8 +178,8 @@ function counter(st,onch){
  const sec=(t,L,o)=>h('section',{},h('h3',{},t,sub[t]=h('span',{class:'sub'})),h('div',{class:'card'},L.map((a,i)=>row(a,o+i))));
  const el=h('div',{},sec('Notes',NOTES,0),sec('Coins',COINS,6),h('h3',{},'Loose Change'),h('div',{class:'card loose'},h('label',{for:'lc'},'Loose Change'),h('span',{class:'r'},'₹',li)));
  li.id='lc';order.push(li);li.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();li.blur()}});
- li.addEventListener('input',()=>{st.l=num(li.value.replace(/\D/g,''));li.value=st.l||'';onch()});li.addEventListener('focus',()=>setTimeout(()=>li.select&&li.select(),0));
- const sync=()=>{ALL.forEach(([k])=>one(k));li.value=st.l||''};sync();return{el,sync}}
+ li.addEventListener('input',()=>{st.l=num(li.value.replace(/\D/g,''));li.value=st.l||'';li.classList.toggle('warn',st.l>LOOSE_LIM);onch()});li.addEventListener('focus',()=>setTimeout(()=>li.select&&li.select(),0));
+ const sync=()=>{ALL.forEach(([k])=>one(k));li.value=st.l||'';li.classList.toggle('warn',st.l>LOOSE_LIM)};sync();return{el,sync}}
 /* State */
 const DK='cash-count-draft';
 const calc=(()=>{const c={d:zero(),l:0};try{const j=JSON.parse(ls.get(DK)||'null');if(j&&j.d){ALL.forEach(([k])=>{if(Number.isInteger(j.d[k])&&j.d[k]>=0)c.d[k]=j.d[k]});if(Number.isInteger(j.l)&&j.l>=0)c.l=j.l}}catch(e){}return c})(),S={tab:'calc',stack:[]};
@@ -191,25 +201,45 @@ function calcScreen(){
 function roll(el,from,to){cancelAnimationFrame(el._r);if(from===to||matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent=fmt(to);return}const s=performance.now(),D=380;
  const f=n=>{const p=Math.min(1,(n-s)/D),e=1-Math.pow(1-p,3);el.textContent=fmt(Math.round(from+(to-from)*e));if(p<1)el._r=requestAnimationFrame(f)};el._r=requestAnimationFrame(f)}
 function saveModal(){
- const t=total(calc.d,calc.l);if(!t)return toast('Count some cash first');
+ const t=total(calc.d,calc.l);if(!t)return toast('Count some cash first');checkOdd(calc.d,calc.l,()=>saveSheet(t))}
+function saveSheet(t){
  const p=personField(''),n=h('input',{class:'tx',type:'text','aria-label':'Note',placeholder:'Morning collection',autocomplete:'off'});
  const c=modal(h('h2',{},'Save entry'),h('div',{class:'big'},fmt(t)),h('label',{class:'fl'},'Person / Source (optional)'),p.el,h('label',{class:'fl'},'Note (optional)'),n,
   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{entries.push({id:uid(),person:p.get(),note:n.value.trim(),amount:t,denominations:{...calc.d},looseChange:calc.l,timestamp:Date.now()});persist();c();resetCalc();render();toast('✓ Saved · '+ftime(Date.now()))}},'Save')))}
 /* Lists */
 function plist(L,day){return h('div',{class:'list'},group(L).map((p,i)=>{const lt=ftime(p.list[p.list.length-1].timestamp);return h('button',{class:'card item in',style:`--i:${i}`,'aria-label':`${p.name}, ${cnt(p.list.length,'entry')}, last at ${lt}, ${fmt(p.sum)}`,onclick:()=>go({t:'person',day,key:p.key})},h('div',{},h('b',{},p.name),h('small',{},cnt(p.list.length,'entry')+' · Last '+lt)),h('span',{class:'v'},fmt(p.sum)),ic('chev',18))}))}
-/* WhatsApp day summary */
-function dayText(k){const L=entries.filter(e=>dkey(e.timestamp)===k);const[y,m,d]=k.split('-');const t=['*CASH COUNT* — '+fday(new Date(y,m-1,d)),''];
- group(L).forEach(p=>{t.push('• *'+p.name+'* — '+fmt(p.sum));t.push('   '+p.list.map(e=>ftime(e.timestamp)+' '+fmt(e.amount)).join(' · '))});
- t.push('━━━━━━━━━━','*Total: '+fmt(sum(L))+'*  ('+cnt(L.length,'entry')+')');return t.join('\n')}
-function shareDay(k){const u='https://api.whatsapp.com/send?text='+encodeURIComponent(dayText(k));const w=window.open(u,'_blank');if(!w)location.href=u}
-const shareBtn=k=>h('div',{class:'btns'},btn('b1 wa','wa','Share on WhatsApp',()=>shareDay(k),'Share day summary on WhatsApp'));
+/* Day note count + WhatsApp summary */
+const dayList=k=>entries.filter(e=>dkey(e.timestamp)===k);
+const kdate=k=>{const[y,m,d]=k.split('-');return new Date(y,m-1,d)};
+function noteCount(L){const d=zero();let l=0;L.forEach(e=>{ALL.forEach(([k])=>d[k]+=e.denominations[k]||0);l+=e.looseChange});return{d,l}}
+const cntOf=(d,L)=>L.reduce((s,[k])=>s+d[k],0);
+const W=24,LC=13,pad=(s,n)=>String(s).padStart(n),padE=(s,n)=>{s=String(s);return s.length>n?s.slice(0,n-1)+'…':s.padEnd(n)};
+const line=(a,b)=>padE(a,LC)+pad(b,W-LC);
+const mono=L=>L.length?['```'+L.join('\n')+'```']:[];
+function dayText(k,onlyNotes){const L=dayList(k),G=group(L),nc=noteCount(L),t=[onlyNotes?'🧮 *NOTE COUNT*':'💰 *CASH COUNT REPORT*','📅 '+fday(kdate(k)),''];
+ if(!onlyNotes){const P=[];G.forEach(p=>{P.push(line(p.name,fmt(p.sum)));p.list.forEach(e=>P.push(line('  '+ftime(e.timestamp),fmt(e.amount))))});t.push('👥 *PEOPLE*',...mono(P),'','🧮 *NOTES*')}
+ const N=[];ALL.forEach(([q,x])=>{if(nc.d[q])N.push(line('₹'+x+' × '+nc.d[q],fmt(nc.d[q]*x)))});if(nc.l)N.push(line('Loose',fmt(nc.l)));
+ t.push(...mono(N),'','💵 '+cntOf(nc.d,NOTES)+' notes · 🪙 '+cntOf(nc.d,COINS)+' coins','✅ *TOTAL: '+fmt(sum(L))+'*','🧾 '+cnt(L.length,'entry')+' · '+cnt(G.length,'person'));
+ return t.join('\n')}
+function shareDay(k,onlyNotes){const u='https://api.whatsapp.com/send?text='+encodeURIComponent(dayText(k,onlyNotes));const w=window.open(u,'_blank');if(!w)location.href=u}
+const dayBtns=k=>h('div',{class:'btns'},btn('b2','calc','Note Count',()=>go({t:'notes',day:k}),'Open day note count'),btn('b1 wa','wa','Share',()=>shareDay(k),'Share day summary on WhatsApp'));
 function todayScreen(){const k=dkey(Date.now()),L=entries.filter(e=>dkey(e.timestamp)===k);
- return h('div',{class:'in'},h('h2',{},"Today's Cash Collection"),h('p',{class:'mu'},fday(Date.now())),L.length?[plist(L,k),totbar('TOTAL COLLECTION',sum(L)),shareBtn(k)]:empty('No entries saved today yet.','Use the Calculator to count and save cash.'))}
+ return h('div',{class:'in'},h('h2',{},"Today's Cash Collection"),h('p',{class:'mu'},fday(Date.now())),L.length?[plist(L,k),totbar('TOTAL COLLECTION',sum(L)),dayBtns(k)]:empty('No entries saved today yet.','Use the Calculator to count and save cash.'))}
 function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.timestamp);(m.get(k)||m.set(k,[]).get(k)).push(e)});const ks=[...m.keys()].sort().reverse();
  return h('div',{class:'in'},h('h2',{},'History'),ks.length?h('div',{class:'list'},ks.map(k=>h('button',{class:'card item','aria-label':`${fdate(k)}, ${cnt(m.get(k).length,'entry')}, ${fmt(sum(m.get(k)))}`,onclick:()=>go({t:'day',day:k})},h('div',{},h('b',{},fdate(k)),h('small',{},cnt(m.get(k).length,'entry'))),h('span',{class:'v'},fmt(sum(m.get(k)))),ic('chev',18)))):empty('No saved entries yet.','Saved cash counts will appear here grouped by date.'))}
 /* Detail views */
 const V={
- day(v){const L=entries.filter(e=>dkey(e.timestamp)===v.day);if(!L.length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),plist(L,v.day),totbar('TOTAL',sum(L)),shareBtn(v.day))},
+ day(v){const L=entries.filter(e=>dkey(e.timestamp)===v.day);if(!L.length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),plist(L,v.day),totbar('TOTAL',sum(L)),dayBtns(v.day))},
+ notes(v){const L=dayList(v.day);if(!L.length)return null;const nc=noteCount(L),T=sum(L),ok=total(nc.d,nc.l)===T;
+  const hd=h('div',{class:'nc hd'},h('span',{},'Note'),h('span',{},'Qty'),h('span',{},'Amount'));
+  const r=([k,x])=>h('div',{class:'nc'+(nc.d[k]?'':' z')},h('span',{class:'lb'},'₹'+x),h('span',{class:'qy'},nc.d[k]),h('span',{class:'am'+(nc.d[k]?' on':'')},fmt(nc.d[k]*x)));
+  const sm=A=>fmt(A.reduce((s,[k,x])=>s+nc.d[k]*x,0));
+  return h('div',{class:'in'},bar('Note Count',fday(kdate(v.day))),
+   h('h3',{},'Notes',h('span',{class:'sub'},cntOf(nc.d,NOTES)+' notes · '+sm(NOTES))),h('div',{class:'card'},hd,NOTES.map(r)),
+   h('h3',{},'Coins',h('span',{class:'sub'},cntOf(nc.d,COINS)+' coins · '+sm(COINS))),h('div',{class:'card'},COINS.map(r)),
+   h('div',{class:'card',style:'margin-top:10px'},h('div',{class:'nc'+(nc.l?'':' z')},h('span',{class:'lb'},'Loose'),h('span'),h('span',{class:'am'+(nc.l?' on':'')},fmt(nc.l)))),
+   totbar('TOTAL',T),h('p',{class:'mu chk'},ok?'✅ Matches the day total ('+cnt(L.length,'entry')+')':'⚠️ Does not match the day total — please check entries'),
+   h('div',{class:'btns'},btn('b1 wa','wa','Share Note Count',()=>shareDay(v.day,true),'Share note count on WhatsApp')))},
  person(v){const L=asc().filter(e=>dkey(e.timestamp)===v.day&&e.person.toLowerCase()===v.key);if(!L.length)return null;
   return h('div',{class:'in'},bar(L[0].person,fdate(v.day)),h('div',{class:'list'},L.map(e=>h('div',{class:'card item'},h('button',{class:'item',style:'flex:1;padding:0;min-width:0','aria-label':`View details, ${ftime(e.timestamp)}, ${fmt(e.amount)}`,onclick:()=>go({t:'tx',id:e.id})},h('div',{},h('small',{},ftime(e.timestamp)),h('b',{},fmt(e.amount)),e.note?h('small',{},e.note):null),ic('chev',18)),h('button',{class:'sb','aria-label':'Edit entry',onclick:()=>go({t:'edit',id:e.id})},ic('edit',16))))),totbar('TOTAL',sum(L)))},
  tx(v){const e=entries.find(x=>x.id===v.id);if(!e)return null;const r=(l,a,z)=>h('div',{class:'sep'+(z?' z':'')},h('span',{},l),h('span',{},fmt(a)));
@@ -218,10 +248,20 @@ const V={
  edit(v){const e=entries.find(x=>x.id===v.id);if(!e)return null;const st={d:{...e.denominations},l:e.looseChange},p=personField(e.person),n=h('input',{class:'tx',type:'text','aria-label':'Note',value:e.note||'',autocomplete:'off'}),b=h('b');
   const upd=()=>b.textContent=fmt(total(st.d,st.l));const c=counter(st,upd);upd();
   return h('div',{class:'in'},bar('Edit entry',fdate(dkey(e.timestamp))+' · '+ftime(e.timestamp)),h('label',{class:'fl'},'Person / Source'),p.el,h('label',{class:'fl'},'Note'),n,c.el,h('div',{class:'tot',style:'margin-top:10px'},h('small',{},'TOTAL CASH'),b),
-  h('div',{class:'btns'},btn('b3','trash','Delete',()=>delAsk(e)),btn('b1','save','Save Changes',()=>{const t=total(st.d,st.l);if(!t)return toast('Total is ₹0');Object.assign(e,{person:p.get(),note:n.value.trim(),denominations:{...st.d},looseChange:st.l,amount:t});persist();toast('✓ Changes saved');back()})))},
+  h('div',{class:'btns'},btn('b3','trash','Delete',()=>delAsk(e)),btn('b1','save','Save Changes',()=>{const t=total(st.d,st.l);if(!t)return toast('Total is ₹0');checkOdd(st.d,st.l,()=>{Object.assign(e,{person:p.get(),note:n.value.trim(),denominations:{...st.d},looseChange:st.l,amount:t});persist();toast('✓ Changes saved');back()})})))},
  settings(){const f=h('input',{type:'file',accept:'.json,application/json',style:'display:none','aria-label':'Choose backup file'});f.onchange=async()=>{if(f.files[0])tryImport(await f.files[0].text())};
   return h('div',{class:'in'},bar('Settings'),h('h3',{},'BACKUP'),h('div',{class:'list'},btn('b2','down','Export Backup',exportB),btn('b2','up','Import Backup',()=>importModal(f)),f),h('h3',{},'DATA'),btn('b3','trash','Clear All Data',()=>ask('Delete all data?','This will permanently delete all saved cash records from this browser.','Delete All Data',()=>{entries=[];try{localStorage.removeItem(KEY)}catch(e){}S.stack=[];render();toast('All data deleted')})),h('p',{class:'mu',style:'margin-top:14px'},`${entries.length} ${entries.length===1?'entry':'entries'} stored locally in this browser.`),h('p',{class:'mu'},lastBackup()?`Last backup: ${fday(lastBackup())} · ${ftime(lastBackup())} (${ago(lastBackup())})`:'No backup saved yet. A reminder appears every 7 days.'),h('p',{class:'mu'},'All data stays on your device. Nothing is sent to any server.'))}};
-function delAsk(e){ask('Delete this cash entry?','This entry will be permanently removed.','Delete',()=>{entries=entries.filter(x=>x.id!==e.id);persist();toast('Entry deleted');render()})}
+function delAsk(e){ask('Delete this cash entry?','You can undo this for 5 seconds.','Delete',()=>{entries=entries.filter(x=>x.id!==e.id);persist();render();
+ undoToast('🗑️ Entry deleted',()=>{if(!entries.some(x=>x.id===e.id))entries.push(e);persist();render();toast('↩️ Entry restored')})})}
+function undoToast(m,fn){document.querySelectorAll('.toast').forEach(x=>x.remove());let live=true;
+ const t=h('div',{class:'toast undo',role:'status'},h('span',{},m),h('button',{class:'ub',onclick:()=>{if(!live)return;live=false;t.remove();fn()}},'UNDO'),h('i',{class:'tm'}));
+ document.body.append(t);setTimeout(()=>{live=false;t.remove()},5000)}
+/* Typo warning: very high quantities need a second look */
+const LIM={n500:300,n200:300,n100:500,n50:500,n20:500,n10:500,c5:500,c2:500,c1:500},LOOSE_LIM=2000;
+const odd=(d,l)=>[...ALL.filter(([k])=>d[k]>LIM[k]).map(([k,x])=>`₹${x} × ${d[k]} = ${fmt(d[k]*x)}`),...(l>LOOSE_LIM?['Loose change '+fmt(l)]:[])];
+function checkOdd(d,l,fn){const o=odd(d,l);if(!o.length)return fn();
+ const c=modal(h('h2',{},'⚠️ Please check'),h('p',{class:'mu'},'These numbers look very high. Is this a typo?'),h('div',{class:'card'},o.map(s=>h('div',{class:'sep wn'},s))),
+  h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Fix it'),h('button',{class:'b1',onclick:()=>{c();fn()}},'Yes, correct')))}
 /* Backup */
 const LB='cash-count-lastBackup',SNZ='cash-count-backupSnooze',DAY=864e5;
 const lastBackup=()=>+ls.get(LB)||0;
