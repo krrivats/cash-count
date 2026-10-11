@@ -124,15 +124,108 @@ nav button.on::before{opacity:1}
 .ub{background:#ffffff26;border:1px solid #ffffff55;border-radius:16px;padding:6px 14px;font-weight:800;letter-spacing:.05em}
 .tm{position:absolute;left:0;bottom:0;height:3px;width:100%;background:#a7f3d0;transform-origin:left;animation:tmr 5s linear forwards}
 @keyframes tmr{to{transform:scaleX(0)}}
+/* v4 compact layout */
+header{padding:6px 12px 3px;gap:8px}
+header svg.logo{width:32px;height:32px}
+header b{font-size:16px}
+.ttl{display:flex;align-items:center;gap:8px;min-width:0}
+.clk{font-size:11.5px}
+.gear{width:34px;height:34px;border-radius:10px}
+main{padding:2px 10px 10px}
+nav button{padding:5px 0 4px;font-size:11px;gap:1px}
+h2{font-size:16px;margin:0 0 2px}
+.mu{margin:0 0 6px}
+.list{gap:6px}
+.item{padding:8px 10px;gap:8px}
+.totbar{margin-top:8px;padding:10px 14px;border-radius:12px}.totbar span:last-child{font-size:19px}
+.btns{margin-top:8px;gap:8px}
+.b1,.b2,.b3{height:42px;border-radius:12px}
+.bar{margin:0 0 6px}.bar .bk{width:34px;height:34px;border-radius:10px}.bar b{font-size:16px}
+.sep{padding:5px 4px;font-size:14px}
+h3{margin:8px 2px 4px}
+.nc{min-height:32px}
+.sheet{padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px))}
+/* maker credit */
+.madeby{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;color:var(--m);white-space:nowrap;line-height:1}
+.madeby svg{width:12px;height:12px;color:var(--g3);flex:none}
+.madeby strong{color:#cbd5e1;font-weight:700;letter-spacing:.02em}
+.madeby .heart{display:inline-block;animation:hb 2.4s ease-in-out infinite}
+.madeby.big{font-size:12.5px;gap:4px}.madeby.big svg{width:14px;height:14px}
+.credit{display:flex;justify-content:center;padding:14px 0 4px}
+@keyframes hb{0%,100%{transform:scale(1)}10%{transform:scale(1.25)}20%{transform:scale(1)}}
+/* bundles */
+.bx{display:flex;flex-direction:column;gap:8px}
+.bchips{display:flex;gap:6px;flex-wrap:wrap}
+.bchip{border:1px solid var(--s5);background:var(--s3);border-radius:18px;padding:6px 12px;font-size:13.5px;font-weight:600;color:var(--m);white-space:nowrap}
+.bchip[aria-pressed="true"]{border-color:var(--g);background:#05966933;color:var(--g4)}
+.bchip.sm{padding:4px 9px;font-size:12.5px}
+.binfo{font-size:12.5px;color:var(--m);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.binfo b{color:var(--t)}
+.bnote{font-size:12.5px;border-radius:11px;padding:7px 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bnote.ok{background:#05966918;border:1px solid #10b98140}.bnote b{color:var(--g4)}
+.bnote.warn{background:#fbbf2412;border:1px solid #fbbf2455;color:#fde68a}
+.bnote button{margin-left:auto;color:var(--g3);font-weight:700;font-size:12.5px}.bnote.warn button{color:#fbbf24}
+.bsum{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:4px;border-radius:14px;padding:8px 12px;background:linear-gradient(135deg,#065f46,#10b981 62%,#6ee7b7);color:#032a1e;box-shadow:0 6px 18px #000a}
+.bsum small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.07em;opacity:.8}.bsum b{font-size:16px;font-weight:700}.bsum div:first-child b{font-size:19px}.bsum .lo b{color:#4a2c00}
+.bcard{background:linear-gradient(160deg,#161b30,#0d1020);border:1px solid #10b9812b;border-radius:14px;padding:8px 11px;display:flex;flex-direction:column;gap:6px}
+.bhd{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.bhd h4{margin:0;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--g3)}
+.bseg{display:flex;border:1px solid var(--s5);border-radius:9px;overflow:hidden}
+.bseg button{padding:3px 9px;font-size:12px;font-weight:600;color:var(--m)}.bseg button[aria-pressed="true"]{background:var(--g2);color:#fff}
+.bfr{display:grid;grid-template-columns:42px 1fr auto 76px;align-items:center;gap:6px;min-height:34px}
+.bfr+.bfr{border-top:1px solid #232a4580}.bfr.off{opacity:.45}
+.bstk{display:flex;gap:3px;flex-wrap:wrap;align-items:center;min-width:0}
+.bstk i{width:12px;height:8px;border-radius:2px;background:linear-gradient(180deg,var(--g4),var(--g2))}
+.bstk.sm i{background:linear-gradient(180deg,#fde68a,#d97706)}
+.bstk small{font-size:11px;color:var(--m)}
+.bv{font-weight:700;color:var(--g4);text-align:right;white-space:nowrap}
+.bempty{font-size:13px;color:var(--m);padding:4px 0}
+.bsmall{font-size:12.5px;color:var(--m)}
+.bsub{border-top:1px dashed var(--s5);padding-top:7px;display:flex;flex-direction:column;gap:6px}
+.bsubhd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bsubhd>b{font-size:14px}.bsubhd .bcnt{margin-left:auto}
+.bcnt{display:flex;align-items:center;gap:5px}.bcnt>b{min-width:18px;text-align:center}
+.bhint{font-size:11px;color:var(--g3);white-space:nowrap}.bhint.no{color:var(--m)}
+.bpm{width:30px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--s4);border:1px solid var(--s5);color:var(--m);font-size:18px;line-height:1}
+.bpm.p{background:var(--g2);border-color:var(--g);color:#fff}.bpm:disabled{opacity:.35}
+.btin{width:84px;height:28px;border-radius:9px;border:1px solid #2a3358;background:#06080f;text-align:right;padding:0 8px;font:700 14px 'Space Grotesk',system-ui,sans-serif;color:var(--t)}
+.brow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.brow label{font-size:12px;color:var(--m)}
+.bmb{background:var(--s2);border:1px solid var(--s5);border-radius:11px;padding:7px 9px;display:flex;flex-direction:column;gap:4px}.bmb.bad{border-color:#fbbf2466}
+.bmbt{display:flex;align-items:center;gap:8px;font-size:13px}.bmbt b{color:var(--g4)}
+.bed{margin-left:auto;color:var(--g3);font-weight:700;font-size:12.5px}
+.bmix{font-size:13px;overflow-wrap:anywhere}.blk{color:#fde68a}
+.bedr{display:grid;grid-template-columns:42px 30px 1fr 30px auto;align-items:center;gap:6px;font-size:13px}
+.bedr span:last-child{text-align:right;color:var(--m);min-width:70px}.bedr .q{height:28px;font-size:14px}.bedr .q.blk{border-color:#fbbf2466}
+.bcap{font-size:11.5px;color:#fde68a;padding-left:48px;margin-top:-2px}
+.bwarn{color:#fde68a;font-size:12.5px}
+.bloose{border-color:#fbbf2455;background:linear-gradient(160deg,#2a210a,#120f06)}.bloose h4{color:#fbbf24}
+.bbig{font-size:24px;font-weight:700;color:#fde68a}
+.blg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.blc{border:1px solid #fbbf2433;border-radius:9px;padding:5px 7px;font-size:12px}.blc b{display:block;font-size:13.5px;color:var(--t)}.blc.z{opacity:.35}
+.blline{display:flex;justify-content:space-between;font-size:13px;border-top:1px solid #fbbf2422;padding-top:5px}.blline span{color:var(--m)}
+.bslip{border-color:#93c5fd40}.bslip summary{cursor:pointer;color:#93c5fd;font-size:13px;font-weight:700}
+.bsr{display:grid;grid-template-columns:60px 1fr auto;gap:8px;font-size:13.5px;padding:3px 0}.bsr+.bsr{border-top:1px solid #232a4580}
+.bsr span:nth-child(2){color:var(--m)}.bsr span:last-child{text-align:right;font-weight:700}.bsr.tot{border-top:1px solid #93c5fd;color:#93c5fd;font-weight:700}
+.bconfirm{background:var(--s2);border:1px solid var(--g2);border-radius:12px;padding:9px 11px;font-size:13px}
+.bconfirm .btns{margin-top:8px}
+.bx .btns{margin-top:0}
+.bwa{text-decoration:none;color:#fff}
+.b1:disabled{opacity:.4}
+.bpick{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:13.5px}.bpick+.bpick{border-top:1px solid #232a4580}
+.bpick input{accent-color:var(--g);width:18px;height:18px;flex:none}
+.bpick .who{flex:1;min-width:0}.bpick .who small{display:block;font-size:11.5px;color:var(--m)}
+.am2{color:var(--g4);font-weight:700}.bpick.done{opacity:.55}
+.tag{font-size:10.5px;font-weight:700;color:var(--g3);border:1px solid #10b98155;border-radius:10px;padding:1px 6px;margin-left:4px}
+.bnote.warn+*{margin-top:0}
+.list>.b1,.list>.b2,.list>.b3{flex:none}
+.toast{white-space:nowrap}
 </style><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon-192.png"></head><body><div id="app">
 <header><svg class="logo" viewBox="0 0 48 48" role="img" aria-label="Cash Count logo"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#059669"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="#0d1020" stroke="url(#lg)" stroke-width="2.5"/><circle cx="24" cy="24" r="17" fill="#121627" stroke="#10b98155" stroke-dasharray="2 3"/><path d="M16 14h16M16 20h16M16 14h6.5a6 6 0 0 1 0 12H16l11 10" fill="none" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="2.5" r="2" fill="#6ee7b7"/></svg>
-<div class="tt"><b>Cash Count</b><small class="clk"><i class="live" aria-hidden="true"></i><span id="dt"></span></small></div><button class="gear" id="gear" aria-label="Settings"></button></header>
+<div class="tt"><div class="ttl"><b>Cash Count</b><span id="hcredit"></span></div><small class="clk"><i class="live" aria-hidden="true"></i><span id="dt"></span></small></div><button class="gear" id="gear" aria-label="Settings"></button></header>
 <main id="main"></main>
-<nav aria-label="Main"><button data-t="calc">Calculator</button><button data-t="today">Today</button><button data-t="hist">History</button></nav></div>
+<nav aria-label="Main"><button data-t="calc">Calculator</button><button data-t="today">Today</button><button data-t="hist">History</button><button data-t="bund">Bundles</button></nav></div>
 <script>
 const KEY='cash-count-entries';
 const NOTES=[['n500',500],['n200',200],['n100',100],['n50',50],['n20',20],['n10',10]],COINS=[['c5',5],['c2',2],['c1',1]],ALL=[...NOTES,...COINS];
-const I={calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>'};
+const I={calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',bund:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>'};
 function h(t,a,...c){const e=document.createElement(t);for(const k in a||{}){const v=a[k];if(k==='class')e.className=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}c.flat().forEach(x=>x!=null&&e.append(x.nodeType?x:document.createTextNode(x)));return e}
 const ic=(n,s=20)=>{const w=document.createElement('span');w.className='ic';w.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;return w};
 const $=s=>document.querySelector(s);
@@ -247,11 +340,11 @@ const V={
   h('div',{class:'btns'},btn('b3','trash','Delete',()=>delAsk(e)),btn('b1','edit','Edit',()=>go({t:'edit',id:e.id}))))},
  edit(v){const e=entries.find(x=>x.id===v.id);if(!e)return null;const st={d:{...e.denominations},l:e.looseChange},p=personField(e.person),n=h('input',{class:'tx',type:'text','aria-label':'Note',value:e.note||'',autocomplete:'off'}),b=h('b');
   const upd=()=>b.textContent=fmt(total(st.d,st.l));const c=counter(st,upd);upd();
-  return h('div',{class:'in'},bar('Edit entry',fdate(dkey(e.timestamp))+' · '+ftime(e.timestamp)),h('label',{class:'fl'},'Person / Source'),p.el,h('label',{class:'fl'},'Note'),n,c.el,h('div',{class:'tot',style:'margin-top:10px'},h('small',{},'TOTAL CASH'),b),
+  const mk=markOf(e.id);return h('div',{class:'in'},bar('Edit entry',fdate(dkey(e.timestamp))+' · '+ftime(e.timestamp)),mk?h('div',{class:'bnote warn'},`⚠️ Already bundled at ${ftime(mk.ts)}. Changes here will not update that bundle.`):null,h('label',{class:'fl'},'Person / Source'),p.el,h('label',{class:'fl'},'Note'),n,c.el,h('div',{class:'tot',style:'margin-top:10px'},h('small',{},'TOTAL CASH'),b),
   h('div',{class:'btns'},btn('b3','trash','Delete',()=>delAsk(e)),btn('b1','save','Save Changes',()=>{const t=total(st.d,st.l);if(!t)return toast('Total is ₹0');checkOdd(st.d,st.l,()=>{Object.assign(e,{person:p.get(),note:n.value.trim(),denominations:{...st.d},looseChange:st.l,amount:t});persist();toast('✓ Changes saved');back()})})))},
  settings(){const f=h('input',{type:'file',accept:'.json,application/json',style:'display:none','aria-label':'Choose backup file'});f.onchange=async()=>{if(f.files[0])tryImport(await f.files[0].text())};
-  return h('div',{class:'in'},bar('Settings'),h('h3',{},'BACKUP'),h('div',{class:'list'},btn('b2','down','Export Backup',exportB),btn('b2','up','Import Backup',()=>importModal(f)),f),h('h3',{},'DATA'),btn('b3','trash','Clear All Data',()=>ask('Delete all data?','This will permanently delete all saved cash records from this browser.','Delete All Data',()=>{entries=[];try{localStorage.removeItem(KEY)}catch(e){}S.stack=[];render();toast('All data deleted')})),h('p',{class:'mu',style:'margin-top:14px'},`${entries.length} ${entries.length===1?'entry':'entries'} stored locally in this browser.`),h('p',{class:'mu'},lastBackup()?`Last backup: ${fday(lastBackup())} · ${ftime(lastBackup())} (${ago(lastBackup())})`:'No backup saved yet. A reminder appears every 7 days.'),h('p',{class:'mu'},'All data stays on your device. Nothing is sent to any server.'))}};
-function delAsk(e){ask('Delete this cash entry?','You can undo this for 5 seconds.','Delete',()=>{entries=entries.filter(x=>x.id!==e.id);persist();render();
+  return h('div',{class:'in'},bar('Settings'),h('h3',{},'BACKUP'),h('div',{class:'list'},btn('b2','down','Export Backup',exportB),btn('b2','up','Import Backup',()=>importModal(f)),f),h('h3',{},'DATA'),btn('b3','trash','Clear All Data',()=>ask('Delete all data?','This will permanently delete all saved cash records from this browser.','Delete All Data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}S.stack=[];render();toast('All data deleted')})),h('p',{class:'mu',style:'margin-top:14px'},`${entries.length} ${entries.length===1?'entry':'entries'} stored locally in this browser.`),h('p',{class:'mu'},lastBackup()?`Last backup: ${fday(lastBackup())} · ${ftime(lastBackup())} (${ago(lastBackup())})`:'No backup saved yet. A reminder appears every 7 days.'),h('p',{class:'mu'},`${marks.length} bundle ${marks.length===1?'mark':'marks'} saved. They are included in your backup.`),h('p',{class:'mu'},'All data stays on your device. Nothing is sent to any server.'),credit(true))}};
+function delAsk(e){const mk=markOf(e.id);ask(mk?'⚠️ Delete a bundled entry?':'Delete this cash entry?',mk?`This entry is already in a bundle marked at ${ftime(mk.ts)}. Deleting it will NOT change that bundle or the carried cash. You can undo for 5 seconds.`:'You can undo this for 5 seconds.','Delete',()=>{entries=entries.filter(x=>x.id!==e.id);persist();render();
  undoToast('🗑️ Entry deleted',()=>{if(!entries.some(x=>x.id===e.id))entries.push(e);persist();render();toast('↩️ Entry restored')})})}
 function undoToast(m,fn){document.querySelectorAll('.toast').forEach(x=>x.remove());let live=true;
  const t=h('div',{class:'toast undo',role:'status'},h('span',{},m),h('button',{class:'ub',onclick:()=>{if(!live)return;live=false;t.remove();fn()}},'UNDO'),h('i',{class:'tm'}));
@@ -270,26 +363,225 @@ const ago=t=>{const d=Math.floor((Date.now()-t)/DAY);return d<1?'today':d===1?'1
 function checkBackup(){$('#gear').classList.toggle('due',backupDue());if(!backupDue()||document.querySelector('.ov')||Date.now()-(+ls.get(SNZ)||0)<DAY)return;
  const lb=lastBackup(),c=modal(h('h2',{},'💾 Time for a backup'),h('p',{class:'mu'},(lb?'Your last backup was '+ago(lb)+'.':'You have not saved a backup yet.')+' Save one now so your cash records are safe if this phone is lost or reset.'),
   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>{ls.set(SNZ,String(Date.now()));c()}},'Later'),h('button',{class:'b1',onclick:()=>{c();exportB()}},'Backup Now')))}
-function exportB(){ls.set(LB,String(Date.now()));ls.del(SNZ);render();const name=`cash-count-backup-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:1,exportedAt:new Date().toISOString(),entries},null,2);
+function exportB(){ls.set(LB,String(Date.now()));ls.del(SNZ);render();const name=`cash-count-backup-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:2,exportedAt:new Date().toISOString(),entries,bundles:marks,keepChange:+ls.get(KK)||0},null,2);
  try{const a=h('a',{href:URL.createObjectURL(new Blob([txt],{type:'application/json'})),download:name});document.body.append(a);a.click();a.remove()}catch(e){}
  const ta=h('textarea',{class:'tx',readonly:'','aria-label':'Backup JSON'});ta.value=txt;ta.onfocus=()=>ta.select();
  const c=modal(h('h2',{},'Export Backup'),h('p',{class:'mu'},name+' — if your browser blocked the download, copy the text below and save it as a .json file.'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Close'),h('button',{class:'b1',onclick:()=>{ta.select();try{document.execCommand('copy');navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}toast('Copied')}},'Copy')))}
 function importModal(f){const ta=h('textarea',{class:'tx','aria-label':'Paste backup JSON',placeholder:'…or paste backup JSON here'});
  const c=modal(h('h2',{},'Import Backup'),h('button',{class:'b2',style:'width:100%',onclick:()=>{c();f.click()}},'Choose backup file'),h('label',{class:'fl'},'Or paste the backup text'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();tryImport(ta.value)}},'Continue')))}
 function tryImport(text){let j;try{j=JSON.parse(text)}catch(e){}
- if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)){const c=modal(h('h2',{},'Import Failed'),h('p',{class:'mu'},'Invalid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
+ if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))){const c=modal(h('h2',{},'Import Failed'),h('p',{class:'mu'},'Invalid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
  const n=j.entries.length,mode=h('input',{type:'radio',name:'m',value:'merge',checked:''}),rep=h('input',{type:'radio',name:'m',value:'replace'});
- const apply=()=>{if(rep.checked)entries=j.entries.slice();else{const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);persist();S.stack=[];render();toast('✓ Backup imported')};
- const c=modal(h('h2',{},`Import ${n} ${n===1?'entry':'entries'}?`),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current local entries will be deleted and replaced by the backup.','Replace',apply):apply()}},'Import')))}
+ const jb=j.bundles||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice()}else{const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
+ const c=modal(h('h2',{},`Import ${n} ${n===1?'entry':'entries'}`+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current local entries will be deleted and replaced by the backup.','Replace',apply):apply()}},'Import')))}
+/* Bundles: full 100-note bundles, mixed + small-note bundles, change kept in drawer, "since last bundle" */
+const BK='cash-count-bundles',KK='cash-count-keep';
+function validMark(m){return!!m&&typeof m.id==='string'&&typeof m.ts==='number'&&Array.isArray(m.ids)&&m.ids.every(x=>typeof x==='string')&&typeof m.amount==='number'&&typeof m.n==='number'&&!!m.carry&&typeof m.carry.o==='number'&&!!m.carry.d&&typeof m.carry.d==='object'}
+let marks=(()=>{try{const a=JSON.parse(localStorage.getItem(BK)||'[]');return Array.isArray(a)?a.filter(validMark):[]}catch(e){return[]}})();
+const saveMarks=()=>{try{localStorage.setItem(BK,JSON.stringify(marks))}catch(e){}};
+const markOf=id=>marks.find(m=>m.ids.includes(id));
+const Bundles=(()=>{
+ const D=[500,200,100,50,20,10],SMALL=[50,20,10],NK={500:'n500',200:'n200',100:'n100',50:'n50',20:'n20',10:'n10'};
+ const z0=()=>Object.fromEntries(D.map(d=>[d,0]));
+ const amt=n=>D.reduce((s,d)=>s+d*(n[d]||0),0),cntN=n=>D.reduce((s,d)=>s+(n[d]||0),0);
+ const add=(a,b)=>{const r={...a};D.forEach(d=>r[d]=(r[d]||0)+(b[d]||0));return r};
+ const sod=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+ const bl=n=>n+(n===1?' bundle':' bundles');
+ const mixText=m=>Object.keys(m).map(Number).sort((a,b)=>b-a).filter(d=>m[d]).map(d=>`₹${d}×${m[d]}`).join(' · ');
+ const ents=()=>entries.map(e=>{const x=e.denominations;return{id:e.id,person:e.person,ts:e.timestamp,d:Object.fromEntries(D.map(d=>[d,x[NK[d]]||0])),o:(x.c5||0)*5+(x.c2||0)*2+(x.c1||0)+(e.looseChange||0)}}).sort((a,b)=>a.ts-b.ts);
+ const bundledIds=()=>new Set(marks.flatMap(m=>m.ids));
+ const lastMark=()=>marks[marks.length-1]||null;
+ const carry=()=>lastMark()?lastMark().carry:{d:z0(),o:0};
+ const startTs=()=>marks.length?sod(marks[0].ts):sod(Date.now());
+ const st={src:null,sel:null,inclCarry:true,size:100,fullN:{},mT:50000,mUse:{500:true,200:true,100:true,50:false,20:false,10:false},mN:0,fix:{},open:-1,sT:5000,sN:0,keep:+ls.get(KK)||0,confirm:false,fresh:true};
+ const resetCounts=()=>{st.fullN={};st.mN=st.sN=0;st.fix={};st.open=-1};
+ const rr=()=>{const m=document.querySelector('#main'),y=m.scrollTop;render();m.scrollTop=y};
+ const later=fn=>setTimeout(()=>{fn();rr()});
+ function open(){st.src=marks.length?'since':'today';st.sel=null;st.inclCarry=true;st.confirm=false;st.fresh=true;resetCounts()}
+
+ function source(){
+  const now=Date.now(),E=ents(),B=bundledIds(),today=E.filter(e=>dkey(e.ts)===dkey(now)),c=carry();
+  if(st.src==='since'){
+   if(!marks.length)return{L:today,label:'Today',note:'No bundle marked yet, so this shows all of today.',canMark:true};
+   return{L:E.filter(e=>!B.has(e.id)&&e.ts>=startTs()),carry:c,label:'Since last bundle',canMark:true};
+  }
+  if(st.src==='pick'){
+   const avail=E.filter(e=>!B.has(e.id)&&e.ts>=startTs());
+   if(!st.sel)st.sel=new Set(avail.map(e=>e.id));
+   const L=avail.filter(e=>st.sel.has(e.id));
+   return{L,carry:marks.length&&st.inclCarry?c:null,label:'Picked entries',canMark:L.length>0||!!(marks.length&&st.inclCarry),pick:true};
+  }
+  const done=today.filter(e=>B.has(e.id));
+  return{L:today,label:'Today',canMark:!done.length,doneAmt:done.reduce((s,e)=>s+amt(e.d)+e.o,0),doneN:done.length};
+ }
+ /* exact mix, bigger notes first */
+ function mix(target,avail,allowed){
+  if(target===0)return{};
+  const ds=D.filter(d=>allowed[d]&&avail[d]>0);let steps=0;const pick={};
+  const cap=i=>ds.slice(i).reduce((s,d)=>s+d*avail[d],0);
+  function go(i,rem){if(rem===0)return true;if(i>=ds.length||++steps>60000||rem>cap(i))return false;const d=ds[i];
+   for(let c=Math.min(avail[d],Math.floor(rem/d));c>=0;c--){pick[d]=c;if(go(i+1,rem-c*d))return true}pick[d]=0;return false}
+  return go(0,target)?Object.fromEntries(ds.filter(d=>pick[d]).map(d=>[d,pick[d]])):null;
+ }
+ /* bundles one after another; locked counts (user edits) kept, the rest auto-filled */
+ function build(pool,T,allowed,want,fixes){
+  const plans=[],q={...pool};let bad=null;
+  for(let i=0;i<40&&T>0&&T%10===0;i++){
+   const fx={...(fixes&&fixes[i]||{})},capped={};let fs=0;
+   for(const d in fx){if(fx[d]>q[d]){capped[d]=q[d];fx[d]=q[d]}fs+=d*fx[d]}
+   const av={...q};for(const d in fx)av[d]-=fx[d];
+   const al={...allowed};for(const d in fx)al[d]=false;
+   const rest=fs<=T?mix(T-fs,av,al):null;
+   if(!rest){if(Object.keys(fx).length)bad={bad:true,fx,sum:fs,capped,i};break}
+   const b={...rest};for(const d in fx)if(fx[d])b[d]=fx[d];
+   plans.push({mix:b,fx,capped});for(const d in b)q[d]-=b[d];
+  }
+  const n=Math.min(want||0,plans.length),out=plans.slice(0,n),p={...pool};
+  out.forEach(b=>{for(const d in b.mix)p[d]-=b.mix[d]});
+  if(bad&&(want||0)>plans.length)out.push(bad);
+  return{out,max:plans.length,pool:p};
+ }
+ /* change for the drawer: notes that can't make a full bundle first, then any */
+ function keepFrom(have,K,size){
+  const k=z0();let rem=K;
+  const pass=lim=>{const take=(d,cap)=>{const n=Math.max(0,Math.min(lim(d)-k[d],Math.floor(Math.min(rem,cap)/d)));k[d]+=n;rem-=n*d};
+   take(10,K*.3);take(20,K*.3);take(50,rem);take(100,rem);take(20,rem);take(10,rem)};
+  if(K>0){pass(d=>have[d]%size);if(rem>0)pass(d=>have[d])}
+  return k;
+ }
+ const chip=(label,on,fn,sm)=>h('button',{class:'bchip'+(sm?' sm':''),'aria-pressed':String(!!on),onclick:fn},label);
+ const pm=(plus,label,dis,fn)=>{const b=h('button',{class:'bpm'+(plus?' p':''),'aria-label':label,onclick:fn},plus?'+':'−');b.disabled=dis;return b};
+ const hintEl=(n,max)=>{const left=max-n;return h('span',{class:'bhint'+(left>0?'':' no')},left>0?`${left} more possible`:(n?'max':'none possible'))};
+ const note=(k,...c)=>h('div',{class:'bnote '+k},...c);
+
+ function screen(){
+  if(st.src==null)open();
+  const s=source();
+  let have=z0(),other=0;s.L.forEach(e=>{have=add(have,e.d);other+=e.o});
+  if(s.carry){have=add(have,s.carry.d);other+=s.carry.o}
+  const total=amt(have)+other;
+  /* 0 keep change */
+  const kept=keepFrom(have,st.keep,st.size),keptAmt=amt(kept),pool0={...have};D.forEach(d=>pool0[d]-=kept[d]);
+  /* 1 full */
+  const pool1={...pool0},full={};let fullAmt=0,fullN=0;const fullRows=[];
+  D.forEach(d=>{const max=Math.floor(pool0[d]/st.size);if(!max)return;
+   const n=Math.min(st.fullN[d]??max,max);full[d]=n;pool1[d]-=n*st.size;fullAmt+=n*d*st.size;fullN+=n;
+   const stk=h('div',{class:'bstk'+(SMALL.includes(d)?' sm':'')});for(let i=0;i<Math.min(n,8);i++)stk.append(h('i'));
+   stk.append(h('small',{},n<max?`${max-n} more possible`:`${fmt(d*st.size)} each`));
+   fullRows.push(h('div',{class:'bfr'+(n?'':' off')},h('span',{class:'lb'},'₹'+d),stk,
+    h('div',{class:'bcnt'},pm(false,`One less ₹${d} bundle`,!n,()=>{st.fullN[d]=n-1;st.mN=st.sN=0;st.fix={};rr()}),h('b',{},n),pm(true,`One more ₹${d} bundle`,n>=max,()=>{st.fullN[d]=n+1;st.mN=st.sN=0;st.fix={};rr()})),
+    h('span',{class:'bv'},fmt(n*d*st.size))))});
+  /* 2 mixed */
+  const M=build(pool1,st.mT,st.mUse,st.mN,st.fix),good=M.out.filter(b=>!b.bad);
+  /* 3 small */
+  const SB=build(M.pool,st.sT,Object.fromEntries(D.map(d=>[d,SMALL.includes(d)])),st.sN,null);
+  if(st.sN>SB.max)st.sN=SB.max;
+  /* what stays */
+  const loose=SB.pool,la=amt(loose),stay=la+keptAmt+other;
+  const bundled=fullAmt+good.length*st.mT+SB.out.length*st.sT,bN=fullN+good.length+SB.out.length;
+  const dep=z0();D.forEach(d=>dep[d]+=(full[d]||0)*st.size);[...good,...SB.out].forEach(b=>{for(const d in b.mix)dep[d]+=b.mix[d]});
+
+  const root=h('div',{class:'bx'+(st.fresh?' in':'')});st.fresh=false;
+  /* which cash */
+  root.append(h('div',{class:'bchips',role:'group','aria-label':'Which cash'},...[['today','Today'],['since','Since last bundle'],['pick','Pick entries']].map(([k,l])=>chip(l,st.src===k,()=>{st.src=k;st.sel=null;st.confirm=false;resetCounts();rr()}))));
+  root.append(h('div',{class:'binfo'},h('span',{},h('b',{},s.label),` · ${cnt(s.L.length,'entry')}`+(s.carry&&amt(s.carry.d)+s.carry.o?` + ${fmt(amt(s.carry.d)+s.carry.o)} carried`:'')),h('span',{},`${cntN(have)} notes`)));
+  if(s.note)root.append(note('ok',s.note));
+  if(s.doneN)root.append(note('warn',h('span',{},`${fmt(s.doneAmt)} of today (${cnt(s.doneN,'entry')}) is already bundled. Today is view only.`),h('button',{onclick:()=>{st.src='since';resetCounts();rr()}},'Go to Since last bundle')));
+  if(lastMark()){const m=lastMark();root.append(note('ok',h('span',{},'Last bundled ',h('b',{},ftime(m.ts)+(dkey(m.ts)!==dkey(Date.now())?' '+fdate(dkey(m.ts)):'')),` · ${fmt(m.amount)} · ${bl(m.n)}`),
+   h('button',{onclick:()=>ask('Undo last bundle mark?',`The ${bl(m.n)} marked at ${ftime(m.ts)} will be un-marked and their entries count again.`,'Undo',()=>{marks.pop();saveMarks();st.sel=null;resetCounts();toast('Last mark removed');rr()},false)},'Undo')))}
+  if(s.pick){const B=bundledIds(),box=h('div',{class:'bcard'});
+   if(marks.length&&amt(carry().d)+carry().o){const c=h('input',{type:'checkbox',id:'bpc',onchange:e=>{st.inclCarry=e.target.checked;resetCounts();later(()=>{})}});c.checked=st.inclCarry;
+    box.append(h('label',{class:'bpick',for:'bpc'},c,h('span',{class:'who'},'Carried from last bundle',h('small',{},'loose notes + coins')),h('span',{class:'am2'},fmt(amt(carry().d)+carry().o))))}
+   const list=ents().filter(e=>e.ts>=startTs()).reverse();
+   list.forEach(e=>{const done=B.has(e.id),c=h('input',{type:'checkbox',id:'bp'+e.id,onchange:ev=>{ev.target.checked?st.sel.add(e.id):st.sel.delete(e.id);resetCounts();later(()=>{})}});c.disabled=done;c.checked=done||st.sel.has(e.id);
+    box.append(h('label',{class:'bpick'+(done?' done':''),for:'bp'+e.id},c,h('span',{class:'who'},e.person,done?h('span',{class:'tag'},'BUNDLED'):null,h('small',{},ftime(e.ts)+(dkey(e.ts)!==dkey(Date.now())?' · '+fdate(dkey(e.ts)):''))),h('span',{class:'am2'},fmt(amt(e.d)+e.o))))});
+   if(!list.length)box.append(h('div',{class:'bempty'},'No entries yet.'));
+   root.append(box)}
+  /* summary */
+  root.append(h('div',{class:'bsum',role:'status','aria-live':'polite'},h('div',{},h('small',{},'TOTAL'),h('b',{},fmt(total))),h('div',{},h('small',{},`BUNDLED · ${bN}`),h('b',{},fmt(bundled))),h('div',{class:'lo'},h('small',{},'STAYS'),h('b',{},fmt(stay)))));
+  /* keep change */
+  root.append(h('div',{class:'bcard'},h('div',{class:'bhd'},h('h4',{},'🪙 Keep change in drawer'),h('div',{class:'bchips'},...[[0,'Off'],[2000,'2K'],[3000,'3K'],[5000,'5K']].map(([v,t])=>chip(t,st.keep===v,()=>{st.keep=v;ls.set(KK,String(v));resetCounts();rr()},true)))),
+   h('div',{class:'bsmall'},st.keep?(keptAmt?`${fmt(keptAmt)} kept: ${mixText(kept)}`+(keptAmt<st.keep?` · short ${fmt(st.keep-keptAmt)}`:''):'No small notes to keep.'):'Off. All notes can go into bundles.')));
+  /* bundles card */
+  const mList=M.out.map((b,i)=>mixedCard(b,i));
+  if(!M.max&&!M.out.length&&st.mT>0)mList.push(h('div',{class:'bsmall'},st.mT%10?'Bundle value must end in 0.':amt(pool1)<st.mT?`Notes left ${fmt(amt(pool1))}, less than ${fmt(st.mT)}.`:`Can't make exactly ${fmt(st.mT)} with the notes selected. Turn on more notes.`));
+  const tIn=(key,lab,reset)=>h('input',{class:'btin',inputmode:'numeric',value:String(st[key]||''),'aria-label':lab,onfocus:e=>setTimeout(()=>e.target.select(),0),onchange:e=>{const v=parseInt(e.target.value.replace(/\D/g,''),10)||0;later(()=>{st[key]=v;reset()})}});
+  root.append(h('div',{class:'bcard'},
+   h('div',{class:'bhd'},h('h4',{},'Full bundles'),h('div',{class:'bseg',role:'group','aria-label':'Notes per bundle'},...[100,50].map(v=>h('button',{'aria-pressed':String(st.size===v),onclick:()=>{st.size=v;resetCounts();rr()}},v+' notes')))),
+   ...(fullRows.length?fullRows:[h('div',{class:'bempty'},`Not enough notes for a full ${st.size}-note bundle.`)]),
+   h('div',{class:'bsub'},
+    h('div',{class:'bsubhd'},h('b',{},'🧩 Mixed'),h('div',{class:'bcnt'},hintEl(good.length,M.max),pm(false,'One less mixed bundle',!M.out.length,()=>{st.mN=Math.max(0,st.mN-1);delete st.fix[st.mN];if(st.open>=st.mN)st.open=-1;rr()}),h('b',{},good.length),pm(true,'One more mixed bundle',good.length>=M.max,()=>{st.mN++;rr()}))),
+    h('div',{class:'brow'},h('div',{class:'bchips'},...[[50000,'50K'],[20000,'20K'],[10000,'10K']].map(([v,t])=>chip(t,st.mT===v,()=>{st.mT=v;st.mN=st.sN=0;st.fix={};rr()},true))),tIn('mT','Mixed bundle value',()=>{st.mN=st.sN=0;st.fix={}})),
+    h('div',{class:'brow'},h('label',{},'Use'),h('div',{class:'bchips'},...D.map(d=>chip('₹'+d,st.mUse[d],()=>{st.mUse[d]=!st.mUse[d];st.fix={};rr()},true)))),
+    ...mList),
+   h('div',{class:'bsub'},
+    h('div',{class:'bsubhd'},h('b',{},'🪙 Small notes'),h('span',{class:'bsmall'},'₹50 · ₹20 · ₹10'),h('div',{class:'bcnt'},hintEl(SB.out.length,SB.max),pm(false,'One less small bundle',!SB.out.length,()=>{st.sN=Math.max(0,st.sN-1);rr()}),h('b',{},SB.out.length),pm(true,'One more small bundle',SB.out.length>=SB.max,()=>{st.sN++;rr()}))),
+    h('div',{class:'brow'},h('div',{class:'bchips'},...[[5000,'5K'],[2000,'2K'],[1000,'1K']].map(([v,t])=>chip(t,st.sT===v,()=>{st.sT=v;st.sN=0;rr()},true))),tIn('sT','Small bundle value',()=>{st.sN=0})),
+    ...SB.out.map((b,i)=>h('div',{class:'bmb'},h('div',{class:'bmbt'},h('span',{},`Small ${i+1}`),h('b',{},fmt(st.sT))),h('div',{class:'bmix'},mixText(b.mix)))))));
+  /* stays with you */
+  const lines=[['Loose notes',la,true],['Kept in drawer',keptAmt],['Coins + loose change (not bundled)',other]].filter(x=>x[1]||x[2]);
+  root.append(h('div',{class:'bcard bloose'},h('div',{class:'bhd'},h('h4',{},'Stays with you'),h('span',{class:'bsmall'},`${cntN(loose)+cntN(kept)} notes + coins`)),h('div',{class:'bbig'},fmt(stay)),
+   h('div',{class:'blg'},...D.map(d=>h('div',{class:'blc'+(loose[d]?'':' z')},h('b',{},`₹${d} × ${loose[d]}`),fmt(d*loose[d])))),
+   ...lines.map(([a,v])=>h('div',{class:'blline'},h('span',{},a),h('b',{},fmt(v))))));
+  /* bank deposit slip */
+  const slip=h('details',{class:'bcard bslip'},h('summary',{},'🏦 Bank deposit slip'));
+  if(!bN)slip.append(h('div',{class:'bempty'},'No bundles yet. Add bundles above to fill the slip.'));
+  else{D.filter(d=>dep[d]).forEach(d=>slip.append(h('div',{class:'bsr'},h('span',{class:'lb'},'₹'+d),h('span',{},`× ${dep[d]} notes`),h('span',{},fmt(d*dep[d])))));
+   slip.append(h('div',{class:'bsr tot'},h('span',{},'Total'),h('span',{},`${cntN(dep)} notes · ${bl(bN)}`),h('span',{},fmt(amt(dep)))))}
+  if(st.slipOpen)slip.open=true;slip.addEventListener('toggle',()=>st.slipOpen=slip.open);
+  root.append(slip);
+  /* mark + WhatsApp */
+  if(st.confirm)root.append(h('div',{class:'bconfirm'},h('div',{},`Mark ${bl(bN)} (${fmt(bundled)}) as made? ${fmt(stay)} stays with you and carries to the next round.`),
+   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>{st.confirm=false;rr()}},'Cancel'),h('button',{class:'b1',onclick:()=>{
+    const prev=carry();let cd=add(loose,kept),co=other;
+    if(st.src==='pick'&&!s.carry&&marks.length){cd=add(cd,prev.d);co+=prev.o}
+    marks.push({id:uid(),ts:Date.now(),ids:s.L.map(e=>e.id),amount:bundled,n:bN,carry:{d:cd,o:co}});saveMarks();
+    st.confirm=false;st.src='since';st.sel=null;resetCounts();toast('✔ Marked at '+ftime(Date.now()));rr()}},'Yes, mark'))));
+  const mk=h('button',{class:'b1',onclick:()=>{st.confirm=true;rr()}},ic('save',18),!s.canMark&&st.src==='today'?'Use Since last bundle':'Mark as bundled');mk.disabled=!bN||!s.canMark;
+  root.append(h('div',{class:'btns'},mk,h('a',{class:'b1 wa bwa',href:'https://api.whatsapp.com/send?text='+encodeURIComponent(waText()),target:'_blank',rel:'noopener'},ic('wa',18),'WhatsApp')));
+  root.append(credit());
+  return root;
+
+  function mixedCard(b,i){
+   const m=b.mix||b.fx,c=h('div',{class:'bmb'+(b.bad?' bad':'')});
+   c.append(h('div',{class:'bmbt'},h('span',{},`Mixed ${i+1}`),h('b',{},fmt(st.mT)),h('button',{class:'bed',onclick:()=>{st.open=st.open===i?-1:i;rr()}},st.open===i?'Done':'Edit')));
+   if(st.open!==i)c.append(h('div',{class:'bmix'},...Object.keys(m).map(Number).sort((a,z)=>z-a).filter(d=>m[d]||b.fx[d]!=null).flatMap((d,k,a)=>{const lk=b.fx&&b.fx[d]!=null;return[h('span',{class:lk?'blk':''},`₹${d}×${m[d]||0}`+(lk?'🔒':'')),k<a.length-1?' · ':null]})));
+   else{c.append(h('div',{class:'bsmall'},'Change any note. The rest refill to the bundle value. 🔒 = your number.'));
+    D.forEach(d=>{const n=m[d]||0,lk=b.fx&&b.fx[d]!=null,set=v=>{st.fix[i]={...(st.fix[i]||{}),[d]:Math.max(0,v)};rr()};
+     c.append(h('div',{class:'bedr'},h('span',{class:'lb'},'₹'+d),pm(false,`Fewer ₹${d} in bundle`,!n,()=>set(n-1)),
+      h('input',{class:'q'+(lk?' blk':''),inputmode:'numeric',value:String(n),'aria-label':`₹${d} notes in bundle`,onfocus:e=>setTimeout(()=>e.target.select(),0),onchange:e=>{const v=parseInt(e.target.value.replace(/\D/g,''),10)||0;setTimeout(()=>set(v))}}),
+      pm(true,`More ₹${d} in bundle`,false,()=>set(n+1)),h('span',{},fmt(d*n))));
+     if(b.capped&&b.capped[d]!=null)c.append(h('div',{class:'bcap'},`Only ${b.capped[d]} × ₹${d} available, so it was set to ${b.capped[d]}.`))});
+    c.append(h('button',{class:'bed',style:'align-self:flex-start;margin:0',onclick:()=>{delete st.fix[i];rr()}},'Reset to auto'))}
+   if(b.bad)c.append(h('div',{class:'bwarn'},b.sum>st.mT?`Over by ${fmt(b.sum-st.mT)}. Lower your 🔒 notes.`:`Not enough notes to fill the rest (${fmt(st.mT-b.sum)} needed).`));
+   return c;
+  }
+  function waText(){
+   const W=24,line=(a,b)=>String(a).padEnd(13)+String(b).padStart(W-13),blk=L=>'```'+L.join('\n')+'```';
+   const t=['📦 *BUNDLE REPORT*','📅 '+fday(Date.now())+' · '+ftime(Date.now()),'🕒 '+s.label,''];
+   if(bN){t.push('🏦 *DEPOSIT*',blk([...D.filter(d=>dep[d]).map(d=>line(`₹${d} × ${dep[d]}`,fmt(d*dep[d]))),line('Total',fmt(amt(dep)))]),'');
+    t.push('📦 *BUNDLES*','```'+[...D.filter(d=>full[d]).map(d=>`${full[d]} × ${fmt(d*st.size)} (₹${d})`),...good.map(b=>`1 × ${fmt(st.mT)} mixed: ${mixText(b.mix)}`),...SB.out.map(b=>`1 × ${fmt(st.sT)} small: ${mixText(b.mix)}`)].join('\n')+'```','')}
+   const LL=D.filter(d=>loose[d]).map(d=>line(`₹${d} × ${loose[d]}`,fmt(d*loose[d])));
+   if(keptAmt)LL.push(line('Drawer',fmt(keptAmt)));if(other)LL.push(line('Coins/loose',fmt(other)));
+   if(LL.length)t.push('💵 *STAYS WITH YOU*',blk(LL),'');
+   t.push(`📦 Bundled: *${fmt(bundled)}* (${bl(bN)})`,`💵 Stays: *${fmt(stay)}*`,`✅ *TOTAL: ${fmt(total)}*`);
+   return t.join('\n');
+  }
+ }
+ return{screen,open};
+})();
+/* Maker credit */
+const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>';
+function credit(big){const s=h('span',{class:'madeby'+(big?' big':''),'aria-label':'Made by Krrivats'});s.innerHTML=`Made by ${IG} <strong>Krrivats</strong> <span class="heart" role="img" aria-label="love">❤️</span>`;return big?h('div',{class:'credit'},s):h('div',{class:'credit'},s)}
 /* Render */
 function fit(){const m=$('#main'),c=m.firstElementChild;if(S.stack.length||S.tab!=='calc'||!c)return;let x=44;c.style.setProperty('--rh',x+'px');while(x>30&&m.scrollHeight>m.clientHeight+1){x--;c.style.setProperty('--rh',x+'px')}}
 function render(){const m=$('#main');let node;const top=S.stack[S.stack.length-1];
- if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen}[S.tab]();
+ if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen,bund:Bundles.screen}[S.tab]();
  m.replaceChildren(node);m.scrollTop=0;clock();$('#gear').classList.toggle('due',backupDue());
  document.querySelectorAll('nav button').forEach(b=>{b.classList.toggle('on',b.dataset.t===S.tab&&!(top&&top.t==='settings'));b.setAttribute('aria-current',b.classList.contains('on')?'page':'false')});fit()}
 addEventListener('resize',fit);addEventListener('orientationchange',fit);document.fonts&&document.fonts.ready.then(fit)
-document.querySelectorAll('nav button').forEach(b=>{b.prepend(ic(b.dataset.t,22));b.onclick=()=>{S.tab=b.dataset.t;S.stack=[];render()}});
-$('#gear').append(ic('gear',20));$('#gear').onclick=()=>{S.stack=[{t:'settings'}];render()};
+document.querySelectorAll('nav button').forEach(b=>{b.prepend(ic(b.dataset.t,20));b.onclick=()=>{S.tab=b.dataset.t;S.stack=[];if(S.tab==='bund')Bundles.open();render()}});
+$('#gear').append(ic('gear',18));$('#hcredit').replaceWith(credit().firstChild);$('#gear').onclick=()=>{S.stack=[{t:'settings'}];render()};
 render();setInterval(clock,5000);setTimeout(checkBackup,900);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){clock();checkBackup()}});
 </script><script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}))</script></body></html>
