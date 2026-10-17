@@ -194,7 +194,7 @@ textarea.tx{height:110px;padding:10px;font:12px/1.4 ui-monospace,monospace}
 .tag{margin-left:6px;padding:1px 6px;border-radius:6px;background:var(--p3);color:var(--mu);font-size:10.5px;font-weight:800;white-space:nowrap}
 .fb{display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:8px;padding:7px 0}
 .fb+.fb{box-shadow:0 -1px 0 #ffffff08}
-.fb.off .bricks,.fb.off .fv{opacity:.45}
+.fb.off .bricks,.fb.off .fv{opacity:.75}
 .bricks{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
 .bricks i{width:12px;height:18px;border-radius:3px;background:var(--c);box-shadow:inset 0 -3px 0 #0004}
 .bricks i.x{background:transparent;box-shadow:inset 0 0 0 1px var(--c);opacity:.45}
@@ -255,6 +255,11 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .optb{margin-top:6px;color:var(--amb);font-weight:800;font-size:12.5px}.optb span{color:var(--mu);font-weight:600}
 .bbar{position:sticky;bottom:-14px;z-index:4;margin:0 -12px -14px;padding:8px 12px 12px;background:linear-gradient(#0A0F1E00,var(--bg) 22%)}
 .bbar .btns{margin-top:6px}.bbar .cf{margin-top:0}
+.nx.hot{color:var(--amb);font-weight:800}
+.mixbar{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.mixb{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px 10px;border-radius:12px;background:var(--p2);border:1px solid var(--ln2);text-align:left;font-weight:800;font-size:13px}
+.mixb small{display:block;color:var(--mu);font-size:11px;font-weight:600}
+.mixb i{font-style:normal;color:var(--amb)}.mixb.on{border-color:#FFB54799;background:#FFB54714}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
 </style></head><body><div id="app">
@@ -581,12 +586,12 @@ const Bundles=(()=>{
   const kept=keepFrom(have,st.keep,st.size),keptAmt=amt(kept),pool0={...have};D.forEach(d=>pool0[d]-=kept[d]);
   /* full bundles: st.size notes of one value. Big notes first, then ₹50/₹20/₹10 in the small-note part */
   const pool1={...pool0},full={};let fullAmt=0,fullN=0;const bigRows=[],smallRows=[];
-  D.forEach(d=>{const max=Math.floor(pool0[d]/st.size),isS=SMALL.includes(d);if(!max&&!(isS&&pool0[d]>0))return;
+  D.forEach(d=>{const max=Math.floor(pool0[d]/st.size),isS=SMALL.includes(d);if(!pool0[d])return;
    const n=Math.min(st.fullN[d]??max,max);full[d]=n;pool1[d]-=n*st.size;fullAmt+=n*d*st.size;fullN+=n;
    const need=st.size-(pool0[d]-max*st.size);
    let bricks=null;if(max){bricks=h('div',{class:'bricks','aria-hidden':'true'});for(let i=0;i<Math.min(max,10);i++)bricks.append(h('i',{class:i<n?null:'x'}));if(max>10)bricks.append(h('small',{style:'color:var(--mu);font-size:11px'},'+'+(max-10)))}
    const l1=max?h('span',{class:'fv l1'},bricks,h('b',{},fmt(n*d*st.size))):h('span',{class:'fv l1'},`${pool0[d]} notes = `,h('b',{},fmt(pool0[d]*d)));
-   const row=h('div',{class:'fb'+(n?'':' off'),style:`--c:var(${DV(d)})`},dn(NK[d],d),h('div',{},l1,h('span',{class:'nx'},max?`${n} of ${max} bundles, ${need} more notes for next`:`${need} more notes for a bundle`)),
+   const row=h('div',{class:'fb'+(n?'':' off'),style:`--c:var(${DV(d)})`},dn(NK[d],d),h('div',{},l1,(need<=st.size/10?h('span',{class:'nx hot'},`⚡ Only ${need} ${need===1?'note':'notes'} short for ${max?'another':'a'} bundle`+(max?` (${n} of ${max} made)`:'')):h('span',{class:'nx'},max?`${n} of ${max} bundles, ${need} more notes for next`:`${need} more notes for a bundle`))),
     max?stepper(n,`One less ₹${d} bundle`,`One more ₹${d} bundle`,!n,n>=max,()=>{st.fullN[d]=n-1;st.mN=st.sN=0;st.fix={};rr()},()=>{st.fullN[d]=n+1;st.mN=st.sN=0;st.fix={};rr()}):h('span'));
    (isS?smallRows:bigRows).push(row)});
   /* small-note mix (only ₹50/₹20/₹10) first, then mixed bundles from what is left */
@@ -627,27 +632,31 @@ const Bundles=(()=>{
   const vIn=(key,lab,reset)=>h('input',{class:'vin',inputmode:'numeric',value:String(st[key]||''),'aria-label':lab,onfocus:e=>setTimeout(()=>e.target.select(),0),onchange:e=>{const v=parseInt(e.target.value.replace(/\D/g,''),10)||0;later(()=>{st[key]=v;reset()})}});
   /* suggestions: what can be made from the notes left. Nothing is added until tapped. */
   const optBtn=(k,info)=>h('button',{class:'optb','aria-expanded':String(!!st[k]),onclick:()=>{st[k]=!st[k];rr()}},st[k]?'Hide options ▴':'Options ▾',info&&!st[k]?h('span',{},' Using '+info):null);
+  const mixBtn=(k,label,n,a)=>h('button',{class:'mixb'+(st[k]?' on':''),'aria-expanded':String(!!st[k]),onclick:()=>{st[k]=!st[k];rr()}},h('span',{},label,h('small',{},n?`${n} made, ${fmt(a)}`:'Tap to open')),h('i',{'aria-hidden':'true'},st[k]?'▴':'▾'));
   const kv=v=>v>=1000&&v%1000===0?(v/1000)+'K':v.toLocaleString('en-IN');
   const sugg=(pool,vals,allowed,cur,curN,pick)=>{const L=vals.map(v=>[v,build(pool,v,allowed,0,null).max]).filter(x=>x[1]>0);
    return h('div',{class:'sug2'},h('small',{},L.length?'Possible now. Tap to add one:':'Not enough notes left for these bundles.'),L.map(([v,k])=>h('button',{class:'sgc','aria-pressed':String(cur===v&&curN>0),'aria-label':`Add a ₹${kv(v)} bundle, ${k} possible`,onclick:()=>pick(v)},h('b',{},'₹'+kv(v)),` × ${k} possible`)))};
   root.append(step(2,'Make bundles','A full bundle is '+st.size+' notes of one value.',
    h('div',{class:'seg sm',role:'group','aria-label':'Notes per bundle'},[100,50].map(v=>h('button',{'aria-pressed':String(st.size===v),onclick:()=>{st.size=v;resetCounts();rr()}},v))),
-   bigRows.length?bigRows:h('div',{class:'bsmall'},'No full ₹500, ₹200 or ₹100 bundle yet.'),
+   bigRows.length?bigRows:h('div',{class:'bsmall'},'No ₹500, ₹200 or ₹100 notes left.'),
    h('div',{class:'sub'},
     h('div',{class:'subh'},h('div',{},h('h4',{},'Small-note bundles'),h('small',{},'₹50, ₹20 and ₹10 notes'))),
     smallRows.length?smallRows:h('div',{class:'bsmall'},'No ₹50, ₹20 or ₹10 notes left.'),
-    h('div',{class:'subh mt'},h('div',{},h('h5',{},'Mix small notes'),h('small',{},`${fmt(st.sT)} each, from loose ₹50, ₹20, ₹10`)),
+   ),
+   h('div',{class:'mixbar'},mixBtn('openS','Mix small notes',SB.out.length,SB.out.length*st.sT),mixBtn('openM','Mixed bundles',good.length,good.length*st.mT)),
+   st.openS?h('div',{class:'sub'},
+    h('div',{class:'subh'},h('div',{},h('h4',{},'Mix small notes'),h('small',{},`${fmt(st.sT)} each, from loose ₹50, ₹20, ₹10`)),
      stepper(SB.out.length,'One less small bundle','One more small bundle',!SB.out.length,SB.out.length>=SB.max,()=>{st.sN=Math.max(0,st.sN-1);rr()},()=>{st.sN++;rr()})),
     sugg(pool1,[5000,2000,1000],SA,st.sT,SB.out.length,v=>{st.sN=st.sT===v?SB.out.length+1:1;st.sT=v;rr()}),
     optBtn('optS'),st.optS?h('div',{class:'opts'},h('label',{},'Other value'),vIn('sT','Small bundle value',()=>{st.sN=0})):null,
-    SB.out.map((b,i)=>h('div',{class:'mb'},h('div',{class:'mbt'},h('span',{},`Small mix ${i+1}`),h('b',{},fmt(st.sT))),mixTags(b.mix)))),
-   h('div',{class:'sub'},
+    SB.out.map((b,i)=>h('div',{class:'mb'},h('div',{class:'mbt'},h('span',{},`Small mix ${i+1}`),h('b',{},fmt(st.sT))),mixTags(b.mix)))):null,
+   st.openM?h('div',{class:'sub'},
     h('div',{class:'subh'},h('div',{},h('h4',{},'Mixed bundles'),h('small',{},`${fmt(st.mT)} each, from leftover notes`)),
      stepper(good.length,'One less mixed bundle','One more mixed bundle',!M.out.length,good.length>=M.max,()=>{st.mN=Math.max(0,st.mN-1);delete st.fix[st.mN];if(st.open>=st.mN)st.open=-1;rr()},()=>{st.mN++;rr()})),
     sugg(SB.pool,[50000,20000,10000],st.mUse,st.mT,good.length,v=>{if(st.mT!==v){st.fix={};st.mN=1}else st.mN=good.length+1;st.mT=v;st.open=-1;rr()}),
     optBtn('optM',D.filter(d=>st.mUse[d]).map(d=>'₹'+d).join(', ')),st.optM?[h('div',{class:'opts'},h('label',{},'Other value'),vIn('mT','Mixed bundle value',()=>{st.mN=0;st.fix={}})),
     h('div',{class:'opts'},h('label',{},'Use'),D.map(d=>chip('₹'+d,st.mUse[d],()=>{st.mUse[d]=!st.mUse[d];st.fix={};rr()})))]:null,
-    mList)));
+    mList):null));
   /* 4 check + mark */
   const lines=[['Loose notes',la],['Kept in drawer',keptAmt],['Coins + loose change',other]].filter(x=>x[1]);
   const slip=h('details',{class:'slip'},h('summary',{},'🏦 Bank deposit slip'));
