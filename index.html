@@ -272,6 +272,11 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .xc+.xc{box-shadow:0 -1px 0 #ffffff08}.xc span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}.xc small{color:var(--mu);font-weight:600}.xc .bar{margin-top:0}.xc b{font:700 15px var(--fd)}
 .xsum{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:6px;padding:9px 12px;border-radius:12px;background:#FF6F6F10;border:1px solid #FF6F6F40;color:var(--mu);font-size:13px;font-weight:700}
 .xsum b{color:#FFA0A0;font:700 16px var(--fd)}.xsum b.g{color:var(--go)}
+.bar.xb{height:3px;margin-top:4px}.bar.xb i{background:linear-gradient(90deg,#B4444A,#FF6F6F)}
+.hv{text-align:right;flex:none}.hv small{display:block;font:700 13px var(--fd);margin-top:1px}
+.mh{display:flex;align-items:baseline;gap:8px}.mh small{font:700 13px var(--fd)}
+.hl{display:flex;align-items:center;gap:6px;font-size:12px}.hl i{display:inline-block;width:14px;height:4px;border-radius:4px;margin-left:6px}.hl i:first-child{margin-left:0}
+.hl .k1{background:linear-gradient(90deg,var(--go2),var(--amb))}.hl .k2{background:#FF6F6F}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
 </style></head><body><div id="app">
@@ -400,16 +405,20 @@ const dayBtns=k=>h('div',{class:'btns'},btn('b2','notes','Note count',()=>go({t:
 function todayScreen(){const k=dkey(Date.now()),L=dayList(k),G=group(L);
  return h('div',{class:'in'},hero(VIEW?VIEW.name+"'s cash today":"Today's collection",fday(Date.now()),sum(L),[['Entries',L.length],['People',G.length]]),xCard(k),
   L.length?[h('div',{class:'sh'},h('span',{},'By person'),h('b',{},cnt(G.length,'person'))),plist(L,k),dayBtns(k)]:[empty('Nothing saved today',VIEW?'This user has no entries today.':'Count cash in the Count tab and tap Save entry.'),window.DEMO&&!VIEW?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED()):null])}
-function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.timestamp);(m.get(k)||m.set(k,[]).get(k)).push(e)});const ks=[...m.keys()].sort().reverse();
- if(!ks.length)return h('div',{class:'in'},h('h2',{class:'pt'},'History'),empty('No saved entries yet','Saved cash counts show here, grouped by day.'));
- const mx=Math.max(...ks.map(k=>sum(m.get(k))))||1,out=[];let cur='';
- ks.forEach((k,i)=>{const mk=k.slice(0,7);if(mk!==cur){cur=mk;const mt=ks.filter(x=>x.startsWith(mk)).reduce((s,x)=>s+sum(m.get(x)),0);out.push(h('div',{class:'sh'},h('span',{},kdate(k).toLocaleDateString('en-GB',{month:'long',year:'numeric'})),h('b',{},fmt(mt))))}
-  const L=m.get(k),d=kdate(k),a=sum(L);
-  out.push(h('button',{class:'li in',style:`--i:${Math.min(i,12)}`,'aria-label':`${fdate(k)}, ${cnt(L.length,'entry')}, ${fmt(a)}`,onclick:()=>go({t:'day',day:k})},h('span',{class:'dd'},h('b',{},d.getDate()),h('small',{},d.toLocaleDateString('en-GB',{weekday:'short'}))),h('div',{class:'m'},h('small',{},cnt(L.length,'entry')+', '+cnt(group(L).length,'person')),h('span',{class:'bar'},h('i',{style:`width:${Math.max(4,a/mx*100)}%`}))),h('span',{class:'v'},fmt(a)),ic('chev',16)))});
- return h('div',{class:'in'},h('h2',{class:'pt'},'History'),h('div',{class:'list'},out))}
+function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.timestamp);(m.get(k)||m.set(k,[]).get(k)).push(e)});expenses.forEach(x=>{const k=dkey(x.ts);if(!m.has(k))m.set(k,[])});const ks=[...m.keys()].sort().reverse();
+ if(!ks.length)return h('div',{class:'in'},h('h2',{class:'pt'},'History'),empty('No saved entries yet','Saved cash counts and expenses show here, grouped by day.'));
+ const xa=k=>xsum(dayX(k)),mx=Math.max(...ks.map(k=>sum(m.get(k))),1),xmx=Math.max(...ks.map(xa),1),out=[];let cur='';
+ ks.forEach((k,i)=>{const mk=k.slice(0,7);if(mk!==cur){cur=mk;const mks=ks.filter(x=>x.startsWith(mk)),mt=mks.reduce((s,x)=>s+sum(m.get(x)),0),mxa=xsum(monthX(mk));
+   out.push(h('div',{class:'sh'},h('span',{},kdate(k).toLocaleDateString('en-GB',{month:'long',year:'numeric'})),h('span',{class:'mh'},h('b',{},fmt(mt)),mxa?h('small',{class:'xv'},'− '+fmt(mxa)):null)))}
+  const L=m.get(k),d=kdate(k),a=sum(L),x=xa(k);
+  out.push(h('button',{class:'li in',style:`--i:${Math.min(i,12)}`,'aria-label':`${fdate(k)}, ${cnt(L.length,'entry')}, ${fmt(a)}`+(x?`, expenses ${fmt(x)}`:''),onclick:()=>go({t:'day',day:k})},
+   h('span',{class:'dd'},h('b',{},d.getDate()),h('small',{},d.toLocaleDateString('en-GB',{weekday:'short'}))),
+   h('div',{class:'m'},h('small',{},L.length?cnt(L.length,'entry')+', '+cnt(group(L).length,'person'):'Only expenses'),h('span',{class:'bar'},h('i',{style:`width:${a?Math.max(4,a/mx*100):0}%`})),x?h('span',{class:'bar xb'},h('i',{style:`width:${Math.max(4,x/xmx*100)}%`})):null),
+   h('span',{class:'hv'},h('span',{class:'v'},fmt(a)),x?h('small',{class:'xv'},'− '+fmt(x)):null),ic('chev',16)))});
+ return h('div',{class:'in'},h('h2',{class:'pt'},'History'),h('p',{class:'mu hl'},h('i',{class:'k1'}),'Cash collected',h('i',{class:'k2'}),'Expenses'),h('div',{class:'list'},out))}
 /* Detail views */
 const V={
- day(v){const L=dayList(v.day);if(!L.length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),hero('Day total',fday(kdate(v.day)),sum(L),[['Entries',L.length]]),xCard(v.day),h('div',{class:'sh'},h('span',{},'By person')),plist(L,v.day),dayBtns(v.day))},
+ day(v){const L=dayList(v.day);if(!L.length&&!dayX(v.day).length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),hero('Day total',fday(kdate(v.day)),sum(L),[['Entries',L.length]]),xCard(v.day),L.length?[h('div',{class:'sh'},h('span',{},'By person')),plist(L,v.day),dayBtns(v.day)]:h('p',{class:'mu',style:'margin-top:10px'},'No cash entries on this day.'))},
  notes(v){const L=dayList(v.day);if(!L.length)return null;const nc=noteCount(L),T=sum(L),ok=total(nc.d,nc.l)===T;
   const r=([k,x])=>h('div',{class:'nc'+(nc.d[k]?'':' z')},dn(k,x),h('span',{class:'qy'},'× '+nc.d[k]),h('span',{class:'am'+(nc.d[k]?' on':'')},fmt(nc.d[k]*x)));
   const sm=A=>fmt(A.reduce((s,[k,x])=>s+nc.d[k]*x,0));
