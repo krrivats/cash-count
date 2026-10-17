@@ -1,0 +1,13 @@
+rules_version = '2';
+// Firebase project: krrivats-apps (Cash Count, Workly and other small apps)
+// Paste this in Firebase console > Firestore Database > Rules > Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Each logged-in user can read/write ONLY their own folder, per app:
+    // apps/cashcount/users/{uid}/..., apps/workly/users/{uid}/...
+    match /apps/{app}/users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Everything else is locked.
+  }
+}

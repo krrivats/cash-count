@@ -1,7 +1,7 @@
 // Cash Count service worker
 // App files: network first (so updates arrive at once), cache as offline backup.
 // Change VERSION on every release.
-const VERSION='2026-10-11-3',C='cash-count-'+VERSION;
+const VERSION='2026-10-17-1',C='cash-count-'+VERSION;
 const F=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png'];
 
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting())));
@@ -23,7 +23,7 @@ function fresh(req){
   });
 }
 
-// Other sites (Google Fonts): cached copy first, refresh in background.
+// Fonts + Firebase SDK files (fixed version URLs): cached copy first, refresh in background.
 function font(req){
   return caches.match(req).then(r=>{
     const net=fetch(req).then(x=>{const cp=x.clone();caches.open(C).then(c=>c.put(req,cp));return x}).catch(()=>r);
@@ -34,5 +34,8 @@ function font(req){
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const u=new URL(e.request.url);
-  e.respondWith(u.origin===location.origin?fresh(e.request):font(e.request));
+  if(u.origin===location.origin)return e.respondWith(fresh(e.request));
+  // Only cache static files from these hosts. Never touch Firebase login/database calls.
+  const ok=u.hostname==='fonts.googleapis.com'||u.hostname==='fonts.gstatic.com'||(u.hostname==='www.gstatic.com'&&u.pathname.startsWith('/firebasejs/'));
+  if(ok)e.respondWith(font(e.request));
 });

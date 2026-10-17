@@ -217,6 +217,15 @@ h3{margin:8px 2px 4px}
 .bnote.warn+*{margin-top:0}
 .list>.b1,.list>.b2,.list>.b3{flex:none}
 .toast{white-space:nowrap}
+
+.live.off{background:#f59e0b;box-shadow:0 0 8px #f59e0b}
+.live.no{background:var(--m);box-shadow:none;animation:none}
+#login{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 18px calc(24px + env(safe-area-inset-bottom,0px));overflow:auto}
+#login form{width:100%;max-width:360px;display:flex;flex-direction:column;gap:10px}
+#login .hd{text-align:center;margin-bottom:4px}#login .hd svg{width:56px;height:56px;margin-bottom:6px}
+#login .err{color:var(--r);font-size:13px;min-height:18px;margin:0}
+#login .b2{flex:none;height:44px;border-radius:13px;width:100%}
+#login .b1{flex:none;height:46px;border-radius:13px;font-weight:700;width:100%}#login .b1:disabled{opacity:.6}
 </style><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon-192.png"></head><body><div id="app">
 <header><svg class="logo" viewBox="0 0 48 48" role="img" aria-label="Cash Count logo"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#059669"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="#0d1020" stroke="url(#lg)" stroke-width="2.5"/><circle cx="24" cy="24" r="17" fill="#121627" stroke="#10b98155" stroke-dasharray="2 3"/><path d="M16 14h16M16 20h16M16 14h6.5a6 6 0 0 1 0 12H16l11 10" fill="none" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="2.5" r="2" fill="#6ee7b7"/></svg>
 <div class="tt"><div class="ttl"><b>Cash Count</b><span id="hcredit"></span></div><small class="clk"><i class="live" aria-hidden="true"></i><span id="dt"></span></small></div><button class="gear" id="gear" aria-label="Settings"></button></header>
@@ -238,10 +247,12 @@ const fday=t=>{const d=new Date(t);return d.toLocaleDateString('en-GB',{weekday:
 const clock=()=>{const e=$('#dt');if(e)e.textContent=fday(Date.now())+' · '+ftime(Date.now())};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+/* Cloud sync stub. The Firebase module below replaces it. If Firebase can't load (offline), the app keeps working on this device. */
+window.Cloud={push(){},info(){return h('p',{class:'mu'},'☁️ Cloud sync not connected yet. Your data is safe on this device.')}};
 const cnt=(n,w)=>w==='entry'?n+(n===1?' entry':' entries'):n+(n===1?' person':' people');
 const valid=e=>e&&typeof e.id==='string'&&typeof e.person==='string'&&typeof e.amount==='number'&&typeof e.timestamp==='number'&&typeof e.looseChange==='number'&&e.denominations&&typeof e.denominations==='object'&&ALL.every(([k])=>Number.isInteger(e.denominations[k])&&e.denominations[k]>=0)&&(e.note==null||typeof e.note==='string');
 let entries=(()=>{try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(a)?a.filter(valid):[]}catch(e){return[]}})();
-const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(entries))}catch(e){}};
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(entries))}catch(e){}Cloud.push()};
 const asc=()=>entries.slice().sort((a,b)=>a.timestamp-b.timestamp);
 const names=()=>{const m=new Map();asc().forEach(e=>{const l=e.person.toLowerCase();if(!m.has(l))m.set(l,e.person)});return[...m.values()]};
 const canon=n=>{n=(n||'').trim()||'General';const l=n.toLowerCase();const f=asc().find(e=>e.person.toLowerCase()===l);return f?f.person:n};
@@ -343,7 +354,7 @@ const V={
   const mk=markOf(e.id);return h('div',{class:'in'},bar('Edit entry',fdate(dkey(e.timestamp))+' · '+ftime(e.timestamp)),mk?h('div',{class:'bnote warn'},`⚠️ Already bundled at ${ftime(mk.ts)}. Changes here will not update that bundle.`):null,h('label',{class:'fl'},'Person / Source'),p.el,h('label',{class:'fl'},'Note'),n,c.el,h('div',{class:'tot',style:'margin-top:10px'},h('small',{},'TOTAL CASH'),b),
   h('div',{class:'btns'},btn('b3','trash','Delete',()=>delAsk(e)),btn('b1','save','Save Changes',()=>{const t=total(st.d,st.l);if(!t)return toast('Total is ₹0');checkOdd(st.d,st.l,()=>{Object.assign(e,{person:p.get(),note:n.value.trim(),denominations:{...st.d},looseChange:st.l,amount:t});persist();toast('✓ Changes saved');back()})})))},
  settings(){const f=h('input',{type:'file',accept:'.json,application/json',style:'display:none','aria-label':'Choose backup file'});f.onchange=async()=>{if(f.files[0])tryImport(await f.files[0].text())};
-  return h('div',{class:'in'},bar('Settings'),h('h3',{},'BACKUP'),h('div',{class:'list'},btn('b2','down','Export Backup',exportB),btn('b2','up','Import Backup',()=>importModal(f)),f),h('h3',{},'DATA'),btn('b3','trash','Clear All Data',()=>ask('Delete all data?','This will permanently delete all saved cash records from this browser.','Delete All Data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}S.stack=[];render();toast('All data deleted')})),h('p',{class:'mu',style:'margin-top:14px'},`${entries.length} ${entries.length===1?'entry':'entries'} stored locally in this browser.`),h('p',{class:'mu'},lastBackup()?`Last backup: ${fday(lastBackup())} · ${ftime(lastBackup())} (${ago(lastBackup())})`:'No backup saved yet. A reminder appears every 7 days.'),h('p',{class:'mu'},`${marks.length} bundle ${marks.length===1?'mark':'marks'} saved. They are included in your backup.`),h('p',{class:'mu'},'All data stays on your device. Nothing is sent to any server.'),credit(true))}};
+  return h('div',{class:'in'},bar('Settings'),h('h3',{},'BACKUP'),h('div',{class:'list'},btn('b2','down','Export Backup',exportB),btn('b2','up','Import Backup',()=>importModal(f)),f),h('h3',{},'DATA'),btn('b3','trash','Clear All Data',()=>ask('Delete all data?','This will permanently delete all saved cash records from this device AND your cloud account.','Delete All Data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),h('p',{class:'mu',style:'margin-top:14px'},`${entries.length} ${entries.length===1?'entry':'entries'} saved.`),h('p',{class:'mu'},lastBackup()?`Last backup: ${fday(lastBackup())} · ${ftime(lastBackup())} (${ago(lastBackup())})`:'No backup saved yet. A reminder appears every 7 days.'),h('p',{class:'mu'},`${marks.length} bundle ${marks.length===1?'mark':'marks'} saved. They are included in your backup.`),Cloud.info(),credit(true))}};
 function delAsk(e){const mk=markOf(e.id);ask(mk?'⚠️ Delete a bundled entry?':'Delete this cash entry?',mk?`This entry is already in a bundle marked at ${ftime(mk.ts)}. Deleting it will NOT change that bundle or the carried cash. You can undo for 5 seconds.`:'You can undo this for 5 seconds.','Delete',()=>{entries=entries.filter(x=>x.id!==e.id);persist();render();
  undoToast('🗑️ Entry deleted',()=>{if(!entries.some(x=>x.id===e.id))entries.push(e);persist();render();toast('↩️ Entry restored')})})}
 function undoToast(m,fn){document.querySelectorAll('.toast').forEach(x=>x.remove());let live=true;
@@ -373,12 +384,12 @@ function tryImport(text){let j;try{j=JSON.parse(text)}catch(e){}
  if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))){const c=modal(h('h2',{},'Import Failed'),h('p',{class:'mu'},'Invalid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
  const n=j.entries.length,mode=h('input',{type:'radio',name:'m',value:'merge',checked:''}),rep=h('input',{type:'radio',name:'m',value:'replace'});
  const jb=j.bundles||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice()}else{const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
- const c=modal(h('h2',{},`Import ${n} ${n===1?'entry':'entries'}`+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current local entries will be deleted and replaced by the backup.','Replace',apply):apply()}},'Import')))}
+ const c=modal(h('h2',{},`Import ${n} ${n===1?'entry':'entries'}`+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current entries will be deleted (here and in the cloud) and replaced by the backup.','Replace',apply):apply()}},'Import')))}
 /* Bundles: full 100-note bundles, mixed + small-note bundles, change kept in drawer, "since last bundle" */
 const BK='cash-count-bundles',KK='cash-count-keep';
 function validMark(m){return!!m&&typeof m.id==='string'&&typeof m.ts==='number'&&Array.isArray(m.ids)&&m.ids.every(x=>typeof x==='string')&&typeof m.amount==='number'&&typeof m.n==='number'&&!!m.carry&&typeof m.carry.o==='number'&&!!m.carry.d&&typeof m.carry.d==='object'}
 let marks=(()=>{try{const a=JSON.parse(localStorage.getItem(BK)||'[]');return Array.isArray(a)?a.filter(validMark):[]}catch(e){return[]}})();
-const saveMarks=()=>{try{localStorage.setItem(BK,JSON.stringify(marks))}catch(e){}};
+const saveMarks=()=>{try{localStorage.setItem(BK,JSON.stringify(marks))}catch(e){}Cloud.push()};
 const markOf=id=>marks.find(m=>m.ids.includes(id));
 const Bundles=(()=>{
  const D=[500,200,100,50,20,10],SMALL=[50,20,10],NK={500:'n500',200:'n200',100:'n100',50:'n50',20:'n20',10:'n10'};
@@ -500,7 +511,7 @@ const Bundles=(()=>{
   /* summary */
   root.append(h('div',{class:'bsum',role:'status','aria-live':'polite'},h('div',{},h('small',{},'TOTAL'),h('b',{},fmt(total))),h('div',{},h('small',{},`BUNDLED · ${bN}`),h('b',{},fmt(bundled))),h('div',{class:'lo'},h('small',{},'STAYS'),h('b',{},fmt(stay)))));
   /* keep change */
-  root.append(h('div',{class:'bcard'},h('div',{class:'bhd'},h('h4',{},'🪙 Keep change in drawer'),h('div',{class:'bchips'},...[[0,'Off'],[2000,'2K'],[3000,'3K'],[5000,'5K']].map(([v,t])=>chip(t,st.keep===v,()=>{st.keep=v;ls.set(KK,String(v));resetCounts();rr()},true)))),
+  root.append(h('div',{class:'bcard'},h('div',{class:'bhd'},h('h4',{},'🪙 Keep change in drawer'),h('div',{class:'bchips'},...[[0,'Off'],[2000,'2K'],[3000,'3K'],[5000,'5K']].map(([v,t])=>chip(t,st.keep===v,()=>{st.keep=v;ls.set(KK,String(v));Cloud.push();resetCounts();rr()},true)))),
    h('div',{class:'bsmall'},st.keep?(keptAmt?`${fmt(keptAmt)} kept: ${mixText(kept)}`+(keptAmt<st.keep?` · short ${fmt(st.keep-keptAmt)}`:''):'No small notes to keep.'):'Off. All notes can go into bundles.')));
   /* bundles card */
   const mList=M.out.map((b,i)=>mixedCard(b,i));
@@ -584,4 +595,90 @@ document.querySelectorAll('nav button').forEach(b=>{b.prepend(ic(b.dataset.t,20)
 $('#gear').append(ic('gear',18));$('#hcredit').replaceWith(credit().firstChild);$('#gear').onclick=()=>{S.stack=[{t:'settings'}];render()};
 render();setInterval(clock,5000);setTimeout(checkBackup,900);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){clock();checkBackup()}});
-</script><script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}))</script></body></html>
+</script>
+<script type="module">
+/* ☁️ Cloud login + sync with Firebase (project: krrivats-apps).
+   Data lives at apps/cashcount/users/{uid}/entries, /bundles and /meta/settings.
+   The app still saves to localStorage first, so it works offline; this module syncs it. */
+import{initializeApp}from'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from'https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js';
+import{initializeFirestore,persistentLocalCache,persistentMultipleTabManager,collection,doc,onSnapshot,writeBatch}from'https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js';
+/* Public web config (safe to ship; the Firestore rules protect the data) */
+const FB={apiKey:'AIzaSyByqlctEiwbtZavame1UvScOMpBlr6jiKY',authDomain:'krrivats-apps.firebaseapp.com',projectId:'krrivats-apps',storageBucket:'krrivats-apps.firebasestorage.app',messagingSenderId:'1096380064530',appId:'1:1096380064530:web:806e849009aaa51a47c9cb'};
+const APP='cashcount',DOMAIN='krrivats.app',SB='cash-count-sync',GK='cash-count-guest';
+const isGuest=()=>ls.get(GK)==='1';
+const fa=initializeApp(FB),auth=getAuth(fa);
+let db;try{db=initializeFirestore(fa,{ignoreUndefinedProperties:true,localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){db=initializeFirestore(fa,{ignoreUndefinedProperties:true})}
+/* Helpers */
+const ck=o=>JSON.stringify(o,(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}):v); // same data -> same text
+const byId=L=>Object.fromEntries(L.map(x=>[x.id,x]));
+const strs=M=>Object.fromEntries(Object.entries(M).map(([i,o])=>[i,ck(o)]));
+const keepNow=()=>+ls.get(KK)||0;
+const col=n=>collection(db,'apps',APP,'users',user.uid,n),ref=(n,i)=>doc(db,'apps',APP,'users',user.uid,n,i),sref=()=>doc(db,'apps',APP,'users',user.uid,'meta','settings');
+const short=e=>e&&e.endsWith('@'+DOMAIN)?e.split('@')[0]:e||'';
+let user=null,live=false,offs=[],got={},pend={},base=null,timer=0;
+/* base = what the cloud had at the last sync. Comparing local vs cloud vs base tells us who changed what. */
+const loadBase=u=>{try{const b=JSON.parse(ls.get(SB)||'null');if(b&&b.uid===u)return b}catch(e){}return{uid:u,e:{},b:{},k:null}};
+const saveBase=()=>ls.set(SB,JSON.stringify(base));
+const saveLocal=()=>{ls.set(KEY,JSON.stringify(entries));ls.set(BK,JSON.stringify(marks))};
+const sortAll=()=>{entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts)};
+function dot(){const d=$('.live');if(!d)return;const p=Object.values(pend).some(Boolean);d.classList.toggle('no',!user);d.title=user?'':isGuest()?'Guest mode':'';d.classList.toggle('off',!!user&&(!live||p))}
+function refresh(){const t=S.stack[S.stack.length-1],a=document.activeElement;
+ if(t&&t.t==='edit')return;if(!t&&S.tab==='calc')return;if(a&&a.matches&&a.matches('#main input,#main textarea'))return;render()}
+function fail(e){console.error('Cloud:',e);toast(e&&e.code==='permission-denied'?'⚠️ Cloud blocked. Check Firestore rules.':'⚠️ Cloud sync problem. Data is safe on this device.')}
+function commit(ops){for(let i=0;i<ops.length;i+=400){const b=writeBatch(db);ops.slice(i,i+400).forEach(([r,o])=>o?b.set(r,o):b.delete(r));b.commit().catch(fail)}}
+/* 3-way merge: local, cloud, base (by id) */
+function m3(L,C,B){const out={},w=[];new Set([...Object.keys(L),...Object.keys(C),...Object.keys(B)]).forEach(id=>{const l=L[id]?ck(L[id]):undefined,c=C[id]?ck(C[id]):undefined,b=B[id];let r;
+ if(l===c)r=C[id];else if(c===b){r=L[id];w.push([id,L[id]||null])}else if(l===b)r=C[id];else{r=C[id]||L[id];if(!C[id])w.push([id,L[id]])}
+ if(r)out[id]=r});return{out,w}}
+function k3(l,c,b){if(l===c)return{v:c};if(c===b)return{v:l,w:true};if(l===b)return{v:c??l};return{v:c??l}}
+function merge(){live=true;
+ const E=m3(byId(entries),got.e,base.e),B=m3(byId(marks),got.b,base.b),K=k3(keepNow(),got.k,base.k);
+ entries=Object.values(E.out).filter(valid);marks=Object.values(B.out).filter(validMark);sortAll();
+ if(K.v!=null)ls.set(KK,String(K.v));saveLocal();
+ base={uid:user.uid,e:strs(byId(entries)),b:strs(byId(marks)),k:K.v??null};saveBase();
+ const ops=[...E.w.map(([i,o])=>[ref('entries',i),o]),...B.w.map(([i,o])=>[ref('bundles',i),o])];if(K.w)ops.push([sref(),{keepChange:K.v}]);
+ commit(ops);if(ops.length)toast('☁️ Synced '+ops.length+' change'+(ops.length===1?'':'s'));dot();refresh()}
+/* Cloud -> device */
+function apply(kind,M){if(kind==='k'){if(M!=null&&M!==keepNow())ls.set(KK,String(M));if(M!=null)base.k=M;saveBase();return}
+ const Sx=strs(M),Bx=base[kind],ks=Object.keys(Sx);if(ks.length===Object.keys(Bx).length&&ks.every(i=>Sx[i]===Bx[i]))return;
+ if(kind==='e')entries=Object.values(M).filter(valid);else marks=Object.values(M).filter(validMark);sortAll();
+ base[kind]=Sx;saveBase();saveLocal();refresh()}
+function listen(){got={};pend={};
+ const on=(kind,map)=>s=>{pend[kind]=s.metadata.hasPendingWrites;
+  if(!live){if(s.metadata.fromCache){dot();return}got[kind]=map(s);if('e' in got&&'b' in got&&'k' in got)merge();else dot();return}
+  apply(kind,map(s));dot()};
+ const docs=s=>Object.fromEntries(s.docs.map(d=>[d.id,{...d.data(),id:d.id}]));
+ const o={includeMetadataChanges:true};
+ offs=[onSnapshot(col('entries'),o,on('e',docs),fail),onSnapshot(col('bundles'),o,on('b',docs),fail),
+  onSnapshot(sref(),o,on('k',s=>s.exists()&&typeof s.data().keepChange==='number'?s.data().keepChange:null),fail)]}
+/* Device -> cloud (called by persist / saveMarks) */
+function push(){if(!live)return;clearTimeout(timer);timer=setTimeout(()=>{if(!live)return;const ops=[];
+ const diff=(L,B,n)=>{const M=byId(L),Sx=strs(M);Object.keys(Sx).forEach(i=>{if(Sx[i]!==B[i])ops.push([ref(n,i),M[i]])});Object.keys(B).forEach(i=>{if(!(i in Sx))ops.push([ref(n,i),null])});return Sx};
+ base.e=diff(entries,base.e,'entries');base.b=diff(marks,base.b,'bundles');const k=keepNow();if(k!==base.k){ops.push([sref(),{keepChange:k}]);base.k=k}
+ saveBase();commit(ops)},0)}
+/* Sign out: data stays in the cloud, removed from this device */
+async function out(){offs.forEach(f=>f());offs=[];live=false;try{await signOut(auth)}catch(e){}
+ entries=[];marks=[];[KEY,BK,KK,SB].forEach(k=>ls.del(k));S.stack=[];S.tab='calc';render();toast('Signed out')}
+function info(){if(!user&&isGuest())return h('div',{},h('h3',{},'CLOUD'),h('p',{class:'mu'},'👤 Guest mode · data is saved only on this device. Nothing is synced.'),
+  h('button',{class:'b1',style:'width:100%',onclick:()=>ask('Log in with your ID?','Guest test data on this device will be deleted. Export a backup first if you want to keep it.','Delete & Log in',()=>{entries=[];marks=[];[KEY,BK,KK,GK].forEach(k=>ls.del(k));S.stack=[];S.tab='calc';render();showLogin()})},'Log in to sync'));
+ if(!user)return h('p',{class:'mu'},'Not signed in.');const p=Object.values(pend).some(Boolean);
+ return h('div',{},h('h3',{},'CLOUD'),h('p',{class:'mu'},(live?(p?'⏳ Saving to cloud…':'☁️ Synced to cloud'):'⏳ Waiting for internet to sync…')+' · Logged in as '+short(user.email)),
+  h('button',{class:'b2',style:'width:100%',onclick:()=>ask('Sign out?',(p||!live?'⚠️ Some changes are not synced yet. Go online first, or they will be lost. ':'')+'Your data stays safe in the cloud and comes back when you log in again.','Sign out',out)},'Sign out'))}
+/* Login screen */
+const MSG={'auth/invalid-credential':'Wrong username or password.','auth/wrong-password':'Wrong username or password.','auth/user-not-found':'Wrong username or password.','auth/invalid-email':'Check the username.','auth/user-disabled':'This account is turned off. Contact Krrivats.','auth/too-many-requests':'Too many tries. Wait a few minutes.','auth/network-request-failed':'No internet. Connect and try again.'};
+function showLogin(){if($('#login'))return;
+ const u=h('input',{class:'tx',type:'text',autocomplete:'username',autocapitalize:'none',spellcheck:'false',placeholder:'Username or email','aria-label':'Username or email'}),
+  p=h('input',{class:'tx',type:'password',autocomplete:'current-password',placeholder:'Password','aria-label':'Password'}),
+  er=h('p',{class:'err',role:'alert'}),b=h('button',{class:'b1',type:'submit'},'Log in'),lg=$('header svg.logo');
+ const f=h('form',{onsubmit:async e=>{e.preventDefault();er.textContent='';let id=u.value.trim(),pw=p.value;if(!id||!pw){er.textContent='Enter username and password.';return}
+  if(!id.includes('@'))id=id.toLowerCase()+'@'+DOMAIN;b.disabled=true;b.textContent='Logging in…';
+  try{await signInWithEmailAndPassword(auth,id,pw)}catch(x){er.textContent=MSG[x.code]||('Login failed ('+(x.code||'error')+').')}b.disabled=false;b.textContent='Log in'}},
+  h('div',{class:'hd'},lg?lg.cloneNode(true):null,h('h2',{},'Cash Count'),h('p',{class:'mu'},'Log in to sync your cash records on all devices.')),u,p,er,b,h('button',{class:'b2',type:'button',onclick:()=>{ls.set(GK,'1');hideLogin();dot();toast('👤 Guest mode: data stays on this device')}},'Continue as Guest'),h('p',{class:'mu',style:'text-align:center;font-size:12px'},'Guest = try the app without an ID. Data is not synced.'),credit(true));
+ document.body.append(h('div',{id:'login',role:'dialog','aria-modal':'true','aria-label':'Log in'},f));setTimeout(()=>u.focus(),60)}
+const hideLogin=()=>{const l=$('#login');l&&l.remove()};
+Object.assign(window.Cloud,{push,info});
+onAuthStateChanged(auth,u=>{offs.forEach(f=>f());offs=[];live=false;user=u;
+ if(u){if(isGuest()){ls.del(GK);entries=[];marks=[];[KEY,BK,KK].forEach(k=>ls.del(k))}hideLogin();base=loadBase(u.uid);listen()}else if(!isGuest())showLogin();dot();const t=S.stack[S.stack.length-1];if(t&&t.t==='settings')render()});
+</script>
+<script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}))</script></body></html>
