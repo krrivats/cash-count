@@ -260,6 +260,18 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .mixb{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px 10px;border-radius:12px;background:var(--p2);border:1px solid var(--ln2);text-align:left;font-weight:800;font-size:13px}
 .mixb small{display:block;color:var(--mu);font-size:11px;font-weight:600}
 .mixb i{font-style:normal;color:var(--amb)}.mixb.on{border-color:#FFB54799;background:#FFB54714}
+.dbar{display:flex;align-items:center;gap:8px;margin:2px 0 8px}
+.dsel{position:relative;flex:1;min-width:0;text-align:center;padding:5px 8px;border-radius:12px;background:var(--p1);border:1px solid var(--ln);cursor:pointer}
+.dsel b{display:block;font:700 18px/1.1 var(--fd)}.dsel small{display:block;color:var(--mu);font-size:11.5px}
+.xd{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0}
+.bk:disabled{opacity:.35}
+.xf{display:flex;flex-direction:column;gap:6px;padding:10px;margin-top:8px}
+.xf .sug{margin-top:0}.xrow{display:grid;grid-template-columns:1fr 1.3fr;gap:6px}
+.xv{color:#FFA0A0}
+.xc{display:grid;grid-template-columns:minmax(0,1.2fr) 1fr auto;align-items:center;gap:8px;min-height:36px;padding:0 4px}
+.xc+.xc{box-shadow:0 -1px 0 #ffffff08}.xc span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}.xc small{color:var(--mu);font-weight:600}.xc .bar{margin-top:0}.xc b{font:700 15px var(--fd)}
+.xsum{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin-top:6px;padding:9px 12px;border-radius:12px;background:#FF6F6F10;border:1px solid #FF6F6F40;color:var(--mu);font-size:13px;font-weight:700}
+.xsum b{color:#FFA0A0;font:700 16px var(--fd)}.xsum b.g{color:var(--go)}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
 </style></head><body><div id="app">
@@ -275,7 +287,7 @@ const NOTES=[['n500',500],['n200',200],['n100',100],['n50',50],['n20',20],['n10'
 /* Real note colours */
 const DC={n500:'--d500',n200:'--d200',n100:'--d100',n50:'--d50',n20:'--d20',n10:'--d10',c5:'--dc',c2:'--dc',c1:'--dc'};
 const DV=d=>DC['n'+d]||'--dc';
-const I={calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',bund:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',notes:'<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>'};
+const I={exp:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',bund:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',notes:'<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>'};
 function h(t,a,...c){const e=document.createElement(t);for(const k in a||{}){const v=a[k];if(v==null)continue;if(k==='class')e.className=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}c.flat(9).forEach(x=>x!=null&&x!==false&&e.append(x.nodeType?x:document.createTextNode(x)));return e}
 const ic=(n,s=20)=>{const w=document.createElement('span');w.className='ic';w.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;return w};
 const $=s=>document.querySelector(s);
@@ -380,12 +392,13 @@ function dayText(k,onlyNotes){const L=dayList(k),G=group(L),nc=noteCount(L),T=su
   t.push('','👥 *BY PERSON*',tbl(P))}
  const N=[r3('Note','Qty','Amount'),SEP];ALL.forEach(([q,x])=>{if(nc.d[q])N.push(r3('₹'+x,nf(nc.d[q]),fmt(nc.d[q]*x)))});if(nc.l)N.push(r3('Loose','',fmt(nc.l)));
  N.push(SEP,r3('Total',nf(cntOf(nc.d,ALL)),fmt(total(nc.d,nc.l))));
- t.push('','🧮 *NOTES & COINS*',tbl(N),'','📊 *SUMMARY*',`💵 Notes: *${nf(cntOf(nc.d,NOTES))}*   🪙 Coins: *${nf(cntOf(nc.d,COINS))}*`,`🧾 Entries: *${L.length}*   👥 People: *${G.length}*`,`✅ *TOTAL: ${fmt(T)}*`);
+ const XL=dayX(k);if(XL.length){const rx=(n,v)=>padE(n,18)+pad(v,TW-18);const X=[rx('Item','Amount'),SEP,...XL.map(x=>rx(x.name,fmt(x.amount))),SEP,rx('Total',fmt(xsum(XL)))];t.push('','🧮 *NOTES & COINS*',tbl(N),'','💸 *EXPENSES*',tbl(X))}else t.push('','🧮 *NOTES & COINS*',tbl(N));
+ t.push('','📊 *SUMMARY*',`💵 Notes: *${nf(cntOf(nc.d,NOTES))}*   🪙 Coins: *${nf(cntOf(nc.d,COINS))}*`,`🧾 Entries: *${L.length}*   👥 People: *${G.length}*`,`✅ *TOTAL: ${fmt(T)}*`,...(XL.length?[`💸 Expenses: *${fmt(xsum(XL))}*`,`💰 *NET CASH: ${fmt(T-xsum(XL))}*`]:[]));
  return t.join('\n')}
 function shareDay(k,onlyNotes){const u='https://api.whatsapp.com/send?text='+encodeURIComponent(dayText(k,onlyNotes));const w=window.open(u,'_blank');if(!w)location.href=u}
 const dayBtns=k=>h('div',{class:'btns'},btn('b2','notes','Note count',()=>go({t:'notes',day:k}),'Open note count for this day'),btn('b1 wa','wa','Share',()=>shareDay(k),'Share day summary on WhatsApp'));
 function todayScreen(){const k=dkey(Date.now()),L=dayList(k),G=group(L);
- return h('div',{class:'in'},hero(VIEW?VIEW.name+"'s cash today":"Today's collection",fday(Date.now()),sum(L),[['Entries',L.length],['People',G.length]]),
+ return h('div',{class:'in'},hero(VIEW?VIEW.name+"'s cash today":"Today's collection",fday(Date.now()),sum(L),[['Entries',L.length],['People',G.length]]),xCard(k),
   L.length?[h('div',{class:'sh'},h('span',{},'By person'),h('b',{},cnt(G.length,'person'))),plist(L,k),dayBtns(k)]:[empty('Nothing saved today',VIEW?'This user has no entries today.':'Count cash in the Count tab and tap Save entry.'),window.DEMO&&!VIEW?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED()):null])}
 function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.timestamp);(m.get(k)||m.set(k,[]).get(k)).push(e)});const ks=[...m.keys()].sort().reverse();
  if(!ks.length)return h('div',{class:'in'},h('h2',{class:'pt'},'History'),empty('No saved entries yet','Saved cash counts show here, grouped by day.'));
@@ -396,7 +409,7 @@ function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.times
  return h('div',{class:'in'},h('h2',{class:'pt'},'History'),h('div',{class:'list'},out))}
 /* Detail views */
 const V={
- day(v){const L=dayList(v.day);if(!L.length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),hero('Day total',fday(kdate(v.day)),sum(L),[['Entries',L.length]]),h('div',{class:'sh'},h('span',{},'By person')),plist(L,v.day),dayBtns(v.day))},
+ day(v){const L=dayList(v.day);if(!L.length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),hero('Day total',fday(kdate(v.day)),sum(L),[['Entries',L.length]]),xCard(v.day),h('div',{class:'sh'},h('span',{},'By person')),plist(L,v.day),dayBtns(v.day))},
  notes(v){const L=dayList(v.day);if(!L.length)return null;const nc=noteCount(L),T=sum(L),ok=total(nc.d,nc.l)===T;
   const r=([k,x])=>h('div',{class:'nc'+(nc.d[k]?'':' z')},dn(k,x),h('span',{class:'qy'},'× '+nc.d[k]),h('span',{class:'am'+(nc.d[k]?' on':'')},fmt(nc.d[k]*x)));
   const sm=A=>fmt(A.reduce((s,[k,x])=>s+nc.d[k]*x,0));
@@ -426,7 +439,7 @@ const V={
   return h('div',{class:'in'},bar('Profile'),
    h('div',{class:'pf'},av(name),h('div',{style:'min-width:0'},h('b',{},name),h('small',{},sub),h('span',{class:'tag'},role))),
    h('div',{class:'sh'},h('span',{},VIEW?'Numbers for '+VIEW.name:'Your numbers')),
-   h('div',{class:'stg'},tile('This month',fmt(sum(mE))),tile('All time',fmt(sum(entries))),tile('Entries',entries.length),tile('Days counted',days),tile('People',ppl),tile('Bundle marks',marks.length)),
+   h('div',{class:'stg'},tile('This month',fmt(sum(mE))),tile('All time',fmt(sum(entries))),tile('Entries',entries.length),tile('Days counted',days),tile('People',ppl),tile('Bundle marks',marks.length),tile('Expenses this month',fmt(xsum(monthX(mk)))),tile('Net this month',fmt(sum(mE)-xsum(monthX(mk))))),
    h('div',{class:'sh'},h('span',{},'Account'),h('b',{style:'font:600 13px var(--f);color:var(--mu)'},sync)),accountBlock(),
    h('div',{class:'btns'},btn('b2','gear','Settings and backup',()=>{S.stack=[{t:'settings'}];render()})),
    credit(true))},
@@ -437,11 +450,11 @@ const V={
    h('div',{class:'sh'},h('span',{},'Backup'),h('b',{},lb?ago(lb):'never')),
    h('div',{class:'btns',style:'margin-top:0'},btn('b2','down','Export',exportB,'Export backup'),VIEW?null:btn('b2','up','Import',()=>importModal(f),'Import backup')),f,
    h('p',{class:'mu',style:'margin-top:8px'},VIEW?`Export saves ${VIEW.name}'s data.`:lb?`Last backup ${fday(lb)}, ${ftime(lb)}.`:'No backup yet. A reminder appears every 7 days.'),
-   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${marks.length} bundle ${marks.length===1?'mark':'marks'}`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),window.DEMO?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED(),'Add sample data'):null],
+   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${expenses.length} expenses, ${marks.length} marks`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];expenses=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK);localStorage.removeItem(XK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),window.DEMO?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED(),'Add sample data'):null],
    credit(true))}};
 function accountBlock(){const u=CS.user;
  if(!Cloud.signIn)return h('div',{class:'acc'},av('D'),h('div',{class:'m'},h('b',{},'This device only'),h('small',{},'Cloud sync is not connected. Data is saved on this phone.')));
- if(!u&&isGuest())return h('div',{class:'acc'},av('G'),h('div',{class:'m'},h('b',{},'Guest'),h('small',{},'Data stays on this device. Nothing is synced.')),h('button',{class:'pill',onclick:()=>ask('Log in with your ID?','Guest data on this device will be deleted. Export a backup first if you want to keep it.','Delete and log in',()=>{entries=[];marks=[];[KEY,BK,KK,GK].forEach(k=>ls.del(k));S.stack=[];S.tab='calc';render();gate()})},'Log in'));
+ if(!u&&isGuest())return h('div',{class:'acc'},av('G'),h('div',{class:'m'},h('b',{},'Guest'),h('small',{},'Data stays on this device. Nothing is synced.')),h('button',{class:'pill',onclick:()=>ask('Log in with your ID?','Guest data on this device will be deleted. Export a backup first if you want to keep it.','Delete and log in',()=>{entries=[];marks=[];expenses=[];[KEY,BK,KK,GK,XK].forEach(k=>ls.del(k));S.stack=[];S.tab='calc';render();gate()})},'Log in'));
  if(!u)return h('div',{class:'acc'},h('div',{class:'m'},h('b',{},'Not logged in')));
  const s=!CS.live?'Waiting for internet to sync':CS.pend?'Saving to cloud…':'☁️ Synced to cloud';
  return h('div',{class:'acc'},av(u.name),h('div',{class:'m'},h('b',{},u.name+(u.admin?' (admin)':'')),h('small',{},s)),h('button',{class:'pill',onclick:()=>ask('Sign out?',(CS.pend||!CS.live?'⚠️ Some changes are not synced yet. Go online first, or they will be lost. ':'')+'Your data stays safe in the cloud and comes back when you log in again.','Sign out',()=>Cloud.signOut())},'Sign out'))}
@@ -470,17 +483,17 @@ const ago=t=>{const d=Math.floor((Date.now()-t)/DAY);return d<1?'today':d===1?'1
 function checkBackup(){if(VIEW)return;$('#gear').classList.toggle('due',backupDue());if(!backupDue()||document.querySelector('.ov,#login')||Date.now()-(+ls.get(SNZ)||0)<DAY)return;
  const lb=lastBackup(),c=modal(h('h2',{},'💾 Time for a backup'),h('p',{class:'mu'},(lb?'Your last backup was '+ago(lb)+'.':'You have not saved a backup yet.')+' Save one now so your cash records are safe if this phone is lost or reset.'),
   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>{ls.set(SNZ,String(Date.now()));c()}},'Later'),h('button',{class:'b1',onclick:()=>{c();exportB()}},'Back up now')))}
-function exportB(){if(!VIEW){ls.set(LB,String(Date.now()));ls.del(SNZ)}render();const who=VIEW?'-'+VIEW.name.replace(/\W+/g,''):'';const name=`cash-count-backup${who}-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:2,exportedAt:new Date().toISOString(),entries,bundles:marks,keepChange:+ls.get(KK)||0},null,2);
+function exportB(){if(!VIEW){ls.set(LB,String(Date.now()));ls.del(SNZ)}render();const who=VIEW?'-'+VIEW.name.replace(/\W+/g,''):'';const name=`cash-count-backup${who}-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:3,exportedAt:new Date().toISOString(),entries,bundles:marks,expenses,keepChange:+ls.get(KK)||0},null,2);
  try{const a=h('a',{href:URL.createObjectURL(new Blob([txt],{type:'application/json'})),download:name});document.body.append(a);a.click();a.remove()}catch(e){}
  const ta=h('textarea',{class:'tx',readonly:'','aria-label':'Backup JSON'});ta.value=txt;ta.onfocus=()=>ta.select();
  const c=modal(h('h2',{},'Export backup'),h('p',{class:'mu'},name+'. If the download was blocked, copy the text below and save it as a .json file.'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Close'),h('button',{class:'b1',onclick:()=>{ta.select();try{document.execCommand('copy');navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}toast('Copied')}},'Copy')))}
 function importModal(f){const ta=h('textarea',{class:'tx','aria-label':'Paste backup JSON',placeholder:'…or paste backup text here'});
  const c=modal(h('h2',{},'Import backup'),h('button',{class:'b2',style:'width:100%',onclick:()=>{c();f.click()}},'Choose backup file'),h('label',{class:'fl'},'Or paste the backup text'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();tryImport(ta.value)}},'Continue')))}
 function tryImport(text){if(VIEW)return;let j;try{j=JSON.parse(text)}catch(e){}
- if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))){const c=modal(h('h2',{},'Import failed'),h('p',{class:'mu'},'This is not a valid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
+ if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))||(j.expenses!=null&&!(Array.isArray(j.expenses)&&j.expenses.every(validX)))){const c=modal(h('h2',{},'Import failed'),h('p',{class:'mu'},'This is not a valid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
  const n=j.entries.length,mode=h('input',{type:'radio',name:'m',value:'merge',checked:''}),rep=h('input',{type:'radio',name:'m',value:'replace'});
- const jb=j.bundles||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice()}else{const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
- const c=modal(h('h2',{},`Import ${cnt(n,'entry')}`+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current entries will be deleted (here and in the cloud) and replaced by the backup.','Replace',apply):apply()}},'Import')))}
+ const jb=j.bundles||[],jx=j.expenses||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice();expenses=jx.slice()}else{const xi=new Set(expenses.map(x=>x.id));expenses=expenses.concat(jx.filter(x=>!xi.has(x.id)));const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();saveX();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
+ const c=modal(h('h2',{},`Import ${cnt(n,'entry')}`+(jx.length?` + ${jx.length} expenses`:'')+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current entries will be deleted (here and in the cloud) and replaced by the backup.','Replace',apply):apply()}},'Import')))}
 /* Bundles: full 100-note bundles, mixed + small-note bundles, change kept in drawer, "since last bundle" */
 const BK='cash-count-bundles',KK='cash-count-keep';
 function validMark(m){return!!m&&typeof m.id==='string'&&typeof m.ts==='number'&&Array.isArray(m.ids)&&m.ids.every(x=>typeof x==='string')&&typeof m.amount==='number'&&typeof m.n==='number'&&!!m.carry&&typeof m.carry.o==='number'&&!!m.carry.d&&typeof m.carry.d==='object'}
@@ -488,6 +501,46 @@ const loadM=()=>{try{const a=JSON.parse(localStorage.getItem(BK)||'[]');return A
 let marks=loadM();
 const saveMarks=()=>{if(VIEW)return;try{localStorage.setItem(BK,JSON.stringify(marks))}catch(e){}Cloud.push()};
 const markOf=id=>marks.find(m=>m.ids.includes(id));
+/* Expenses: money paid out on a day (tea, generator diesel, repairs...) */
+const XK='cash-count-expenses';
+const validX=x=>!!x&&typeof x.id==='string'&&typeof x.name==='string'&&typeof x.amount==='number'&&x.amount>0&&typeof x.ts==='number'&&(x.note==null||typeof x.note==='string');
+const loadX=()=>{try{const a=JSON.parse(localStorage.getItem(XK)||'[]');return Array.isArray(a)?a.filter(validX):[]}catch(e){return[]}};
+let expenses=loadX();
+const saveX=()=>{if(VIEW)return;try{localStorage.setItem(XK,JSON.stringify(expenses))}catch(e){}Cloud.push()};
+const dayX=k=>expenses.filter(x=>dkey(x.ts)===k).sort((a,b)=>a.ts-b.ts);
+const xsum=L=>L.reduce((s,x)=>s+x.amount,0);
+const monthX=mk=>expenses.filter(x=>dkey(x.ts).startsWith(mk));
+const xNames=()=>{const m=new Map();expenses.forEach(x=>{const l=x.name.toLowerCase();const o=m.get(l)||{name:x.name,n:0,last:x};o.n++;if(x.ts>=o.last.ts)o.last=x;m.set(l,o)});return[...m.values()].sort((a,b)=>b.n-a.n)};
+const XS={day:null};
+function xDel(x){if(VIEW)return;expenses=expenses.filter(y=>y.id!==x.id);saveX();render();undoToast('Expense deleted',()=>{if(!expenses.some(y=>y.id===x.id))expenses.push(x);saveX();render()})}
+function xEdit(x){if(VIEW)return;const n=h('input',{class:'tx',value:x.name,'aria-label':'What for'}),a=h('input',{class:'tx',inputmode:'numeric',value:String(x.amount),'aria-label':'Amount'}),o=h('input',{class:'tx',value:x.note||'','aria-label':'Note'});
+ const c=modal(h('h2',{},'Edit expense'),h('label',{class:'fl'},'What for'),n,h('label',{class:'fl'},'Amount (₹)'),a,h('label',{class:'fl'},'Note'),o,
+  h('div',{class:'btns'},h('button',{class:'b3 fit','aria-label':'Delete expense',onclick:()=>{c();xDel(x)}},ic('trash',18)),h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{const v=num(a.value.replace(/\D/g,''));if(!n.value.trim()||!v)return toast('Fill in what for and the amount');Object.assign(x,{name:n.value.trim(),amount:v,note:o.value.trim()});saveX();c();render();toast('✓ Expense saved')}},'Save')))}
+function expScreen(){const today=dkey(Date.now());if(!XS.day)XS.day=today;const k=XS.day,isT=k===today,L=dayX(k),T=xsum(L),C=sum(dayList(k)),mk=k.slice(0,7),MX=monthX(mk),MT=xsum(MX);
+ const shift=n=>{const d=kdate(k);d.setDate(d.getDate()+n);const nk=dkey(d.getTime());if(nk>today)return;XS.day=nk;render()};
+ const nx=h('button',{class:'bk','aria-label':'Next day',onclick:()=>shift(1)},ic('chev'));nx.disabled=isT;
+ const di=h('input',{class:'xd',type:'date',id:'xday',value:k,max:today,'aria-label':'Pick a date',onchange:e=>{if(e.target.value){XS.day=e.target.value>today?today:e.target.value;render()}}});
+ const dateBar=h('div',{class:'dbar'},h('button',{class:'bk','aria-label':'Previous day',onclick:()=>shift(-1)},ic('back')),h('label',{class:'dsel',for:'xday'},h('b',{},isT?'Today':kdate(k).toLocaleDateString('en-GB',{weekday:'long'})),h('small',{},fday(kdate(k))+' 📅'),di),nx);
+ let form=null;
+ if(!VIEW){const nm=h('input',{class:'tx',type:'text',id:'xn',placeholder:'What for? Tea, generator diesel…','aria-label':'What for',autocomplete:'off',autocapitalize:'sentences'}),
+   am=h('input',{class:'tx',type:'text',id:'xa',inputmode:'numeric',placeholder:'₹ Amount','aria-label':'Amount',autocomplete:'off'}),
+   nt=h('input',{class:'tx',type:'text',id:'xo',placeholder:'Note (optional)','aria-label':'Note',autocomplete:'off'}),sg=h('div',{class:'sug'});
+  const showS=()=>{const q=nm.value.trim().toLowerCase();const N=xNames().filter(o=>!q||(o.name.toLowerCase().includes(q)&&o.name.toLowerCase()!==q)).slice(0,6);sg.replaceChildren(...N.map(o=>h('button',{type:'button',onclick:()=>{nm.value=o.name;am.placeholder='₹ '+nf(o.last.amount)+' last time';showS();am.focus()}},o.name)))};
+  nm.addEventListener('input',showS);showS();
+  const add=()=>{const a=num(am.value.replace(/\D/g,'')),n=nm.value.trim();if(!n){toast('Write what the expense is for');nm.focus();return}if(!a){toast('Enter the amount');am.focus();return}
+   const f=xNames().find(o=>o.name.toLowerCase()===n.toLowerCase());let ts=Date.now();if(!isT){const d=kdate(k),now=new Date();d.setHours(now.getHours(),now.getMinutes(),now.getSeconds());ts=d.getTime()}
+   expenses.push({id:uid(),name:f?f.name:n,amount:a,note:nt.value.trim(),ts});saveX();render();toast('✓ Expense added: '+fmt(a))};
+  [am,nt].forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add()}}));
+  form=h('div',{class:'card xf'},nm,sg,h('div',{class:'xrow'},am,nt),btn('b1 wide','plus','Add expense',add))}
+ const list=L.length?h('div',{class:'list'},L.map((x,i)=>h('div',{class:'li in',style:`--i:${i}`},av(x.name),h('button',{class:'m',style:'text-align:left','aria-label':`${x.name}, ${fmt(x.amount)}`,onclick:()=>xEdit(x)},h('b',{},x.name),h('small',{},ftime(x.ts)+(x.note?', '+x.note:''))),h('span',{class:'v xv'},'− '+fmt(x.amount))))):empty('No expenses on this day',VIEW?'':'Add one above when you pay for something.');
+ const cats=(()=>{const m=new Map();MX.forEach(x=>{const l=x.name.toLowerCase();const o=m.get(l)||{name:x.name,a:0,n:0};o.a+=x.amount;o.n++;m.set(l,o)});return[...m.values()].sort((a,b)=>b.a-a.a)})();
+ return h('div',{class:'in'},dateBar,
+  hero(isT?"Today's expenses":'Expenses',`${L.length} ${L.length===1?'item':'items'}`,T,[['Cash in',fmt(C)],['Net',fmt(C-T)]]),
+  form,
+  L.length?h('div',{class:'sh'},h('span',{},'On this day'),h('b',{},'− '+fmt(T))):null,list,
+  h('div',{class:'sh'},h('span',{},kdate(k).toLocaleDateString('en-GB',{month:'long',year:'numeric'})+' expenses'),h('b',{},fmt(MT))),
+  cats.length?h('div',{class:'card rows'},cats.slice(0,6).map(c=>h('div',{class:'xc'},h('span',{},c.name,h('small',{},' ×'+c.n)),h('span',{class:'bar'},h('i',{style:`width:${Math.max(4,c.a/cats[0].a*100)}%`})),h('b',{},fmt(c.a))))):h('p',{class:'mu'},'No expenses this month yet.'))}
+const xCard=k=>{const L=dayX(k);if(!L.length)return null;const T=xsum(L),C=sum(dayList(k));return h('button',{class:'xsum',onclick:()=>{XS.day=k;S.tab='exp';S.stack=[];render()}},h('span',{},'💸 Expenses ',h('b',{},fmt(T))),h('span',{},'Net ',h('b',{class:'g'},fmt(C-T))),ic('chev',16))};
 const Bundles=(()=>{
  const D=[500,200,100,50,20,10],SMALL=[50,20,10],NK={500:'n500',200:'n200',100:'n100',50:'n50',20:'n20',10:'n10'};
  const z0=()=>Object.fromEntries(D.map(d=>[d,0]));
@@ -736,13 +789,13 @@ const meName=()=>CS.user?CS.user.name:isGuest()?'Guest':'Me';
 function dot(){const d=$('#dot'),y=$('#sy');if(!d)return;const u=CS.user;$('#me').replaceChildren(av(meName()));
  d.className='live'+(!u?(isGuest()?' g':' no'):(!CS.live||CS.pend?' off':''));
  y.textContent=!u?(isGuest()?'Guest':''):!CS.live?'Offline':CS.pend?'Saving':'Synced'}
-function navR(){const tabs=[['calc','calc','Count'],['today','today','Today'],['hist','hist','History'],['bund','bund','Bundles']];if(CS.user&&CS.user.admin)tabs.push(['users','users','Users']);
+function navR(){const tabs=[['calc','calc','Count'],['today','today','Today'],['hist','hist','History'],['exp','exp','Expenses'],['bund','bund','Bundles']];if(CS.user&&CS.user.admin)tabs.push(['users','users','Users']);
  const top=S.stack[S.stack.length-1];
- $('#nav').replaceChildren(...tabs.map(([t,i,l])=>{const on=S.tab===t&&!(top&&(top.t==='settings'||top.t==='profile'));return h('button',{class:on?'on':null,'aria-current':on?'page':'false',onclick:()=>{S.tab=t;S.stack=[];if(t==='bund')Bundles.open();render()}},ic(i,20),l)}))}
+ $('#nav').replaceChildren(...tabs.map(([t,i,l])=>{const on=S.tab===t&&!(top&&(top.t==='settings'||top.t==='profile'));return h('button',{class:on?'on':null,'aria-current':on?'page':'false',onclick:()=>{S.tab=t;S.stack=[];if(t==='bund')Bundles.open();if(t==='exp')XS.day=null;render()}},ic(i,20),l)}))}
 function vbarR(){$('#vb').replaceChildren(VIEW?h('div',{class:'vbar',role:'status'},ic('eye',16),h('span',{},'Viewing ',h('b',{},VIEW.name),' (read-only)'),h('button',{onclick:()=>Cloud.exit()},'Exit')):'')}
 function fit(){const m=$('#main'),c=m.firstElementChild;if(S.stack.length||S.tab!=='calc'||!c)return;let x=42;c.style.setProperty('--rh',x+'px');while(x>31&&m.scrollHeight>m.clientHeight+1){x--;c.style.setProperty('--rh',x+'px')}}
 function render(){const m=$('#main');let node;if(S.tab==='users'&&!(CS.user&&CS.user.admin))S.tab='calc';const top=S.stack[S.stack.length-1];
- if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen,bund:Bundles.screen,users:usersScreen}[S.tab]();
+ if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen,exp:expScreen,bund:Bundles.screen,users:usersScreen}[S.tab]();
  m.replaceChildren(node);m.scrollTop=0;clock();$('#gear').classList.toggle('due',!VIEW&&backupDue());navR();vbarR();dot();fit()}
 addEventListener('resize',fit);addEventListener('orientationchange',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#gear').append(ic('gear',18));$('#hcredit').replaceWith(credit().firstChild);$('#gear').onclick=()=>{S.stack=[{t:'settings'}];render()};$('#me').onclick=()=>{S.stack=[{t:'profile'}];render()};
@@ -752,7 +805,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 <!--CLOUD-->
 <script type="module">
 /* ☁️ Firebase login + sync (project: krrivats-apps).
-   Data: apps/cashcount/users/{uid} (profile), /entries, /bundles, /meta/settings.
+   Data: apps/cashcount/users/{uid} (profile), /entries, /bundles, /expenses, /meta/settings.
    The app saves on the device first, so it works offline; this module syncs it.
    Admin (admin@krrivats.app) can also VIEW other users' data. Firestore rules block admin writes. */
 import{initializeApp}from'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
@@ -770,10 +823,10 @@ const P=(...a)=>['apps',APP,'users',...a];
 const col=n=>collection(db,...P(me.uid,n)),ref=(n,i)=>doc(db,...P(me.uid,n,i)),sref=()=>doc(db,...P(me.uid,'meta','settings')),pref=()=>doc(db,...P(me.uid));
 const short=e=>e&&e.endsWith('@krrivats.app')?e.split('@')[0]:e||'';
 let me=null,live=false,offs=[],vOffs=[],uOff=null,got={},pend={},base=null,timer=0,lastProf=0;
-const loadBase=u=>{try{const b=JSON.parse(ls.get(SB)||'null');if(b&&b.uid===u)return b}catch(e){}return{uid:u,e:{},b:{},k:null}};
+const loadBase=u=>{try{const b=JSON.parse(ls.get(SB)||'null');if(b&&b.uid===u)return b}catch(e){}return{uid:u,e:{},b:{},x:{},k:null}};
 const saveBase=()=>ls.set(SB,JSON.stringify(base));
-const saveLocal=()=>{ls.set(KEY,JSON.stringify(entries));ls.set(BK,JSON.stringify(marks))};
-const sortAll=()=>{entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts)};
+const saveLocal=()=>{ls.set(KEY,JSON.stringify(entries));ls.set(BK,JSON.stringify(marks));ls.set(XK,JSON.stringify(expenses))};
+const sortAll=()=>{entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);expenses.sort((a,b)=>a.ts-b.ts)};
 function sync(){CS.live=live;CS.pend=Object.values(pend).some(Boolean);cloudChanged()}
 function refresh(){const t=S.stack[S.stack.length-1],a=document.activeElement;
  if(t&&t.t==='edit')return;if(!t&&S.tab==='calc')return;if(a&&a.matches&&a.matches('#main input,#main textarea'))return;render()}
@@ -786,44 +839,45 @@ function m3(L,C,B){const out={},w=[];new Set([...Object.keys(L),...Object.keys(C
  if(r)out[id]=r});return{out,w}}
 function k3(l,c,b){if(l===c)return{v:c};if(c===b)return{v:l,w:true};return{v:c??l}}
 function merge(){live=true;
- const E=m3(byId(entries),got.e,base.e),B=m3(byId(marks),got.b,base.b),K=k3(keepNow(),got.k,base.k);
- entries=Object.values(E.out).filter(valid);marks=Object.values(B.out).filter(validMark);sortAll();
+ const E=m3(byId(entries),got.e,base.e),B=m3(byId(marks),got.b,base.b),X=m3(byId(expenses),got.x,base.x||{}),K=k3(keepNow(),got.k,base.k);
+ entries=Object.values(E.out).filter(valid);marks=Object.values(B.out).filter(validMark);expenses=Object.values(X.out).filter(validX);sortAll();
  if(K.v!=null)ls.set(KK,String(K.v));saveLocal();
- base={uid:me.uid,e:strs(byId(entries)),b:strs(byId(marks)),k:K.v??null};saveBase();
- const ops=[...E.w.map(([i,o])=>[ref('entries',i),o]),...B.w.map(([i,o])=>[ref('bundles',i),o])];if(K.w)ops.push([sref(),{keepChange:K.v}]);
+ base={uid:me.uid,e:strs(byId(entries)),b:strs(byId(marks)),x:strs(byId(expenses)),k:K.v??null};saveBase();
+ const ops=[...E.w.map(([i,o])=>[ref('entries',i),o]),...B.w.map(([i,o])=>[ref('bundles',i),o]),...X.w.map(([i,o])=>[ref('expenses',i),o])];if(K.w)ops.push([sref(),{keepChange:K.v}]);
  const n=ops.length;ops.push(prof());lastProf=Date.now();commit(ops);if(n)toast('☁️ Synced '+n+' change'+(n===1?'':'s'));sync();refresh()}
 function apply(kind,M){if(kind==='k'){if(M!=null&&M!==keepNow())ls.set(KK,String(M));if(M!=null)base.k=M;saveBase();return}
- const Sx=strs(M),Bx=base[kind],ks=Object.keys(Sx);if(ks.length===Object.keys(Bx).length&&ks.every(i=>Sx[i]===Bx[i]))return;
- if(kind==='e')entries=Object.values(M).filter(valid);else marks=Object.values(M).filter(validMark);sortAll();
+ const Sx=strs(M),Bx=base[kind]||{},ks=Object.keys(Sx);if(ks.length===Object.keys(Bx).length&&ks.every(i=>Sx[i]===Bx[i]))return;
+ if(kind==='e')entries=Object.values(M).filter(valid);else if(kind==='x')expenses=Object.values(M).filter(validX);else marks=Object.values(M).filter(validMark);sortAll();
  base[kind]=Sx;saveBase();saveLocal();refresh()}
 function listen(){got={};pend={};
  const on=(kind,map)=>s=>{pend[kind]=s.metadata.hasPendingWrites;
-  if(!live){if(s.metadata.fromCache){sync();return}got[kind]=map(s);if('e' in got&&'b' in got&&'k' in got)merge();else sync();return}
+  if(!live){if(s.metadata.fromCache){sync();return}got[kind]=map(s);if('e' in got&&'b' in got&&'x' in got&&'k' in got)merge();else sync();return}
   apply(kind,map(s));sync()};
  const docs=s=>Object.fromEntries(s.docs.map(d=>[d.id,{...d.data(),id:d.id}]));
  const o={includeMetadataChanges:true};
- offs=[onSnapshot(col('entries'),o,on('e',docs),fail),onSnapshot(col('bundles'),o,on('b',docs),fail),
+ offs=[onSnapshot(col('entries'),o,on('e',docs),fail),onSnapshot(col('bundles'),o,on('b',docs),fail),onSnapshot(col('expenses'),o,on('x',docs),fail),
   onSnapshot(sref(),o,on('k',s=>s.exists()&&typeof s.data().keepChange==='number'?s.data().keepChange:null),fail)]}
 function push(){if(!live||VIEW)return;clearTimeout(timer);timer=setTimeout(()=>{if(!live||VIEW)return;const ops=[];
  const diff=(L,B,n)=>{const M=byId(L),Sx=strs(M);Object.keys(Sx).forEach(i=>{if(Sx[i]!==B[i])ops.push([ref(n,i),M[i]])});Object.keys(B).forEach(i=>{if(!(i in Sx))ops.push([ref(n,i),null])});return Sx};
- base.e=diff(entries,base.e,'entries');base.b=diff(marks,base.b,'bundles');const k=keepNow();if(k!==base.k){ops.push([sref(),{keepChange:k}]);base.k=k}
+ base.e=diff(entries,base.e,'entries');base.b=diff(marks,base.b,'bundles');base.x=diff(expenses,base.x||{},'expenses');const k=keepNow();if(k!==base.k){ops.push([sref(),{keepChange:k}]);base.k=k}
  if(ops.length&&Date.now()-lastProf>6e4){ops.push(prof());lastProf=Date.now()}
  saveBase();commit(ops)},0)}
 /* Admin: view another user's data, read-only */
 const stopView=()=>{vOffs.forEach(f=>f());vOffs=[]};
-function view(uid,name){if(!me||me.email!==ADMIN)return;offs.forEach(f=>f());offs=[];stopView();VIEW={uid,name};entries=[];marks=[];
+function view(uid,name){if(!me||me.email!==ADMIN)return;offs.forEach(f=>f());offs=[];stopView();VIEW={uid,name};entries=[];marks=[];expenses=[];
  const c=n=>collection(db,...P(uid,n)),rv=()=>{const t=S.stack[S.stack.length-1];if(t&&t.t==='edit')return;render()};
  vOffs=[onSnapshot(c('entries'),s=>{entries=s.docs.map(d=>({...d.data(),id:d.id})).filter(valid).sort((x,y)=>x.timestamp-y.timestamp);rv()},fail),
-  onSnapshot(c('bundles'),s=>{marks=s.docs.map(d=>({...d.data(),id:d.id})).filter(validMark).sort((x,y)=>x.ts-y.ts);rv()},fail)];
+  onSnapshot(c('bundles'),s=>{marks=s.docs.map(d=>({...d.data(),id:d.id})).filter(validMark).sort((x,y)=>x.ts-y.ts);rv()},fail),
+  onSnapshot(c('expenses'),s=>{expenses=s.docs.map(d=>({...d.data(),id:d.id})).filter(validX).sort((x,y)=>x.ts-y.ts);rv()},fail)];
  Bundles.open();S.stack=[];S.tab='today';render()}
-function exit(){if(!VIEW)return;stopView();VIEW=null;entries=loadE();marks=loadM();Bundles.open();S.stack=[];S.tab='users';if(me&&live)listen();render()}
+function exit(){if(!VIEW)return;stopView();VIEW=null;entries=loadE();marks=loadM();expenses=loadX();Bundles.open();S.stack=[];S.tab='users';if(me&&live)listen();render()}
 async function out(){offs.forEach(f=>f());offs=[];stopView();if(uOff){uOff();uOff=null}VIEW=null;live=false;try{await signOut(auth)}catch(e){}
- entries=[];marks=[];[KEY,BK,KK,SB].forEach(k=>ls.del(k));CS.users=null;S.stack=[];S.tab='calc';render();toast('Signed out')}
+ entries=[];marks=[];expenses=[];[KEY,BK,KK,SB,XK].forEach(k=>ls.del(k));CS.users=null;S.stack=[];S.tab='calc';render();toast('Signed out')}
 Object.assign(window.Cloud,{push,signIn:(id,pw)=>signInWithEmailAndPassword(auth,id,pw),signOut:out,view,exit});
 onAuthStateChanged(auth,u=>{offs.forEach(f=>f());offs=[];stopView();if(uOff){uOff();uOff=null}live=false;me=u;
- if(VIEW){VIEW=null;entries=loadE();marks=loadM()}
+ if(VIEW){VIEW=null;entries=loadE();marks=loadM();expenses=loadX()}
  CS.user=u?{uid:u.uid,email:u.email,name:short(u.email),admin:u.email===ADMIN}:null;CS.ready=true;CS.users=null;
- if(u){if(isGuest()){ls.del(GK);entries=[];marks=[];[KEY,BK,KK].forEach(k=>ls.del(k))}base=loadBase(u.uid);listen();
+ if(u){if(isGuest()){ls.del(GK);entries=[];marks=[];expenses=[];[KEY,BK,KK,XK].forEach(k=>ls.del(k))}base=loadBase(u.uid);listen();
   if(CS.user.admin)uOff=onSnapshot(collection(db,'apps',APP,'users'),s=>{CS.users=s.docs.map(d=>({uid:d.id,...d.data()}));cloudChanged()},e=>{CS.users=[];fail(e);cloudChanged()})}
  sync();render()});
 </script>
