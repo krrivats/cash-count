@@ -248,6 +248,10 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .stg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .stc{padding:9px 11px;border-radius:12px;background:var(--p1);border:1px solid var(--ln);min-width:0}
 .stc small{display:block;color:var(--mu);font-size:11.5px;font-weight:700}.stc b{display:block;font:700 19px/1.2 var(--fd);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.krow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln2);color:var(--mu);font-size:12.5px;font-weight:700}
+.krow .chip{height:28px;padding:0 10px}
+.stp{padding:10px 11px!important;margin-bottom:8px}.sth{margin-bottom:8px}.sub{margin-top:8px!important;padding-top:8px}.fb{padding:5px 0}.binfo{margin-top:6px}
+.fv.l1{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:0;color:var(--mu)}.fv.l1 b{color:var(--tx);font:700 16px var(--fd)}.fv.l1 .bricks i{width:10px;height:15px}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
 </style></head><body><div id="app">
@@ -365,7 +369,7 @@ function shareDay(k,onlyNotes){const u='https://api.whatsapp.com/send?text='+enc
 const dayBtns=k=>h('div',{class:'btns'},btn('b2','notes','Note count',()=>go({t:'notes',day:k}),'Open note count for this day'),btn('b1 wa','wa','Share',()=>shareDay(k),'Share day summary on WhatsApp'));
 function todayScreen(){const k=dkey(Date.now()),L=dayList(k),G=group(L);
  return h('div',{class:'in'},hero(VIEW?VIEW.name+"'s cash today":"Today's collection",fday(Date.now()),sum(L),[['Entries',L.length],['People',G.length]]),
-  L.length?[h('div',{class:'sh'},h('span',{},'By person'),h('b',{},cnt(G.length,'person'))),plist(L,k),dayBtns(k)]:empty('Nothing saved today',VIEW?'This user has no entries today.':'Count cash in the Count tab and tap Save entry.'))}
+  L.length?[h('div',{class:'sh'},h('span',{},'By person'),h('b',{},cnt(G.length,'person'))),plist(L,k),dayBtns(k)]:[empty('Nothing saved today',VIEW?'This user has no entries today.':'Count cash in the Count tab and tap Save entry.'),window.DEMO&&!VIEW?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED()):null])}
 function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.timestamp);(m.get(k)||m.set(k,[]).get(k)).push(e)});const ks=[...m.keys()].sort().reverse();
  if(!ks.length)return h('div',{class:'in'},h('h2',{class:'pt'},'History'),empty('No saved entries yet','Saved cash counts show here, grouped by day.'));
  const mx=Math.max(...ks.map(k=>sum(m.get(k))))||1,out=[];let cur='';
@@ -416,7 +420,7 @@ const V={
    h('div',{class:'sh'},h('span',{},'Backup'),h('b',{},lb?ago(lb):'never')),
    h('div',{class:'btns',style:'margin-top:0'},btn('b2','down','Export',exportB,'Export backup'),VIEW?null:btn('b2','up','Import',()=>importModal(f),'Import backup')),f,
    h('p',{class:'mu',style:'margin-top:8px'},VIEW?`Export saves ${VIEW.name}'s data.`:lb?`Last backup ${fday(lb)}, ${ftime(lb)}.`:'No backup yet. A reminder appears every 7 days.'),
-   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${marks.length} bundle ${marks.length===1?'mark':'marks'}`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')}))],
+   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${marks.length} bundle ${marks.length===1?'mark':'marks'}`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),window.DEMO?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED(),'Add sample data'):null],
    credit(true))}};
 function accountBlock(){const u=CS.user;
  if(!Cloud.signIn)return h('div',{class:'acc'},av('D'),h('div',{class:'m'},h('b',{},'This device only'),h('small',{},'Cloud sync is not connected. Data is saved on this phone.')));
@@ -502,13 +506,26 @@ const Bundles=(()=>{
   return{L:today,label:'Today',canMark:!done.length,doneAmt:done.reduce((s,e)=>s+amt(e.d)+e.o,0),doneN:done.length};
  }
  /* exact mix, bigger notes first */
- function mix(target,avail,allowed){
-  if(target===0)return{};
-  const ds=[...SMALL,500,200,100].filter(d=>allowed[d]&&avail[d]>0);let steps=0;const pick={}; /* small notes you turned on go in first */
+ /* exact amount, bigger notes first */
+ function exact(target,avail,ds){
+  if(target===0)return{};let steps=0;const pick={};
   const cap=i=>ds.slice(i).reduce((s,d)=>s+d*avail[d],0);
   function go(i,rem){if(rem===0)return true;if(i>=ds.length||++steps>60000||rem>cap(i))return false;const d=ds[i];
    for(let c=Math.min(avail[d],Math.floor(rem/d));c>=0;c--){pick[d]=c;if(go(i+1,rem-c*d))return true}pick[d]=0;return false}
-  return go(0,target)?Object.fromEntries(ds.filter(d=>pick[d]).map(d=>[d,pick[d]])):null;
+  return go(0,target)?pick:null;
+ }
+ /* share the bundle across EVERY note value turned on, then top up exactly.
+    If an even share can't hit the exact amount, the share shrinks step by step (last try = plain bigger-first). */
+ function mix(target,avail,allowed){
+  if(target===0)return{};
+  const ds=D.filter(d=>allowed[d]&&avail[d]>0);if(!ds.length)return null;
+  for(const f of [1,.75,.5,.25,0]){
+   const base={},left={...avail},share=target*f/ds.length;let used=0;
+   ds.forEach(d=>{const u=d>=100?1:100/d;let c=Math.min(avail[d],Math.floor(share/d));c-=c%u;base[d]=c;used+=c*d;left[d]-=c}); /* small notes in round ₹100 lots so the rest adds up exactly */
+   const rest=exact(target-used,left,ds);
+   if(rest){const out={};ds.forEach(d=>{const n=base[d]+(rest[d]||0);if(n)out[d]=n});return out}
+  }
+  return null;
  }
  /* bundles one after another; locked counts (user edits) kept, the rest auto-filled */
  function build(pool,T,allowed,want,fixes){
@@ -556,8 +573,8 @@ const Bundles=(()=>{
    const n=Math.min(st.fullN[d]??max,max);full[d]=n;pool1[d]-=n*st.size;fullAmt+=n*d*st.size;fullN+=n;
    const need=st.size-(pool0[d]-max*st.size);
    let bricks=null;if(max){bricks=h('div',{class:'bricks','aria-hidden':'true'});for(let i=0;i<Math.min(max,10);i++)bricks.append(h('i',{class:i<n?null:'x'}));if(max>10)bricks.append(h('small',{style:'color:var(--mu);font-size:11px'},'+'+(max-10)))}
-   const info=max?h('span',{class:'fv'},`${n} of ${max} × ${fmt(d*st.size)} = `,h('b',{style:'color:var(--tx)'},fmt(n*d*st.size))):h('span',{class:'fv',style:'margin-top:0'},`${pool0[d]} notes, no full bundle yet`);
-   const row=h('div',{class:'fb'+(n?'':' off'),style:`--c:var(${DV(d)})`},dn(NK[d],d),h('div',{},bricks,info,h('span',{class:'nx'},`${need} more notes make ${max?'another':'one'} bundle`)),
+   const l1=max?h('span',{class:'fv l1'},bricks,h('b',{},fmt(n*d*st.size))):h('span',{class:'fv l1'},`${pool0[d]} notes = `,h('b',{},fmt(pool0[d]*d)));
+   const row=h('div',{class:'fb'+(n?'':' off'),style:`--c:var(${DV(d)})`},dn(NK[d],d),h('div',{},l1,h('span',{class:'nx'},max?`${n} of ${max} bundles, ${need} more notes for next`:`${need} more notes for a bundle`)),
     max?stepper(n,`One less ₹${d} bundle`,`One more ₹${d} bundle`,!n,n>=max,()=>{st.fullN[d]=n-1;st.mN=st.sN=0;st.fix={};rr()},()=>{st.fullN[d]=n+1;st.mN=st.sN=0;st.fix={};rr()}):h('span'));
    (isS?smallRows:bigRows).push(row)});
   /* small-note mix (only ₹50/₹20/₹10) first, then mixed bundles from what is left */
@@ -588,10 +605,10 @@ const Bundles=(()=>{
     box.append(h('label',{class:'pk'+(done?' done':''),for:'bp'+e.id},c,h('span',{class:'m'},e.person,done?h('span',{class:'tag'},'Bundled'):null,h('small',{},ftime(e.ts)+(dkey(e.ts)!==dkey(Date.now())?', '+fdate(dkey(e.ts)):''))),h('b',{},fmt(amt(e.d)+e.o))))});
    if(!list.length)box.append(h('div',{class:'pk'},'No entries yet.'));
    c1.push(box)}
+  /* keep change sits inside step 1 to save space */
+  c1.push(h('div',{class:'krow'},h('span',{},'Keep change'),h('div',{class:'chips',role:'group','aria-label':'Change to keep in the drawer'},[[0,'Off'],[2000,'2K'],[3000,'3K'],[5000,'5K']].map(([v,t])=>chip(t,st.keep===v,()=>{st.keep=v;if(!VIEW){ls.set(KK,String(v));Cloud.push()}resetCounts();rr()})))),
+   st.keep?(keptAmt?h('div',{class:'bsmall'},`${fmt(keptAmt)} kept back for change`+(keptAmt<st.keep?`, short by ${fmt(st.keep-keptAmt)}`:''),mixTags(kept)):h('div',{class:'bsmall'},'No small notes to keep.')):null);
   root.append(step(1,'Pick the cash',null,null,...c1));
-  /* 2 keep change */
-  root.append(step(2,'Keep change',null,h('div',{class:'chips',role:'group','aria-label':'Change to keep in the drawer'},[[0,'Off'],[2000,'2K'],[3000,'3K'],[5000,'5K']].map(([v,t])=>chip(t,st.keep===v,()=>{st.keep=v;if(!VIEW){ls.set(KK,String(v));Cloud.push()}resetCounts();rr()}))),
-   st.keep?(keptAmt?[h('div',{class:'bsmall'},`${fmt(keptAmt)} kept`+(keptAmt<st.keep?`, short by ${fmt(st.keep-keptAmt)}`:'')),mixTags(kept)]:h('div',{class:'bsmall'},'No small notes to keep.')):h('div',{class:'bsmall',style:'margin-top:0'},'Off. Small notes for giving change are not kept back.')));
   /* 3 bundles */
   const mList=M.out.map((b,i)=>mixedCard(b,i));
   if(st.mN>0&&!M.max&&!M.out.length&&st.mT>0)mList.push(h('div',{class:'bsmall'},st.mT%10?'Bundle value must end in 0.':`Can't make exactly ${fmt(st.mT)} from the notes left. Try a suggestion above or turn on more notes.`));
@@ -600,7 +617,7 @@ const Bundles=(()=>{
   const kv=v=>v>=1000&&v%1000===0?(v/1000)+'K':v.toLocaleString('en-IN');
   const sugg=(pool,vals,allowed,cur,curN,pick)=>{const L=vals.map(v=>[v,build(pool,v,allowed,0,null).max]).filter(x=>x[1]>0);
    return h('div',{class:'sug2'},h('small',{},L.length?'Possible now. Tap to add one:':'Not enough notes left for these bundles.'),L.map(([v,k])=>h('button',{class:'sgc','aria-pressed':String(cur===v&&curN>0),'aria-label':`Add a ₹${kv(v)} bundle, ${k} possible`,onclick:()=>pick(v)},h('b',{},'₹'+kv(v)),` × ${k} possible`)))};
-  root.append(step(3,'Make bundles','A full bundle is '+st.size+' notes of one value.',
+  root.append(step(2,'Make bundles','A full bundle is '+st.size+' notes of one value.',
    h('div',{class:'seg sm',role:'group','aria-label':'Notes per bundle'},[100,50].map(v=>h('button',{'aria-pressed':String(st.size===v),onclick:()=>{st.size=v;resetCounts();rr()}},v))),
    bigRows.length?bigRows:h('div',{class:'bsmall'},'No full ₹500, ₹200 or ₹100 bundle yet.'),
    h('div',{class:'sub'},
@@ -621,7 +638,7 @@ const Bundles=(()=>{
   /* 4 check + mark */
   const lines=[['Loose notes',la],['Kept in drawer',keptAmt],['Coins + loose change',other]].filter(x=>x[1]);
   const slip=h('details',{class:'slip'},h('summary',{},'🏦 Bank deposit slip'));
-  if(!bN)slip.append(h('div',{class:'bsmall',style:'margin:0 0 10px'},'No bundles yet. Add bundles in step 3.'));
+  if(!bN)slip.append(h('div',{class:'bsmall',style:'margin:0 0 10px'},'No bundles yet. Add bundles in step 2.'));
   else{D.filter(d=>dep[d]).forEach(d=>slip.append(h('div',{class:'sr2'},dn(NK[d],d,true),h('span',{},`× ${dep[d]} notes`),h('span',{},fmt(d*dep[d])))));
    slip.append(h('div',{class:'sr2 t'},h('span',{},'Total'),h('span',{},`${cntN(dep)} notes, ${bl(bN)}`),h('span',{},fmt(amt(dep)))))}
   if(st.slipOpen)slip.open=true;slip.addEventListener('toggle',()=>st.slipOpen=slip.open);
@@ -634,7 +651,7 @@ const Bundles=(()=>{
     st.confirm=false;st.src='since';st.sel=null;resetCounts();toast('✔ Marked at '+ftime(Date.now()));rr()}},'Yes, mark'))));
   const mk=h('button',{class:'b1',onclick:()=>{st.confirm=true;rr()}},ic('save',18),!s.canMark&&st.src==='today'?'Use Since last bundle':'Mark as bundled');mk.disabled=!bN||!s.canMark;
   acts.push(h('div',{class:'btns'},VIEW?null:mk,h('a',{class:'b1 wa',href:'https://api.whatsapp.com/send?text='+encodeURIComponent(waText()),target:'_blank',rel:'noopener'},ic('wa',18),'Share')));
-  root.append(step(4,'Check and mark','What stays with you, and the bank slip.',null,
+  root.append(step(3,'Check and mark','What stays with you, and the bank slip.',null,
    h('div',{class:'tot',style:'margin-top:0'},h('span',{},'Stays with you'),h('b',{},fmt(stay))),
    h('div',{class:'lg'},D.map(d=>h('div',{class:'lc'+(loose[d]?'':' z')},dn(NK[d],d,true),h('b',{},'× '+loose[d]),h('small',{},fmt(d*loose[d]))))),
    lines.map(([a,v])=>h('div',{class:'ll'},h('span',{},a),h('b',{},fmt(v)))),
