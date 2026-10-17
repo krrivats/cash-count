@@ -3,10 +3,12 @@ rules_version = '2';
 // Paste this in Firebase console > Firestore Database > Rules > Publish.
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Each logged-in user can read/write ONLY their own folder, per app:
-    // apps/cashcount/users/{uid}/..., apps/workly/users/{uid}/...
+    // apps/cashcount/users/{uid}/... (profile card, entries, bundles, settings)
     match /apps/{app}/users/{uid}/{document=**} {
+      // Each user can read and change ONLY their own data.
       allow read, write: if request.auth != null && request.auth.uid == uid;
+      // The admin can READ everyone's data, but cannot change it.
+      allow read: if request.auth != null && request.auth.token.email == 'admin@krrivats.app';
     }
     // Everything else is locked.
   }

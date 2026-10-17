@@ -1,7 +1,7 @@
 // Cash Count service worker
 // App files: network first (so updates arrive at once), cache as offline backup.
 // Change VERSION on every release.
-const VERSION='2026-10-17-1',C='cash-count-'+VERSION;
+const VERSION='2026-10-17-3',C='cash-count-'+VERSION;
 const F=['./','index.html','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png'];
 
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting())));
