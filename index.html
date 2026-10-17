@@ -252,6 +252,9 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .krow .chip{height:28px;padding:0 10px}
 .stp{padding:10px 11px!important;margin-bottom:8px}.sth{margin-bottom:8px}.sub{margin-top:8px!important;padding-top:8px}.fb{padding:5px 0}.binfo{margin-top:6px}
 .fv.l1{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:0;color:var(--mu)}.fv.l1 b{color:var(--tx);font:700 16px var(--fd)}.fv.l1 .bricks i{width:10px;height:15px}
+.optb{margin-top:6px;color:var(--amb);font-weight:800;font-size:12.5px}.optb span{color:var(--mu);font-weight:600}
+.bbar{position:sticky;bottom:-14px;z-index:4;margin:0 -12px -14px;padding:8px 12px 12px;background:linear-gradient(#0A0F1E00,var(--bg) 22%)}
+.bbar .btns{margin-top:6px}.bbar .cf{margin-top:0}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
 </style></head><body><div id="app">
@@ -360,10 +363,19 @@ const cntOf=(d,L)=>L.reduce((s,[k])=>s+d[k],0);
 const W=24,LC=13,pad=(s,n)=>String(s).padStart(n),padE=(s,n)=>{s=String(s);return s.length>n?s.slice(0,n-1)+'…':s.padEnd(n)};
 const line=(a,b)=>padE(a,LC)+pad(b,W-LC);
 const mono=L=>L.length?['```'+L.join('\n')+'```']:[];
-function dayText(k,onlyNotes){const L=dayList(k),G=group(L),nc=noteCount(L),t=[onlyNotes?'🧮 *NOTE COUNT*':'💰 *CASH COUNT REPORT*','📅 '+fday(kdate(k)),''];
- if(!onlyNotes){const P=[];G.forEach(p=>{P.push(line(p.name,fmt(p.sum)));p.list.forEach(e=>P.push(line('  '+ftime(e.timestamp),fmt(e.amount))))});t.push('👥 *PEOPLE*',...mono(P),'','🧮 *NOTES*')}
- const N=[];ALL.forEach(([q,x])=>{if(nc.d[q])N.push(line('₹'+x+' × '+nc.d[q],fmt(nc.d[q]*x)))});if(nc.l)N.push(line('Loose',fmt(nc.l)));
- t.push(...mono(N),'','💵 '+cntOf(nc.d,NOTES)+' notes · 🪙 '+cntOf(nc.d,COINS)+' coins','✅ *TOTAL: '+fmt(sum(L))+'*','🧾 '+cnt(L.length,'entry')+' · '+cnt(G.length,'person'));
+/* WhatsApp tables: monospace blocks, 26 characters wide so they fit a phone screen. Emojis stay outside the blocks so columns line up. */
+const TW=26,SEP='─'.repeat(TW),BAR='━━━━━━━━━━━━━━━━';
+const r3=(a,b,c)=>padE(a,8)+pad(b,6)+pad(c,TW-14);
+const r2=(a,c)=>padE(a,15)+pad(c,TW-15);
+const tbl=L=>'```'+L.join('\n')+'```';
+const nf=n=>n.toLocaleString('en-IN');
+function dayText(k,onlyNotes){const L=dayList(k),G=group(L),nc=noteCount(L),T=sum(L);
+ const t=[onlyNotes?'🧮 *NOTE COUNT*':'💰 *CASH COUNT REPORT*','📅 '+fday(kdate(k)),BAR];
+ if(!onlyNotes){const P=[r2('Name','Amount'),SEP];G.forEach(p=>{P.push(r2(p.name,fmt(p.sum)));if(p.list.length>1)p.list.forEach(e=>P.push(r2('  '+ftime(e.timestamp),fmt(e.amount))))});P.push(SEP,r2('Total',fmt(T)));
+  t.push('','👥 *BY PERSON*',tbl(P))}
+ const N=[r3('Note','Qty','Amount'),SEP];ALL.forEach(([q,x])=>{if(nc.d[q])N.push(r3('₹'+x,nf(nc.d[q]),fmt(nc.d[q]*x)))});if(nc.l)N.push(r3('Loose','',fmt(nc.l)));
+ N.push(SEP,r3('Total',nf(cntOf(nc.d,ALL)),fmt(total(nc.d,nc.l))));
+ t.push('','🧮 *NOTES & COINS*',tbl(N),'','📊 *SUMMARY*',`💵 Notes: *${nf(cntOf(nc.d,NOTES))}*   🪙 Coins: *${nf(cntOf(nc.d,COINS))}*`,`🧾 Entries: *${L.length}*   👥 People: *${G.length}*`,`✅ *TOTAL: ${fmt(T)}*`);
  return t.join('\n')}
 function shareDay(k,onlyNotes){const u='https://api.whatsapp.com/send?text='+encodeURIComponent(dayText(k,onlyNotes));const w=window.open(u,'_blank');if(!w)location.href=u}
 const dayBtns=k=>h('div',{class:'btns'},btn('b2','notes','Note count',()=>go({t:'notes',day:k}),'Open note count for this day'),btn('b1 wa','wa','Share',()=>shareDay(k),'Share day summary on WhatsApp'));
@@ -614,6 +626,7 @@ const Bundles=(()=>{
   if(st.mN>0&&!M.max&&!M.out.length&&st.mT>0)mList.push(h('div',{class:'bsmall'},st.mT%10?'Bundle value must end in 0.':`Can't make exactly ${fmt(st.mT)} from the notes left. Try a suggestion above or turn on more notes.`));
   const vIn=(key,lab,reset)=>h('input',{class:'vin',inputmode:'numeric',value:String(st[key]||''),'aria-label':lab,onfocus:e=>setTimeout(()=>e.target.select(),0),onchange:e=>{const v=parseInt(e.target.value.replace(/\D/g,''),10)||0;later(()=>{st[key]=v;reset()})}});
   /* suggestions: what can be made from the notes left. Nothing is added until tapped. */
+  const optBtn=(k,info)=>h('button',{class:'optb','aria-expanded':String(!!st[k]),onclick:()=>{st[k]=!st[k];rr()}},st[k]?'Hide options ▴':'Options ▾',info&&!st[k]?h('span',{},' Using '+info):null);
   const kv=v=>v>=1000&&v%1000===0?(v/1000)+'K':v.toLocaleString('en-IN');
   const sugg=(pool,vals,allowed,cur,curN,pick)=>{const L=vals.map(v=>[v,build(pool,v,allowed,0,null).max]).filter(x=>x[1]>0);
    return h('div',{class:'sug2'},h('small',{},L.length?'Possible now. Tap to add one:':'Not enough notes left for these bundles.'),L.map(([v,k])=>h('button',{class:'sgc','aria-pressed':String(cur===v&&curN>0),'aria-label':`Add a ₹${kv(v)} bundle, ${k} possible`,onclick:()=>pick(v)},h('b',{},'₹'+kv(v)),` × ${k} possible`)))};
@@ -625,15 +638,15 @@ const Bundles=(()=>{
     smallRows.length?smallRows:h('div',{class:'bsmall'},'No ₹50, ₹20 or ₹10 notes left.'),
     h('div',{class:'subh mt'},h('div',{},h('h5',{},'Mix small notes'),h('small',{},`${fmt(st.sT)} each, from loose ₹50, ₹20, ₹10`)),
      stepper(SB.out.length,'One less small bundle','One more small bundle',!SB.out.length,SB.out.length>=SB.max,()=>{st.sN=Math.max(0,st.sN-1);rr()},()=>{st.sN++;rr()})),
-    sugg(pool1,[5000,2000,1000],SA,st.sT,SB.out.length,v=>{st.sN=st.sT===v?SB.out.length+1:1;st.sT=v;st.mN=0;st.fix={};rr()}),
-    h('div',{class:'opts'},h('label',{},'Other value'),vIn('sT','Small bundle value',()=>{st.sN=0})),
+    sugg(pool1,[5000,2000,1000],SA,st.sT,SB.out.length,v=>{st.sN=st.sT===v?SB.out.length+1:1;st.sT=v;rr()}),
+    optBtn('optS'),st.optS?h('div',{class:'opts'},h('label',{},'Other value'),vIn('sT','Small bundle value',()=>{st.sN=0})):null,
     SB.out.map((b,i)=>h('div',{class:'mb'},h('div',{class:'mbt'},h('span',{},`Small mix ${i+1}`),h('b',{},fmt(st.sT))),mixTags(b.mix)))),
    h('div',{class:'sub'},
     h('div',{class:'subh'},h('div',{},h('h4',{},'Mixed bundles'),h('small',{},`${fmt(st.mT)} each, from leftover notes`)),
      stepper(good.length,'One less mixed bundle','One more mixed bundle',!M.out.length,good.length>=M.max,()=>{st.mN=Math.max(0,st.mN-1);delete st.fix[st.mN];if(st.open>=st.mN)st.open=-1;rr()},()=>{st.mN++;rr()})),
     sugg(SB.pool,[50000,20000,10000],st.mUse,st.mT,good.length,v=>{if(st.mT!==v){st.fix={};st.mN=1}else st.mN=good.length+1;st.mT=v;st.open=-1;rr()}),
-    h('div',{class:'opts'},h('label',{},'Other value'),vIn('mT','Mixed bundle value',()=>{st.mN=0;st.fix={}})),
-    h('div',{class:'opts'},h('label',{},'Use'),D.map(d=>chip('₹'+d,st.mUse[d],()=>{st.mUse[d]=!st.mUse[d];st.fix={};rr()}))),
+    optBtn('optM',D.filter(d=>st.mUse[d]).map(d=>'₹'+d).join(', ')),st.optM?[h('div',{class:'opts'},h('label',{},'Other value'),vIn('mT','Mixed bundle value',()=>{st.mN=0;st.fix={}})),
+    h('div',{class:'opts'},h('label',{},'Use'),D.map(d=>chip('₹'+d,st.mUse[d],()=>{st.mUse[d]=!st.mUse[d];st.fix={};rr()})))]:null,
     mList)));
   /* 4 check + mark */
   const lines=[['Loose notes',la],['Kept in drawer',keptAmt],['Coins + loose change',other]].filter(x=>x[1]);
@@ -650,13 +663,13 @@ const Bundles=(()=>{
     marks.push({id:uid(),ts:Date.now(),ids:s.L.map(e=>e.id),amount:bundled,n:bN,carry:{d:cd,o:co}});saveMarks();
     st.confirm=false;st.src='since';st.sel=null;resetCounts();toast('✔ Marked at '+ftime(Date.now()));rr()}},'Yes, mark'))));
   const mk=h('button',{class:'b1',onclick:()=>{st.confirm=true;rr()}},ic('save',18),!s.canMark&&st.src==='today'?'Use Since last bundle':'Mark as bundled');mk.disabled=!bN||!s.canMark;
-  acts.push(h('div',{class:'btns'},VIEW?null:mk,h('a',{class:'b1 wa',href:'https://api.whatsapp.com/send?text='+encodeURIComponent(waText()),target:'_blank',rel:'noopener'},ic('wa',18),'Share')));
+  const barEl=h('div',{class:'bbar'},...acts,h('div',{class:'btns'},VIEW?null:mk,h('a',{class:'b1 wa',href:'https://api.whatsapp.com/send?text='+encodeURIComponent(waText()),target:'_blank',rel:'noopener'},ic('wa',18),'Share')));acts.length=0;
   root.append(step(3,'Check and mark','What stays with you, and the bank slip.',null,
    h('div',{class:'tot',style:'margin-top:0'},h('span',{},'Stays with you'),h('b',{},fmt(stay))),
    h('div',{class:'lg'},D.map(d=>h('div',{class:'lc'+(loose[d]?'':' z')},dn(NK[d],d,true),h('b',{},'× '+loose[d]),h('small',{},fmt(d*loose[d]))))),
    lines.map(([a,v])=>h('div',{class:'ll'},h('span',{},a),h('b',{},fmt(v)))),
-   slip,...acts));
-  root.append(credit());
+   slip));
+  root.append(credit(),barEl);
   return root;
 
   function mixedCard(b,i){
@@ -674,16 +687,19 @@ const Bundles=(()=>{
    return c;
   }
   function waText(){
-   const W=24,line=(a,b)=>String(a).padEnd(13)+String(b).padStart(W-13),blk=L=>'```'+L.join('\n')+'```';
-   const t=['📦 *BUNDLE REPORT*','📅 '+fday(Date.now())+' · '+ftime(Date.now()),'🕒 '+s.label,''];
-   if(bN){t.push('🏦 *DEPOSIT*',blk([...D.filter(d=>dep[d]).map(d=>line(`₹${d} × ${dep[d]}`,fmt(d*dep[d]))),line('Total',fmt(amt(dep)))]),'');
-    t.push('📦 *BUNDLES*','```'+[...D.filter(d=>full[d]).map(d=>`${full[d]} × ${fmt(d*st.size)} (₹${d})`),...good.map(b=>`1 × ${fmt(st.mT)} mixed: ${mixText(b.mix)}`),...SB.out.map(b=>`1 × ${fmt(st.sT)} small: ${mixText(b.mix)}`)].join('\n')+'```','')}
-   const LL=D.filter(d=>loose[d]).map(d=>line(`₹${d} × ${loose[d]}`,fmt(d*loose[d])));
-   if(keptAmt)LL.push(line('Drawer',fmt(keptAmt)));if(other)LL.push(line('Coins/loose',fmt(other)));
-   if(LL.length)t.push('💵 *STAYS WITH YOU*',blk(LL),'');
-   t.push(`📦 Bundled: *${fmt(bundled)}* (${bl(bN)})`,`💵 Stays: *${fmt(stay)}*`,`✅ *TOTAL: ${fmt(total)}*`);
+   const t=['📦 *BUNDLE REPORT*','📅 '+fday(Date.now())+'   🕒 '+ftime(Date.now()),'🧾 Cash: '+s.label+' ('+cnt(s.L.length,'entry')+')',BAR,
+    '','💰 *SUMMARY*',tbl([r2('Total cash',fmt(total)),r2(`Bundled (${bN})`,fmt(bundled)),r2('Stays with you',fmt(stay))])];
+   if(bN){const Dp=[r3('Note','Qty','Amount'),SEP,...D.filter(d=>dep[d]).map(d=>r3('₹'+d,nf(dep[d]),fmt(d*dep[d]))),SEP,r3('Total',nf(cntN(dep)),fmt(amt(dep)))];
+    const B=[...D.filter(d=>full[d]).map(d=>r2(`₹${d} × ${full[d]}`,fmt(full[d]*d*st.size))),
+     ...SB.out.flatMap((b,i)=>[r2(`Small mix ${i+1}`,fmt(st.sT)),...D.filter(d=>b.mix[d]).map(d=>r3('  ₹'+d,nf(b.mix[d]),fmt(d*b.mix[d])))]),
+     ...good.flatMap((b,i)=>[r2(`Mixed ${i+1}`,fmt(st.mT)),...D.filter(d=>b.mix[d]).map(d=>r3('  ₹'+d,nf(b.mix[d]),fmt(d*b.mix[d])))])];
+    t.push('','🏦 *BANK DEPOSIT*',tbl(Dp),'','📦 *BUNDLES MADE*',tbl(B))}
+   const LL=[r3('Note','Qty','Amount'),SEP,...D.filter(d=>loose[d]).map(d=>r3('₹'+d,nf(loose[d]),fmt(d*loose[d])))];
+   if(keptAmt)LL.push(r3('Drawer','',fmt(keptAmt)));if(other)LL.push(r3('Coins','',fmt(other)));LL.push(SEP,r3('Total','',fmt(stay)));
+   t.push('','💵 *STAYS WITH YOU*',tbl(LL),'',`📦 Bundled: *${fmt(bundled)}* (${bl(bN)})`,`💵 Stays: *${fmt(stay)}*`,`✅ *TOTAL: ${fmt(total)}*`);
    return t.join('\n');
   }
+
  }
  return{screen,open};
 })();
