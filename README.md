@@ -10,6 +10,7 @@ Static app, no build step.
 
 - Log in with a username (e.g. `admin` → `admin@krrivats.app`) or a full email. Users are created by the owner in Firebase console → Authentication → Users.
 - "Continue as Guest" = try the app without an ID. Data stays only on that device.
-- Data path: `apps/cashcount/users/{uid}/entries`, `/bundles`, `/meta/settings`.
+- Data path: `apps/cashcount/users/{uid}` (profile card), `/entries`, `/bundles`, `/meta/settings`.
+- The admin (`admin@krrivats.app`) gets a Users tab and can view any user's data read-only. Rules block admin edits.
 - Security rules are in `firestore.rules`. Paste them in Firebase console → Firestore Database → Rules → Publish.
 - The app still saves on the device first, so it works offline and syncs when online.
