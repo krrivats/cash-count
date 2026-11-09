@@ -279,6 +279,32 @@ details.slip summary::after{content:'+';color:var(--mu);font:700 20px var(--fd)}
 .hl .k1{background:linear-gradient(90deg,var(--go2),var(--amb))}.hl .k2{background:#FF6F6F}
 .cf{margin-top:10px;padding:12px;border-radius:14px;background:#25CB8E12;border:1px solid #25CB8E55;font-size:13.5px}
 @media (max-width:360px){.row{grid-template-columns:50px 30px minmax(40px,1fr) 30px 72px;gap:4px}.row .sb{width:30px}.dn{min-width:46px}.ro b{font-size:30px}}
+/* Udhar */
+nav button{position:relative}
+.nbd{position:absolute;top:1px;left:50%;margin-left:6px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--bad);color:#2A0505;font:800 10.5px/16px var(--f);text-align:center;font-style:normal}
+.uc{margin-bottom:8px;padding:11px 12px;border-radius:16px;background:var(--p1);border:1px solid var(--ln)}
+.uc.paid{background:#25CB8E0A;border-color:#25CB8E33}
+.uh{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.uh b{display:block;font:700 24px/1 var(--fd)}
+.uh small{display:block;color:var(--mu);font-size:12px;margin-top:3px}
+.age{flex:none;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:800;background:var(--p3);color:var(--mu);white-space:nowrap}
+.age.amb{background:#FFB5471C;color:var(--amb)}.age.bad{background:#FF6F6F1C;color:#FFA0A0}.age.ok{background:#25CB8E1C;color:var(--go)}
+.ust{display:flex;justify-content:space-between;margin-top:7px;color:var(--mu);font-size:12.5px;font-weight:700}
+.ust b{font:700 16px var(--fd)}.ust b.g{color:var(--go)}.ust b.a{color:var(--amb)}
+.pay{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:var(--mu);font-size:12.5px}
+.pay b{font:700 14px var(--fd);color:var(--go)}.pay .lnk{margin-left:10px;color:var(--bad)}
+.uc .pay:first-of-type{margin-top:6px;border-top:1px dashed var(--ln2)}
+.pdone{margin-top:4px;color:var(--go);font-size:12.5px;font-weight:800}
+.ubtn{display:flex;gap:6px;margin-top:9px}
+.ua{flex:1;height:38px;border-radius:12px;background:var(--p2);border:1px solid var(--ln2);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.ua.go{background:var(--go2);border-color:var(--go);color:#fff}
+.ua.ed{flex:none;width:44px;color:var(--mu)}
+.ua:active{transform:scale(.97)}
+.uv{color:var(--amb)}.uv.bad{color:#FFA0A0}.uv.amb{color:var(--amb)}.ug{color:var(--go)}
+.uhint{color:var(--amb);font-size:12.5px;font-weight:700;margin:0 2px}.uhint:empty{display:none}
+.xf .xrow{grid-template-columns:1fr 1.2fr}
+.tagd{padding:2px 7px;border-radius:6px;background:#FFB5471C;border:1px solid #FFB54766;color:var(--amb);font:800 10px/1.4 var(--f);letter-spacing:.06em;white-space:nowrap}
+@media (max-width:380px){nav button{font-size:10.5px}}
 </style></head><body><div id="app">
 <header><svg class="logo" viewBox="0 0 48 48" role="img" aria-label="Cash Count logo"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ee7b7"/><stop offset="1" stop-color="#059669"/></linearGradient></defs><circle cx="24" cy="24" r="22" fill="#0d1020" stroke="url(#lg)" stroke-width="2.5"/><circle cx="24" cy="24" r="17" fill="#121627" stroke="#10b98155" stroke-dasharray="2 3"/><path d="M16 14h16M16 20h16M16 14h6.5a6 6 0 0 1 0 12H16l11 10" fill="none" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="2.5" r="2" fill="#6ee7b7"/></svg>
 <div class="tt"><div class="ttl"><b>Cash Count</b><span id="hcredit"></span></div><div class="clk"><i class="live" id="dot" aria-hidden="true"></i><span id="dt"></span><em id="sy"></em></div></div><button class="me" id="me" aria-label="Profile"></button><button class="gear" id="gear" aria-label="Settings"></button></header>
@@ -292,7 +318,7 @@ const NOTES=[['n500',500],['n200',200],['n100',100],['n50',50],['n20',20],['n10'
 /* Real note colours */
 const DC={n500:'--d500',n200:'--d200',n100:'--d100',n50:'--d50',n20:'--d20',n10:'--d10',c5:'--dc',c2:'--dc',c1:'--dc'};
 const DV=d=>DC['n'+d]||'--dc';
-const I={exp:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',bund:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',notes:'<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>'};
+const I={udh:'<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/><path d="M9 8h6M9 12h4"/>',exp:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',calc:'<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',today:'<path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18m-12 6 2 2 4-4"/>',hist:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',gear:'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',back:'<path d="m15 18-6-6 6-6"/>',chev:'<path d="m9 18 6-6-6-6"/>',save:'<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/>',eraser:'<path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7M5 11l9 9"/>',plus:'<path d="M5 12h14M12 5v14"/>',minus:'<path d="M5 12h14"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',edit:'<path d="M12 20h9M16.4 3.6a2 2 0 0 1 2.8 2.8L7.5 18.1 3 19.5l1.4-4.5z"/>',down:'<path d="M12 3v12m-5-5 5 5 5-5M5 21h14"/>',up:'<path d="M12 15V3m-5 5 5-5 5 5M5 21h14"/>',bund:'<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/>',wa:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.5 9.5c.3 1.6 1.4 3.2 3 4l1-1 2 1c-.3 1.1-1.3 1.6-2.4 1.3-2.4-.8-4.3-2.7-5-5.1C7.8 8.6 8.4 7.6 9.5 7.3l1 2z"/>',users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',notes:'<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>'};
 function h(t,a,...c){const e=document.createElement(t);for(const k in a||{}){const v=a[k];if(v==null)continue;if(k==='class')e.className=v;else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);else e.setAttribute(k,v)}c.flat(9).forEach(x=>x!=null&&x!==false&&e.append(x.nodeType?x:document.createTextNode(x)));return e}
 const ic=(n,s=20)=>{const w=document.createElement('span');w.className='ic';w.innerHTML=`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;return w};
 const $=s=>document.querySelector(s);
@@ -418,6 +444,7 @@ function histScreen(){const m=new Map();entries.forEach(e=>{const k=dkey(e.times
  return h('div',{class:'in'},h('h2',{class:'pt'},'History'),h('p',{class:'mu hl'},h('i',{class:'k1'}),'Cash collected',h('i',{class:'k2'}),'Expenses'),h('div',{class:'list'},out))}
 /* Detail views */
 const V={
+ udhp(v){return Udhar.person(v)},
  day(v){const L=dayList(v.day);if(!L.length&&!dayX(v.day).length)return null;return h('div',{class:'in'},bar(fdate(v.day),cnt(group(L).length,'person')),hero('Day total',fday(kdate(v.day)),sum(L),[['Entries',L.length]]),xCard(v.day),L.length?[h('div',{class:'sh'},h('span',{},'By person')),plist(L,v.day),dayBtns(v.day)]:h('p',{class:'mu',style:'margin-top:10px'},'No cash entries on this day.'))},
  notes(v){const L=dayList(v.day);if(!L.length)return null;const nc=noteCount(L),T=sum(L),ok=total(nc.d,nc.l)===T;
   const r=([k,x])=>h('div',{class:'nc'+(nc.d[k]?'':' z')},dn(k,x),h('span',{class:'qy'},'× '+nc.d[k]),h('span',{class:'am'+(nc.d[k]?' on':'')},fmt(nc.d[k]*x)));
@@ -459,7 +486,7 @@ const V={
    h('div',{class:'sh'},h('span',{},'Backup'),h('b',{},lb?ago(lb):'never')),
    h('div',{class:'btns',style:'margin-top:0'},btn('b2','down','Export',exportB,'Export backup'),VIEW?null:btn('b2','up','Import',()=>importModal(f),'Import backup')),f,
    h('p',{class:'mu',style:'margin-top:8px'},VIEW?`Export saves ${VIEW.name}'s data.`:lb?`Last backup ${fday(lb)}, ${ftime(lb)}.`:'No backup yet. A reminder appears every 7 days.'),
-   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${expenses.length} expenses, ${marks.length} marks`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];expenses=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK);localStorage.removeItem(XK)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),window.DEMO?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED(),'Add sample data'):null],
+   VIEW?null:[h('div',{class:'sh'},h('span',{},'Data'),h('b',{},`${cnt(entries.length,'entry')}, ${expenses.length} expenses, ${Udhar.list.length} udhar, ${marks.length} marks`)),btn('b3 wide','trash','Delete all data',()=>ask('Delete all data?','This permanently deletes every cash record on this device and in your cloud account.','Delete all data',()=>{entries=[];marks=[];expenses=[];Udhar.list=[];try{localStorage.removeItem(KEY);localStorage.removeItem(BK);localStorage.removeItem(XK);localStorage.removeItem(Udhar.key)}catch(e){}Cloud.push();S.stack=[];render();toast('All data deleted')})),window.DEMO?btn('b2 wide','plus','Add sample data (demo only)',()=>window.DEMO_SEED(),'Add sample data'):null],
    credit(true))}};
 function accountBlock(){const u=CS.user;
  if(!Cloud.signIn)return h('div',{class:'acc'},av('D'),h('div',{class:'m'},h('b',{},'This device only'),h('small',{},'Cloud sync is not connected. Data is saved on this phone.')));
@@ -492,17 +519,17 @@ const ago=t=>{const d=Math.floor((Date.now()-t)/DAY);return d<1?'today':d===1?'1
 function checkBackup(){if(VIEW)return;$('#gear').classList.toggle('due',backupDue());if(!backupDue()||document.querySelector('.ov,#login')||Date.now()-(+ls.get(SNZ)||0)<DAY)return;
  const lb=lastBackup(),c=modal(h('h2',{},'💾 Time for a backup'),h('p',{class:'mu'},(lb?'Your last backup was '+ago(lb)+'.':'You have not saved a backup yet.')+' Save one now so your cash records are safe if this phone is lost or reset.'),
   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>{ls.set(SNZ,String(Date.now()));c()}},'Later'),h('button',{class:'b1',onclick:()=>{c();exportB()}},'Back up now')))}
-function exportB(){if(!VIEW){ls.set(LB,String(Date.now()));ls.del(SNZ)}render();const who=VIEW?'-'+VIEW.name.replace(/\W+/g,''):'';const name=`cash-count-backup${who}-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:3,exportedAt:new Date().toISOString(),entries,bundles:marks,expenses,keepChange:+ls.get(KK)||0},null,2);
+function exportB(){if(!VIEW){ls.set(LB,String(Date.now()));ls.del(SNZ)}render();const who=VIEW?'-'+VIEW.name.replace(/\W+/g,''):'';const name=`cash-count-backup${who}-${dkey(Date.now())}.json`,txt=JSON.stringify({app:'cash-count',version:4,exportedAt:new Date().toISOString(),entries,bundles:marks,expenses,udhar:Udhar.list,keepChange:+ls.get(KK)||0},null,2);
  try{const a=h('a',{href:URL.createObjectURL(new Blob([txt],{type:'application/json'})),download:name});document.body.append(a);a.click();a.remove()}catch(e){}
  const ta=h('textarea',{class:'tx',readonly:'','aria-label':'Backup JSON'});ta.value=txt;ta.onfocus=()=>ta.select();
  const c=modal(h('h2',{},'Export backup'),h('p',{class:'mu'},name+'. If the download was blocked, copy the text below and save it as a .json file.'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Close'),h('button',{class:'b1',onclick:()=>{ta.select();try{document.execCommand('copy');navigator.clipboard&&navigator.clipboard.writeText(txt)}catch(e){}toast('Copied')}},'Copy')))}
 function importModal(f){const ta=h('textarea',{class:'tx','aria-label':'Paste backup JSON',placeholder:'…or paste backup text here'});
  const c=modal(h('h2',{},'Import backup'),h('button',{class:'b2',style:'width:100%',onclick:()=>{c();f.click()}},'Choose backup file'),h('label',{class:'fl'},'Or paste the backup text'),ta,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();tryImport(ta.value)}},'Continue')))}
 function tryImport(text){if(VIEW)return;let j;try{j=JSON.parse(text)}catch(e){}
- if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))||(j.expenses!=null&&!(Array.isArray(j.expenses)&&j.expenses.every(validX)))){const c=modal(h('h2',{},'Import failed'),h('p',{class:'mu'},'This is not a valid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
+ if(!j||j.app!=='cash-count'||!Array.isArray(j.entries)||!j.entries.every(valid)||(j.bundles!=null&&!(Array.isArray(j.bundles)&&j.bundles.every(validMark)))||(j.expenses!=null&&!(Array.isArray(j.expenses)&&j.expenses.every(validX)))||(j.udhar!=null&&!(Array.isArray(j.udhar)&&j.udhar.every(Udhar.valid)))){const c=modal(h('h2',{},'Import failed'),h('p',{class:'mu'},'This is not a valid Cash Count backup file.'),h('div',{class:'btns'},h('button',{class:'b1',onclick:()=>c()},'OK')));return}
  const n=j.entries.length,mode=h('input',{type:'radio',name:'m',value:'merge',checked:''}),rep=h('input',{type:'radio',name:'m',value:'replace'});
- const jb=j.bundles||[],jx=j.expenses||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice();expenses=jx.slice()}else{const xi=new Set(expenses.map(x=>x.id));expenses=expenses.concat(jx.filter(x=>!xi.has(x.id)));const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();saveX();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
- const c=modal(h('h2',{},`Import ${cnt(n,'entry')}`+(jx.length?` + ${jx.length} expenses`:'')+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current entries will be deleted (here and in the cloud) and replaced by the backup.','Replace',apply):apply()}},'Import')))}
+ const jb=j.bundles||[],jx=j.expenses||[],ju=j.udhar||[];const apply=()=>{if(rep.checked){entries=j.entries.slice();marks=jb.slice();expenses=jx.slice();Udhar.list=ju.slice()}else{const ui=new Set(Udhar.list.map(x=>x.id));Udhar.list=Udhar.list.concat(ju.filter(x=>!ui.has(x.id)));const xi=new Set(expenses.map(x=>x.id));expenses=expenses.concat(jx.filter(x=>!xi.has(x.id)));const ids=new Set(entries.map(e=>e.id));entries=entries.concat(j.entries.filter(e=>!ids.has(e.id)));const mi=new Set(marks.map(m=>m.id));marks=marks.concat(jb.filter(m=>!mi.has(m.id)))}entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);saveMarks();saveX();Udhar.save();if(j.keepChange!=null)ls.set(KK,String(j.keepChange));Bundles.open();persist();S.stack=[];render();toast('✓ Backup imported')};
+ const c=modal(h('h2',{},`Import ${cnt(n,'entry')}`+(jx.length?` + ${jx.length} expenses`:'')+(ju.length?` + ${ju.length} udhar`:'')+(jb.length?` + ${jb.length} bundle ${jb.length===1?'mark':'marks'}`:'')+'?'),h('div',{class:'opt'},h('label',{},mode,'Merge'),h('label',{},rep,'Replace')),h('p',{class:'mu',style:'margin-top:8px'},'Merge keeps your current entries. Replace deletes them first.'),h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{c();rep.checked?ask('Replace all data?','Your current entries will be deleted (here and in the cloud) and replaced by the backup.','Replace',apply):apply()}},'Import')))}
 /* Bundles: full 100-note bundles, mixed + small-note bundles, change kept in drawer, "since last bundle" */
 const BK='cash-count-bundles',KK='cash-count-keep';
 function validMark(m){return!!m&&typeof m.id==='string'&&typeof m.ts==='number'&&Array.isArray(m.ids)&&m.ids.every(x=>typeof x==='string')&&typeof m.amount==='number'&&typeof m.n==='number'&&!!m.carry&&typeof m.carry.o==='number'&&!!m.carry.d&&typeof m.carry.d==='object'}
@@ -774,6 +801,115 @@ const Bundles=(()=>{
  }
  return{screen,open};
 })();
+/*UDHAR-START*/
+/* Udhar: a separate list of money lent. It never touches cash counts, totals or reports.
+   Record: {id,name,phone,amount,note,ts,pays:[{id,amt,ts}]}. Pending = amount minus payments. */
+const Udhar=(()=>{
+ const UK='cash-count-udhar';
+ const vU=u=>!!u&&typeof u.id==='string'&&typeof u.name==='string'&&u.name.trim()!==''&&typeof u.amount==='number'&&u.amount>0&&typeof u.ts==='number'&&(u.phone==null||typeof u.phone==='string')&&(u.note==null||typeof u.note==='string')&&Array.isArray(u.pays)&&u.pays.every(p=>!!p&&typeof p.id==='string'&&typeof p.amt==='number'&&p.amt>0&&typeof p.ts==='number');
+ const load=()=>{try{const a=JSON.parse(localStorage.getItem(UK)||'[]');return Array.isArray(a)?a.filter(vU):[]}catch(e){return[]}};
+ let list=load();
+ const save=()=>{if(VIEW)return;try{localStorage.setItem(UK,JSON.stringify(list))}catch(e){}Cloud.push()};
+ const paidOf=u=>u.pays.reduce((s,p)=>s+p.amt,0),balOf=u=>u.amount-paidOf(u);
+ const lastPay=u=>u.pays.reduce((m,p)=>Math.max(m,p.ts),0);
+ const sod=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+ const age=t=>Math.max(0,Math.round((sod(Date.now())-sod(t))/864e5));
+ const ageT=t=>{const n=age(t);return n===0?'Today':n===1?'1 day':n+' days'};
+ const ageC=t=>{const n=age(t);return n>30?' bad':n>7?' amb':''};
+ const fdt=t=>fdate(dkey(t))+', '+ftime(t);
+ /* One entry per person (same name, any capital letters). */
+ const people=()=>{const m=new Map();list.slice().sort((a,b)=>a.ts-b.ts).forEach(u=>{const k=u.name.toLowerCase();if(!m.has(k))m.set(k,{key:k,name:u.name,phone:'',recs:[]});const p=m.get(k);p.recs.push(u);if(u.phone)p.phone=u.phone});
+  return[...m.values()].map(p=>{p.tot=p.recs.reduce((s,u)=>s+u.amount,0);p.paid=p.recs.reduce((s,u)=>s+paidOf(u),0);p.bal=p.tot-p.paid;p.pend=p.recs.filter(u=>balOf(u)>0);p.old=p.pend.length?p.pend[0].ts:0;p.last=p.recs.reduce((m,u)=>Math.max(m,lastPay(u),u.ts),0);return p})};
+ const canonName=n=>{n=n.trim();const f=people().find(p=>p.key===n.toLowerCase());return f?f.name:n};
+ const wa=ph=>{let d=(ph||'').replace(/\D/g,'').replace(/^0+/,'');if(d.length===10)d='91'+d;return d.length>=11?d:''};
+ const waLink=p=>{const t=`Namaste ${p.name} 🙏\nA gentle reminder: your Udhar of ${fmt(p.bal)} is pending`+(p.old?` (since ${fdate(dkey(p.old))}${age(p.old)?', '+ageT(p.old)+' ago':''})`:'')+'.\nPlease pay when you can. Thank you!';return'https://wa.me/'+wa(p.phone)+'?text='+encodeURIComponent(t)};
+ const addU=(name,amt,phone,note)=>{list.push({id:uid(),name:canonName(name),phone:phone||'',amount:amt,note:note||'',ts:Date.now(),pays:[]});save()};
+ /* Receive money. Oldest udhar is cleared first. Returns an undo function. */
+ const doPay=(recs,amt)=>{let r=amt;const ts=Date.now(),added=[];recs.slice().sort((a,b)=>a.ts-b.ts).forEach(u=>{const b=balOf(u);if(r<=0||b<=0)return;const t=Math.min(b,r),id=uid();u.pays.push({id,amt:t,ts});added.push([u,id]);r-=t});save();return()=>{added.forEach(([u,id])=>{u.pays=u.pays.filter(p=>p.id!==id)});save()}};
+ const US={f:'pending'};
+ const pendTotal=()=>people().reduce((s,p)=>s+p.bal,0);
+ const pendCount=()=>people().filter(p=>p.bal>0).length;
+
+ function payModal(title,recs){const B=recs.reduce((s,u)=>s+balOf(u),0);
+  const a=h('input',{class:'tx',inputmode:'numeric',placeholder:'₹ Amount received','aria-label':'Amount received',autocomplete:'off'});
+  const ok=()=>{const v=num(a.value.replace(/\D/g,''));if(!v){toast('Enter the amount received');a.focus();return}if(v>B){toast('That is more than the pending '+fmt(B));return}c();const un=doPay(recs,v);render();undoToast(v===B?'✓ Fully paid':'✓ Received '+fmt(v)+', balance '+fmt(B-v),()=>{un();render()})};
+  a.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();ok()}});
+  const q=[h('button',{type:'button',onclick:()=>{a.value=String(B);a.focus()}},'Full '+fmt(B))];
+  if(B>=200)q.push(h('button',{type:'button',onclick:()=>{a.value=String(Math.round(B/2));a.focus()}},'Half '+fmt(Math.round(B/2))));
+  const c=modal(h('h2',{},title),h('p',{class:'mu'},'Pending: ',h('b',{style:'color:var(--amb)'},fmt(B))),a,h('div',{class:'sug'},q),
+   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:ok},'Mark received')));
+  setTimeout(()=>a.focus(),60)}
+
+ function addMore(p){const a=h('input',{class:'tx',inputmode:'numeric',placeholder:'₹ Amount','aria-label':'Amount',autocomplete:'off'}),n=h('input',{class:'tx',placeholder:'Note (optional)','aria-label':'Note',autocomplete:'off'});
+  const ok=()=>{const v=num(a.value.replace(/\D/g,''));if(!v){toast('Enter the amount');a.focus();return}addU(p.name,v,p.phone,n.value.trim());c();render();toast('✓ Udhar added: '+fmt(v))};
+  [a,n].forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();ok()}}));
+  const c=modal(h('h2',{},'More Udhar for '+p.name),a,h('div',{style:'height:6px'}),n,h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:ok},'Add Udhar')));setTimeout(()=>a.focus(),60)}
+
+ function editP(p,v){const n=h('input',{class:'tx',value:p.name,'aria-label':'Name',autocapitalize:'words'}),ph=h('input',{class:'tx',type:'tel',inputmode:'tel',value:p.phone||'',placeholder:'Mobile number (optional)','aria-label':'Mobile number'});
+  const c=modal(h('h2',{},'Edit person'),h('label',{class:'fl'},'Name'),n,h('label',{class:'fl'},'Mobile number'),ph,
+   h('div',{class:'btns'},h('button',{class:'b2',onclick:()=>c()},'Cancel'),h('button',{class:'b1',onclick:()=>{const nn=n.value.trim(),pp=ph.value.trim();if(!nn){toast('Write the name');return}if(pp&&!wa(pp)){toast('Mobile number looks wrong');return}
+    const to=canonName(nn);p.recs.forEach(u=>{u.name=to;u.phone=pp});save();v.key=to.toLowerCase();c();render();toast('✓ Saved')}},'Save')))}
+
+ function editRec(u){if(VIEW)return;let pays=u.pays.slice();
+  const a=h('input',{class:'tx',inputmode:'numeric',value:String(u.amount),'aria-label':'Amount'}),n=h('input',{class:'tx',value:u.note||'',placeholder:'Note (optional)','aria-label':'Note'}),pl=h('div',{});
+  const draw=()=>pl.replaceChildren(...(pays.length?[h('label',{class:'fl'},'Payments received'),...pays.map(p=>h('div',{class:'pay'},h('span',{},fdt(p.ts)),h('span',{},h('b',{},fmt(p.amt)),h('button',{class:'lnk',type:'button',onclick:()=>{pays=pays.filter(x=>x.id!==p.id);draw()}},'Remove'))))]:[]));draw();
+  const c=modal(h('h2',{},'Edit Udhar'),h('p',{class:'mu'},'Given '+fdt(u.ts)),h('label',{class:'fl'},'Amount (₹)'),a,h('label',{class:'fl'},'Note'),n,pl,
+   h('div',{class:'btns'},h('button',{class:'b3 fit','aria-label':'Delete this Udhar',onclick:()=>{c();del(u)}},ic('trash',18)),h('button',{class:'b2',onclick:()=>c()},'Cancel'),
+    h('button',{class:'b1',onclick:()=>{const v=num(a.value.replace(/\D/g,''));if(!v){toast('Enter the amount');return}if(v<pays.reduce((s,p)=>s+p.amt,0)){toast('Amount is less than what was already received');return}Object.assign(u,{amount:v,note:n.value.trim(),pays});save();c();render();toast('✓ Saved')}},'Save')))}
+ function del(u){if(VIEW)return;list=list.filter(x=>x.id!==u.id);save();render();undoToast('Udhar deleted',()=>{if(!list.some(x=>x.id===u.id))list.push(u);save();render()})}
+
+ const recCard=(u,ro)=>{const b=balOf(u),pd=paidOf(u),done=b<=0;
+  return h('div',{class:'uc'+(done?' paid':'')},
+   h('div',{class:'uh'},h('div',{},h('b',{},fmt(u.amount)),h('small',{},'Given: '+fdt(u.ts)),u.note?h('small',{},'📝 '+u.note):null),
+    done?h('span',{class:'age ok'},'✓ Paid'):h('span',{class:'age'+ageC(u.ts)},age(u.ts)?ageT(u.ts)+' pending':'Today')),
+   h('span',{class:'bar'},h('i',{style:`width:${Math.min(100,pd/u.amount*100)}%`})),
+   h('div',{class:'ust'},h('span',{},'Received ',h('b',{class:'g'},fmt(pd))),h('span',{},done?'Balance ':'Balance ',h('b',{class:done?'g':'a'},fmt(b)))),
+   u.pays.slice().sort((x,y)=>x.ts-y.ts).map(p=>h('div',{class:'pay'},h('span',{},'💰 '+fdt(p.ts)),h('b',{},'+ '+fmt(p.amt)))),
+   done?h('div',{class:'pdone'},'✅ Fully paid on '+fdt(lastPay(u))):null,
+   ro?null:h('div',{class:'ubtn'},
+    done?null:h('button',{class:'ua',onclick:()=>payModal('Receive payment',[u])},'Receive'),
+    done?null:h('button',{class:'ua go',onclick:()=>{const un=doPay([u],b);render();undoToast('✓ Marked paid',()=>{un();render()})}},'✓ Mark paid'),
+    h('button',{class:'ua ed','aria-label':'Edit Udhar',onclick:()=>editRec(u)},ic('edit',16))))};
+
+ function person(v){const p=people().find(x=>x.key===v.key);if(!p)return null;
+  const done=p.recs.filter(u=>balOf(u)<=0).sort((a,b)=>lastPay(b)-lastPay(a)),ro=!!VIEW;
+  const a1=[];if(!ro&&p.bal>0)a1.push(btn('b1','down','Receive payment',()=>payModal('Receive from '+p.name,p.pend)));
+  if(p.bal>0&&wa(p.phone))a1.push(h('a',{class:'b1 wa',href:waLink(p),target:'_blank',rel:'noopener'},ic('wa',18),'WhatsApp reminder'));
+  return h('div',{class:'in'},bar(p.name,p.phone?'📱 '+p.phone:'No mobile number'),
+   hero(p.bal>0?'Balance pending':'All paid ✓',`${p.recs.length} ${p.recs.length===1?'Udhar':'Udhar entries'}`,p.bal,[['Given',fmt(p.tot)],['Received',fmt(p.paid)]]),
+   a1.length?h('div',{class:'btns'},a1):null,
+   ro?null:h('div',{class:'btns'},btn('b2','plus','Add Udhar',()=>addMore(p)),btn('b2','edit','Edit person',()=>editP(p,v))),
+   p.pend.length?[h('div',{class:'sh'},h('span',{},'Pending'),h('b',{},fmt(p.bal))),p.pend.map(u=>recCard(u,ro))]:null,
+   done.length?[h('div',{class:'sh'},h('span',{},'Paid'),h('b',{},fmt(done.reduce((s,u)=>s+u.amount,0)))),done.map(u=>recCard(u,ro))]:null)}
+
+ function screen(){const P=people(),pe=P.filter(p=>p.bal>0).sort((a,b)=>a.old-b.old),pd=P.filter(p=>p.bal<=0).sort((a,b)=>b.last-a.last);
+  const T=pe.reduce((s,p)=>s+p.bal,0),over=pe.reduce((s,p)=>s+p.pend.filter(u=>age(u.ts)>7).reduce((x,u)=>x+balOf(u),0),0);
+  let form=null;
+  if(!VIEW){const nm=h('input',{class:'tx',type:'text',placeholder:'Name (who took Udhar)','aria-label':'Name',autocomplete:'off',autocapitalize:'words'}),
+    ph=h('input',{class:'tx',type:'tel',inputmode:'tel',placeholder:'Mobile (optional)','aria-label':'Mobile number',autocomplete:'off'}),
+    am=h('input',{class:'tx',type:'text',inputmode:'numeric',placeholder:'₹ Amount','aria-label':'Amount',autocomplete:'off'}),
+    nt=h('input',{class:'tx',type:'text',placeholder:'Note (optional)','aria-label':'Note',autocomplete:'off'}),sg=h('div',{class:'sug'}),hint=h('div',{class:'uhint'});
+   let auto=false;ph.addEventListener('input',()=>{auto=false});
+   const show=()=>{const q=nm.value.trim().toLowerCase(),f=P.find(p=>p.key===q);
+    sg.replaceChildren(...P.filter(p=>!q||(p.key.includes(q)&&p.key!==q)).sort((a,b)=>b.last-a.last).slice(0,6).map(p=>h('button',{type:'button',onclick:()=>{nm.value=p.name;if(p.phone){ph.value=p.phone;auto=true}show();am.focus()}},p.name)));
+    hint.textContent=f?(f.bal>0?`Already pending: ${fmt(f.bal)} (since ${ageT(f.old)==='Today'?'today':ageT(f.old)+' ago'})`:'All paid earlier ✓'):'';
+    if(f&&f.phone&&!ph.value.trim()){ph.value=f.phone;auto=true}else if(!f&&auto){ph.value='';auto=false}};
+   nm.addEventListener('input',show);show();
+   const add=()=>{const a=num(am.value.replace(/\D/g,'')),n=nm.value.trim(),p=ph.value.trim();if(!n){toast('Write the name');nm.focus();return}if(!a){toast('Enter the amount');am.focus();return}if(p&&!wa(p)){toast('Mobile number looks wrong');ph.focus();return}addU(n,a,p,nt.value.trim());render();toast('✓ Udhar added: '+n+', '+fmt(a))};
+   [nm,ph,am,nt].forEach(i=>i.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add()}}));
+   form=h('div',{class:'card xf'},nm,sg,hint,h('div',{class:'xrow'},am,ph),nt,btn('b1 wide','plus','Add Udhar',add))}
+  const L=US.f==='pending'?pe:US.f==='paid'?pd:[...pe,...pd];
+  const row=(p,i)=>h('button',{class:'li in',style:`--i:${Math.min(i,12)}`,'aria-label':`${p.name}, ${p.bal>0?fmt(p.bal)+' pending':'all paid'}`,onclick:()=>go({t:'udhp',key:p.key})},av(p.name),
+   h('div',{class:'m'},h('b',{},p.name,p.phone?h('span',{class:'tag'},'📱'):null),h('small',{},p.bal>0?`${p.pend.length} pending · ${age(p.old)?ageT(p.old)+' old':'today'}`:'All paid · '+fdate(dkey(p.last)))),
+   h('span',{class:'v '+(p.bal>0?'uv'+ageC(p.old):'ug')},p.bal>0?fmt(p.bal):'✓ '+fmt(p.tot)),ic('chev',18));
+  const seg=h('div',{class:'seg',role:'group','aria-label':'Show'},[['pending',`Pending (${pe.length})`],['paid',`Paid (${pd.length})`],['all','All']].map(([k,l])=>h('button',{type:'button','aria-pressed':String(US.f===k),onclick:()=>{US.f=k;render()}},l)));
+  return h('div',{class:'in'},
+   hero('Udhar pending',pe.length?`${cnt(pe.length,'person')} to pay`:'Nobody owes you',T,[['Oldest',pe.length?ageT(pe[0].old):'-'],['Over 7 days',fmt(over)]]),
+   form,h('div',{style:'height:8px'}),seg,
+   L.length?h('div',{class:'list',style:'margin-top:8px'},L.map(row)):empty(US.f==='paid'?'No paid Udhar yet':P.length?'No pending Udhar 🎉':'No Udhar yet',US.f==='paid'?'Paid Udhar shows here.':VIEW?'':'Add the name and amount above when someone takes Udhar.'))}
+ return{screen,person,pending:pendCount,key:UK,save,reload(){list=load();return list},get list(){return list},set list(a){list=a.filter(vU)},valid:vU};
+})();
+/*UDHAR-END*/
 const IG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>';
 function credit(big){const s=h('span',{class:'madeby'+(big?' big':''),'aria-label':'Made by Krrivats'});s.innerHTML=`Made by ${IG} <strong>Krrivats</strong> <span role="img" aria-label="love">❤️</span>`;return h('div',{class:'credit'},s)}
 /* Login screen (shown when cloud is connected and nobody is logged in) */
@@ -798,13 +934,13 @@ const meName=()=>CS.user?CS.user.name:isGuest()?'Guest':'Me';
 function dot(){const d=$('#dot'),y=$('#sy');if(!d)return;const u=CS.user;$('#me').replaceChildren(av(meName()));
  d.className='live'+(!u?(isGuest()?' g':' no'):(!CS.live||CS.pend?' off':''));
  y.textContent=!u?(isGuest()?'Guest':''):!CS.live?'Offline':CS.pend?'Saving':'Synced'}
-function navR(){const tabs=[['calc','calc','Count'],['today','today','Today'],['hist','hist','History'],['exp','exp','Expenses'],['bund','bund','Bundles']];if(CS.user&&CS.user.admin)tabs.push(['users','users','Users']);
+function navR(){const tabs=[['calc','calc','Count'],['today','today','Today'],['hist','hist','History'],['exp','exp','Expenses'],['udh','udh','Udhar'],['bund','bund','Bundles']];if(CS.user&&CS.user.admin)tabs.push(['users','users','Users']);
  const top=S.stack[S.stack.length-1];
- $('#nav').replaceChildren(...tabs.map(([t,i,l])=>{const on=S.tab===t&&!(top&&(top.t==='settings'||top.t==='profile'));return h('button',{class:on?'on':null,'aria-current':on?'page':'false',onclick:()=>{S.tab=t;S.stack=[];if(t==='bund')Bundles.open();if(t==='exp')XS.day=null;render()}},ic(i,20),l)}))}
+ $('#nav').replaceChildren(...tabs.map(([t,i,l])=>{const on=S.tab===t&&!(top&&(top.t==='settings'||top.t==='profile'));return h('button',{class:on?'on':null,'aria-current':on?'page':'false',onclick:()=>{S.tab=t;S.stack=[];if(t==='bund')Bundles.open();if(t==='exp')XS.day=null;render()}},ic(i,20),l,t==='udh'&&Udhar.pending()?h('em',{class:'nbd'},String(Udhar.pending())):null)}))}
 function vbarR(){$('#vb').replaceChildren(VIEW?h('div',{class:'vbar',role:'status'},ic('eye',16),h('span',{},'Viewing ',h('b',{},VIEW.name),' (read-only)'),h('button',{onclick:()=>Cloud.exit()},'Exit')):'')}
 function fit(){const m=$('#main'),c=m.firstElementChild;if(S.stack.length||S.tab!=='calc'||!c)return;let x=42;c.style.setProperty('--rh',x+'px');while(x>31&&m.scrollHeight>m.clientHeight+1){x--;c.style.setProperty('--rh',x+'px')}}
 function render(){const m=$('#main');let node;if(S.tab==='users'&&!(CS.user&&CS.user.admin))S.tab='calc';const top=S.stack[S.stack.length-1];
- if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen,exp:expScreen,bund:Bundles.screen,users:usersScreen}[S.tab]();
+ if(top){node=V[top.t](top);if(!node){S.stack.pop();return render()}}else node={calc:calcScreen,today:todayScreen,hist:histScreen,exp:expScreen,udh:Udhar.screen,bund:Bundles.screen,users:usersScreen}[S.tab]();
  m.replaceChildren(node);m.scrollTop=0;clock();$('#gear').classList.toggle('due',!VIEW&&backupDue());navR();vbarR();dot();fit()}
 addEventListener('resize',fit);addEventListener('orientationchange',fit);document.fonts&&document.fonts.ready.then(fit);
 $('#gear').append(ic('gear',18));$('#hcredit').replaceWith(credit().firstChild);$('#gear').onclick=()=>{S.stack=[{t:'settings'}];render()};$('#me').onclick=()=>{S.stack=[{t:'profile'}];render()};
@@ -814,7 +950,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 <!--CLOUD-->
 <script type="module">
 /* ☁️ Firebase login + sync (project: krrivats-apps).
-   Data: apps/cashcount/users/{uid} (profile), /entries, /bundles, /expenses, /meta/settings.
+   Data: apps/cashcount/users/{uid} (profile), /entries, /bundles, /expenses, /udhar, /meta/settings.
    The app saves on the device first, so it works offline; this module syncs it.
    Admin (admin@krrivats.app) can also VIEW other users' data. Firestore rules block admin writes. */
 import{initializeApp}from'https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js';
@@ -832,10 +968,10 @@ const P=(...a)=>['apps',APP,'users',...a];
 const col=n=>collection(db,...P(me.uid,n)),ref=(n,i)=>doc(db,...P(me.uid,n,i)),sref=()=>doc(db,...P(me.uid,'meta','settings')),pref=()=>doc(db,...P(me.uid));
 const short=e=>e&&e.endsWith('@krrivats.app')?e.split('@')[0]:e||'';
 let me=null,live=false,offs=[],vOffs=[],uOff=null,got={},pend={},base=null,timer=0,lastProf=0;
-const loadBase=u=>{try{const b=JSON.parse(ls.get(SB)||'null');if(b&&b.uid===u)return b}catch(e){}return{uid:u,e:{},b:{},x:{},k:null}};
+const loadBase=u=>{try{const b=JSON.parse(ls.get(SB)||'null');if(b&&b.uid===u)return b}catch(e){}return{uid:u,e:{},b:{},x:{},u:{},k:null}};
 const saveBase=()=>ls.set(SB,JSON.stringify(base));
-const saveLocal=()=>{ls.set(KEY,JSON.stringify(entries));ls.set(BK,JSON.stringify(marks));ls.set(XK,JSON.stringify(expenses))};
-const sortAll=()=>{entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);expenses.sort((a,b)=>a.ts-b.ts)};
+const saveLocal=()=>{ls.set(KEY,JSON.stringify(entries));ls.set(BK,JSON.stringify(marks));ls.set(XK,JSON.stringify(expenses));ls.set(Udhar.key,JSON.stringify(Udhar.list))};
+const sortAll=()=>{entries.sort((a,b)=>a.timestamp-b.timestamp);marks.sort((a,b)=>a.ts-b.ts);expenses.sort((a,b)=>a.ts-b.ts);Udhar.list.sort((a,b)=>a.ts-b.ts)};
 function sync(){CS.live=live;CS.pend=Object.values(pend).some(Boolean);cloudChanged()}
 function refresh(){const t=S.stack[S.stack.length-1],a=document.activeElement;
  if(t&&t.t==='edit')return;if(!t&&S.tab==='calc')return;if(a&&a.matches&&a.matches('#main input,#main textarea'))return;render()}
@@ -848,45 +984,46 @@ function m3(L,C,B){const out={},w=[];new Set([...Object.keys(L),...Object.keys(C
  if(r)out[id]=r});return{out,w}}
 function k3(l,c,b){if(l===c)return{v:c};if(c===b)return{v:l,w:true};return{v:c??l}}
 function merge(){live=true;
- const E=m3(byId(entries),got.e,base.e),B=m3(byId(marks),got.b,base.b),X=m3(byId(expenses),got.x,base.x||{}),K=k3(keepNow(),got.k,base.k);
- entries=Object.values(E.out).filter(valid);marks=Object.values(B.out).filter(validMark);expenses=Object.values(X.out).filter(validX);sortAll();
+ const E=m3(byId(entries),got.e,base.e),B=m3(byId(marks),got.b,base.b),X=m3(byId(expenses),got.x,base.x||{}),U=m3(byId(Udhar.list),got.u,base.u||{}),K=k3(keepNow(),got.k,base.k);
+ entries=Object.values(E.out).filter(valid);marks=Object.values(B.out).filter(validMark);expenses=Object.values(X.out).filter(validX);Udhar.list=Object.values(U.out);sortAll();
  if(K.v!=null)ls.set(KK,String(K.v));saveLocal();
- base={uid:me.uid,e:strs(byId(entries)),b:strs(byId(marks)),x:strs(byId(expenses)),k:K.v??null};saveBase();
- const ops=[...E.w.map(([i,o])=>[ref('entries',i),o]),...B.w.map(([i,o])=>[ref('bundles',i),o]),...X.w.map(([i,o])=>[ref('expenses',i),o])];if(K.w)ops.push([sref(),{keepChange:K.v}]);
+ base={uid:me.uid,e:strs(byId(entries)),b:strs(byId(marks)),x:strs(byId(expenses)),u:strs(byId(Udhar.list)),k:K.v??null};saveBase();
+ const ops=[...E.w.map(([i,o])=>[ref('entries',i),o]),...B.w.map(([i,o])=>[ref('bundles',i),o]),...X.w.map(([i,o])=>[ref('expenses',i),o]),...U.w.map(([i,o])=>[ref('udhar',i),o])];if(K.w)ops.push([sref(),{keepChange:K.v}]);
  const n=ops.length;ops.push(prof());lastProf=Date.now();commit(ops);if(n)toast('☁️ Synced '+n+' change'+(n===1?'':'s'));sync();refresh()}
 function apply(kind,M){if(kind==='k'){if(M!=null&&M!==keepNow())ls.set(KK,String(M));if(M!=null)base.k=M;saveBase();return}
  const Sx=strs(M),Bx=base[kind]||{},ks=Object.keys(Sx);if(ks.length===Object.keys(Bx).length&&ks.every(i=>Sx[i]===Bx[i]))return;
- if(kind==='e')entries=Object.values(M).filter(valid);else if(kind==='x')expenses=Object.values(M).filter(validX);else marks=Object.values(M).filter(validMark);sortAll();
+ if(kind==='e')entries=Object.values(M).filter(valid);else if(kind==='x')expenses=Object.values(M).filter(validX);else if(kind==='u')Udhar.list=Object.values(M);else marks=Object.values(M).filter(validMark);sortAll();
  base[kind]=Sx;saveBase();saveLocal();refresh()}
 function listen(){got={};pend={};
  const on=(kind,map)=>s=>{pend[kind]=s.metadata.hasPendingWrites;
-  if(!live){if(s.metadata.fromCache){sync();return}got[kind]=map(s);if('e' in got&&'b' in got&&'x' in got&&'k' in got)merge();else sync();return}
+  if(!live){if(s.metadata.fromCache){sync();return}got[kind]=map(s);if('e' in got&&'b' in got&&'x' in got&&'u' in got&&'k' in got)merge();else sync();return}
   apply(kind,map(s));sync()};
  const docs=s=>Object.fromEntries(s.docs.map(d=>[d.id,{...d.data(),id:d.id}]));
  const o={includeMetadataChanges:true};
- offs=[onSnapshot(col('entries'),o,on('e',docs),fail),onSnapshot(col('bundles'),o,on('b',docs),fail),onSnapshot(col('expenses'),o,on('x',docs),fail),
+ offs=[onSnapshot(col('entries'),o,on('e',docs),fail),onSnapshot(col('bundles'),o,on('b',docs),fail),onSnapshot(col('expenses'),o,on('x',docs),fail),onSnapshot(col('udhar'),o,on('u',docs),fail),
   onSnapshot(sref(),o,on('k',s=>s.exists()&&typeof s.data().keepChange==='number'?s.data().keepChange:null),fail)]}
 function push(){if(!live||VIEW)return;clearTimeout(timer);timer=setTimeout(()=>{if(!live||VIEW)return;const ops=[];
  const diff=(L,B,n)=>{const M=byId(L),Sx=strs(M);Object.keys(Sx).forEach(i=>{if(Sx[i]!==B[i])ops.push([ref(n,i),M[i]])});Object.keys(B).forEach(i=>{if(!(i in Sx))ops.push([ref(n,i),null])});return Sx};
- base.e=diff(entries,base.e,'entries');base.b=diff(marks,base.b,'bundles');base.x=diff(expenses,base.x||{},'expenses');const k=keepNow();if(k!==base.k){ops.push([sref(),{keepChange:k}]);base.k=k}
+ base.e=diff(entries,base.e,'entries');base.b=diff(marks,base.b,'bundles');base.x=diff(expenses,base.x||{},'expenses');base.u=diff(Udhar.list,base.u||{},'udhar');const k=keepNow();if(k!==base.k){ops.push([sref(),{keepChange:k}]);base.k=k}
  if(ops.length&&Date.now()-lastProf>6e4){ops.push(prof());lastProf=Date.now()}
  saveBase();commit(ops)},0)}
 /* Admin: view another user's data, read-only */
 const stopView=()=>{vOffs.forEach(f=>f());vOffs=[]};
-function view(uid,name){if(!me||me.email!==ADMIN)return;offs.forEach(f=>f());offs=[];stopView();VIEW={uid,name};entries=[];marks=[];expenses=[];
+function view(uid,name){if(!me||me.email!==ADMIN)return;offs.forEach(f=>f());offs=[];stopView();VIEW={uid,name};entries=[];marks=[];expenses=[];Udhar.list=[];
  const c=n=>collection(db,...P(uid,n)),rv=()=>{const t=S.stack[S.stack.length-1];if(t&&t.t==='edit')return;render()};
  vOffs=[onSnapshot(c('entries'),s=>{entries=s.docs.map(d=>({...d.data(),id:d.id})).filter(valid).sort((x,y)=>x.timestamp-y.timestamp);rv()},fail),
   onSnapshot(c('bundles'),s=>{marks=s.docs.map(d=>({...d.data(),id:d.id})).filter(validMark).sort((x,y)=>x.ts-y.ts);rv()},fail),
-  onSnapshot(c('expenses'),s=>{expenses=s.docs.map(d=>({...d.data(),id:d.id})).filter(validX).sort((x,y)=>x.ts-y.ts);rv()},fail)];
+  onSnapshot(c('expenses'),s=>{expenses=s.docs.map(d=>({...d.data(),id:d.id})).filter(validX).sort((x,y)=>x.ts-y.ts);rv()},fail),
+  onSnapshot(c('udhar'),s=>{Udhar.list=s.docs.map(d=>({...d.data(),id:d.id}));Udhar.list.sort((x,y)=>x.ts-y.ts);rv()},fail)];
  Bundles.open();S.stack=[];S.tab='today';render()}
-function exit(){if(!VIEW)return;stopView();VIEW=null;entries=loadE();marks=loadM();expenses=loadX();Bundles.open();S.stack=[];S.tab='users';if(me&&live)listen();render()}
+function exit(){if(!VIEW)return;stopView();VIEW=null;entries=loadE();marks=loadM();expenses=loadX();Udhar.reload();Bundles.open();S.stack=[];S.tab='users';if(me&&live)listen();render()}
 async function out(){offs.forEach(f=>f());offs=[];stopView();if(uOff){uOff();uOff=null}VIEW=null;live=false;try{await signOut(auth)}catch(e){}
- entries=[];marks=[];expenses=[];[KEY,BK,KK,SB,XK].forEach(k=>ls.del(k));CS.users=null;S.stack=[];S.tab='calc';render();toast('Signed out')}
+ entries=[];marks=[];expenses=[];Udhar.list=[];[KEY,BK,KK,SB,XK,Udhar.key].forEach(k=>ls.del(k));CS.users=null;S.stack=[];S.tab='calc';render();toast('Signed out')}
 Object.assign(window.Cloud,{push,signIn:(id,pw)=>signInWithEmailAndPassword(auth,id,pw),signOut:out,view,exit});
 onAuthStateChanged(auth,u=>{offs.forEach(f=>f());offs=[];stopView();if(uOff){uOff();uOff=null}live=false;me=u;
- if(VIEW){VIEW=null;entries=loadE();marks=loadM();expenses=loadX()}
+ if(VIEW){VIEW=null;entries=loadE();marks=loadM();expenses=loadX();Udhar.reload()}
  CS.user=u?{uid:u.uid,email:u.email,name:short(u.email),admin:u.email===ADMIN}:null;CS.ready=true;CS.users=null;
- if(u){if(isGuest()){ls.del(GK);entries=[];marks=[];expenses=[];[KEY,BK,KK,XK].forEach(k=>ls.del(k))}base=loadBase(u.uid);listen();
+ if(u){if(isGuest()){ls.del(GK);entries=[];marks=[];expenses=[];Udhar.list=[];[KEY,BK,KK,XK,Udhar.key].forEach(k=>ls.del(k))}base=loadBase(u.uid);listen();
   if(CS.user.admin)uOff=onSnapshot(collection(db,'apps',APP,'users'),s=>{CS.users=s.docs.map(d=>({uid:d.id,...d.data()}));cloudChanged()},e=>{CS.users=[];fail(e);cloudChanged()})}
  sync();render()});
 </script>
